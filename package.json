@@ -1,0 +1,29 @@
+{
+  "name": "nightlife-backend",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "Gavin Oiamo",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon ./index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "docker-build:dev": "docker build -t nightlife -f Dockerfile .",
+    "docker-run:dev": "docker run -it --rm -p 3000:3000 -v $(pwd):/app -v $(pwd)/data/map_tiles.mbtiles:/app/data/map_tiles.mbtiles nightlife",
+    "prisma-generate": "npx prisma generate --schema=./prisma/schema.prisma"
+  },
+  "prisma": {
+    "seed": "node db/seed.js"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.17.1",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10",
+    "prisma": "^6.17.1"
+  }
+}

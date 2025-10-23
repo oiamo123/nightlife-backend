@@ -1,0 +1,10 @@
+[
+  {
+    "id": 0,
+    "discountType": "Percent"
+  },
+  {
+    "id": 1,
+    "discountType": "Amount"
+  }
+]

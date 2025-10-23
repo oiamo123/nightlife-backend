@@ -1,0 +1,22 @@
+[
+  {
+    "id": 0,
+    "promotionType": "Discount",
+    "preferredBy": [0]
+  },
+  {
+    "id": 1,
+    "promotionType": "Buy One Get One",
+    "preferredBy": [0]
+  },
+  {
+    "id": 2,
+    "promotionType": "Loyalty",
+    "preferredBy": [0]
+  },
+  {
+    "id": 3,
+    "promotionType": "Flash Sale",
+    "preferredBy": [0]
+  }
+]

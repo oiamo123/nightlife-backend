@@ -1,0 +1,9 @@
+[
+  {
+    "accountId": 1,
+    "locationGranted": true,
+    "notificationsGranted": true,
+    "cameraGranted": false,
+    "photoGranted": true
+  }
+]

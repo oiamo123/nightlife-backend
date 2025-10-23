@@ -1,0 +1,17 @@
+[
+  {
+    "id": 0,
+    "locationId": 1,
+    "name": "Blue Velvet Lounge",
+    "address": "123 Main St, Downtown",
+    "websiteUrl": "https://bluevelvetlounge.com",
+    "description": "A chic lounge with live music and craft cocktails.",
+    "image": "https://picsum.photos/200/150",
+    "phoneNumber": "+1 555-123-4567",
+    "email": "info@bluevelvetlounge.com",
+    "events": [2, 4, 7],
+    "promotions": [1, 3, 6],
+    "venueTypes": [0, 5],
+    "followers": [0, 1]
+  }
+]
