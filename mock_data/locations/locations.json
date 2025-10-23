@@ -4,7 +4,7 @@
     "lat": 51.0486,
     "lng": -114.0708,
     "zip": "A1B 2BC",
-    "Address": "0 Main St",
+    "address": "0 Main St",
     "cityId": 0
   },
   {
@@ -12,7 +12,7 @@
     "lat": 51.0512,
     "lng": -114.0654,
     "zip": "A1B 2BC",
-    "Address": "1 Main St",
+    "address": "1 Main St",
     "cityId": 0
   },
   {
@@ -20,7 +20,7 @@
     "lat": 51.0469,
     "lng": -114.0741,
     "zip": "A1B 2BC",
-    "Address": "2 Main St",
+    "address": "2 Main St",
     "cityId": 0
   },
   {
@@ -28,7 +28,7 @@
     "lat": 51.0498,
     "lng": -114.0783,
     "zip": "A1B 2BC",
-    "Address": "3 Main St",
+    "address": "3 Main St",
     "cityId": 0
   },
   {
@@ -36,7 +36,7 @@
     "lat": 51.0455,
     "lng": -114.0692,
     "zip": "A1B 2BC",
-    "Address": "4 Main St",
+    "address": "4 Main St",
     "cityId": 0
   },
   {
@@ -44,7 +44,7 @@
     "lat": 51.0501,
     "lng": -114.0725,
     "zip": "A1B 2BC",
-    "Address": "5 Main St",
+    "address": "5 Main St",
     "cityId": 0
   },
   {
@@ -52,7 +52,7 @@
     "lat": 51.0474,
     "lng": -114.0679,
     "zip": "A1B 2BC",
-    "Address": "6 Main St",
+    "address": "6 Main St",
     "cityId": 0
   },
   {
@@ -60,7 +60,7 @@
     "lat": 51.049,
     "lng": -114.0758,
     "zip": "A1B 2BC",
-    "Address": "7 Main St",
+    "address": "7 Main St",
     "cityId": 0
   },
   {
@@ -68,7 +68,7 @@
     "lat": 51.0461,
     "lng": -114.0684,
     "zip": "A1B 2BC",
-    "Address": "8 Main St",
+    "address": "8 Main St",
     "cityId": 0
   },
   {
@@ -76,7 +76,7 @@
     "lat": 51.0482,
     "lng": -114.0736,
     "zip": "A1B 2BC",
-    "Address": "9 Main St",
+    "address": "9 Main St",
     "cityId": 0
   },
   {
@@ -84,7 +84,7 @@
     "lat": 51.0517,
     "lng": -114.071,
     "zip": "A1B 2BC",
-    "Address": "10 Main St",
+    "address": "10 Main St",
     "cityId": 0
   },
   {
@@ -92,7 +92,7 @@
     "lat": 51.0459,
     "lng": -114.0745,
     "zip": "A1B 2BC",
-    "Address": "11 Main St",
+    "address": "11 Main St",
     "cityId": 0
   },
   {
@@ -100,7 +100,7 @@
     "lat": 51.0495,
     "lng": -114.0699,
     "zip": "A1B 2BC",
-    "Address": "12 Main St",
+    "address": "12 Main St",
     "cityId": 0
   },
   {
@@ -108,7 +108,7 @@
     "lat": 51.0478,
     "lng": -114.0721,
     "zip": "A1B 2BC",
-    "Address": "13 Main St",
+    "address": "13 Main St",
     "cityId": 0
   },
   {
@@ -116,7 +116,7 @@
     "lat": 51.0467,
     "lng": -114.0702,
     "zip": "A1B 2BC",
-    "Address": "14 Main St",
+    "address": "14 Main St",
     "cityId": 0
   },
   {
@@ -124,7 +124,7 @@
     "lat": 51.0505,
     "lng": -114.0687,
     "zip": "A1B 2BC",
-    "Address": "15 Main St",
+    "address": "15 Main St",
     "cityId": 0
   },
   {
@@ -132,7 +132,7 @@
     "lat": 51.0489,
     "lng": -114.0718,
     "zip": "A1B 2BC",
-    "Address": "16 Main St",
+    "address": "16 Main St",
     "cityId": 0
   },
   {
@@ -140,7 +140,7 @@
     "lat": 51.0452,
     "lng": -114.0676,
     "zip": "A1B 2BC",
-    "Address": "17 Main St",
+    "address": "17 Main St",
     "cityId": 0
   },
   {
@@ -148,7 +148,7 @@
     "lat": 51.0493,
     "lng": -114.0732,
     "zip": "A1B 2BC",
-    "Address": "18 Main St",
+    "address": "18 Main St",
     "cityId": 0
   },
   {
@@ -156,7 +156,7 @@
     "lat": 51.0471,
     "lng": -114.075,
     "zip": "A1B 2BC",
-    "Address": "19 Main St",
+    "address": "19 Main St",
     "cityId": 0
   },
   {
@@ -164,7 +164,7 @@
     "lat": 51.0464,
     "lng": -114.0697,
     "zip": "A1B 2BC",
-    "Address": "20 Main St",
+    "address": "20 Main St",
     "cityId": 0
   },
   {
@@ -172,7 +172,7 @@
     "lat": 51.05,
     "lng": -114.0741,
     "zip": "A1B 2BC",
-    "Address": "21 Main St",
+    "address": "21 Main St",
     "cityId": 0
   },
   {
@@ -180,7 +180,7 @@
     "lat": 51.0484,
     "lng": -114.0671,
     "zip": "A1B 2BC",
-    "Address": "22 Main St",
+    "address": "22 Main St",
     "cityId": 0
   },
   {
@@ -188,7 +188,7 @@
     "lat": 51.0457,
     "lng": -114.072,
     "zip": "A1B 2BC",
-    "Address": "23 Main St",
+    "address": "23 Main St",
     "cityId": 0
   },
   {
@@ -196,7 +196,7 @@
     "lat": 51.0491,
     "lng": -114.0705,
     "zip": "A1B 2BC",
-    "Address": "24 Main St",
+    "address": "24 Main St",
     "cityId": 0
   },
   {
@@ -204,7 +204,7 @@
     "lat": 51.0475,
     "lng": -114.0689,
     "zip": "A1B 2BC",
-    "Address": "25 Main St",
+    "address": "25 Main St",
     "cityId": 0
   },
   {
@@ -212,7 +212,7 @@
     "lat": 51.046,
     "lng": -114.0712,
     "zip": "A1B 2BC",
-    "Address": "26 Main St",
+    "address": "26 Main St",
     "cityId": 0
   },
   {
@@ -220,7 +220,7 @@
     "lat": 51.0503,
     "lng": -114.0695,
     "zip": "A1B 2BC",
-    "Address": "27 Main St",
+    "address": "27 Main St",
     "cityId": 0
   },
   {
@@ -228,7 +228,7 @@
     "lat": 51.0488,
     "lng": -114.0739,
     "zip": "A1B 2BC",
-    "Address": "28 Main St",
+    "address": "28 Main St",
     "cityId": 0
   },
   {
@@ -236,7 +236,7 @@
     "lat": 51.0454,
     "lng": -114.0754,
     "zip": "A1B 2BC",
-    "Address": "29 Main St",
+    "address": "29 Main St",
     "cityId": 0
   },
   {
@@ -244,7 +244,7 @@
     "lat": 51.0497,
     "lng": -114.0719,
     "zip": "A1B 2BC",
-    "Address": "30 Main St",
+    "address": "30 Main St",
     "cityId": 0
   },
   {
@@ -252,7 +252,7 @@
     "lat": 51.0473,
     "lng": -114.0706,
     "zip": "A1B 2BC",
-    "Address": "31 Main St",
+    "address": "31 Main St",
     "cityId": 0
   },
   {
@@ -260,7 +260,7 @@
     "lat": 51.0466,
     "lng": -114.0681,
     "zip": "A1B 2BC",
-    "Address": "32 Main St",
+    "address": "32 Main St",
     "cityId": 0
   },
   {
@@ -268,7 +268,7 @@
     "lat": 51.0502,
     "lng": -114.0727,
     "zip": "A1B 2BC",
-    "Address": "33 Main St",
+    "address": "33 Main St",
     "cityId": 0
   },
   {
@@ -276,7 +276,7 @@
     "lat": 51.0481,
     "lng": -114.069,
     "zip": "A1B 2BC",
-    "Address": "34 Main St",
+    "address": "34 Main St",
     "cityId": 0
   },
   {
@@ -284,7 +284,7 @@
     "lat": 51.0458,
     "lng": -114.0731,
     "zip": "A1B 2BC",
-    "Address": "35 Main St",
+    "address": "35 Main St",
     "cityId": 0
   },
   {
@@ -292,7 +292,7 @@
     "lat": 51.0494,
     "lng": -114.0756,
     "zip": "A1B 2BC",
-    "Address": "36 Main St",
+    "address": "36 Main St",
     "cityId": 0
   },
   {
@@ -300,7 +300,7 @@
     "lat": 51.0476,
     "lng": -114.0713,
     "zip": "A1B 2BC",
-    "Address": "37 Main St",
+    "address": "37 Main St",
     "cityId": 0
   },
   {
@@ -308,7 +308,7 @@
     "lat": 51.0463,
     "lng": -114.07,
     "zip": "A1B 2BC",
-    "Address": "38 Main St",
+    "address": "38 Main St",
     "cityId": 0
   },
   {
@@ -316,7 +316,7 @@
     "lat": 51.0506,
     "lng": -114.0678,
     "zip": "A1B 2BC",
-    "Address": "39 Main St",
+    "address": "39 Main St",
     "cityId": 0
   },
   {
@@ -324,7 +324,7 @@
     "lat": 51.0485,
     "lng": -114.0742,
     "zip": "A1B 2BC",
-    "Address": "40 Main St",
+    "address": "40 Main St",
     "cityId": 0
   },
   {
@@ -332,7 +332,7 @@
     "lat": 51.0456,
     "lng": -114.0698,
     "zip": "A1B 2BC",
-    "Address": "41 Main St",
+    "address": "41 Main St",
     "cityId": 0
   },
   {
@@ -340,7 +340,7 @@
     "lat": 51.0492,
     "lng": -114.0724,
     "zip": "A1B 2BC",
-    "Address": "42 Main St",
+    "address": "42 Main St",
     "cityId": 0
   },
   {
@@ -348,7 +348,7 @@
     "lat": 51.047,
     "lng": -114.0685,
     "zip": "A1B 2BC",
-    "Address": "43 Main St",
+    "address": "43 Main St",
     "cityId": 0
   },
   {
@@ -356,7 +356,7 @@
     "lat": 51.0468,
     "lng": -114.073,
     "zip": "A1B 2BC",
-    "Address": "44 Main St",
+    "address": "44 Main St",
     "cityId": 0
   },
   {
@@ -364,7 +364,7 @@
     "lat": 51.0504,
     "lng": -114.0716,
     "zip": "A1B 2BC",
-    "Address": "45 Main St",
+    "address": "45 Main St",
     "cityId": 0
   },
   {
@@ -372,7 +372,7 @@
     "lat": 51.048,
     "lng": -114.0688,
     "zip": "A1B 2BC",
-    "Address": "46 Main St",
+    "address": "46 Main St",
     "cityId": 0
   },
   {
@@ -380,7 +380,7 @@
     "lat": 51.0453,
     "lng": -114.0714,
     "zip": "A1B 2BC",
-    "Address": "47 Main St",
+    "address": "47 Main St",
     "cityId": 0
   },
   {
@@ -388,7 +388,7 @@
     "lat": 51.0496,
     "lng": -114.0707,
     "zip": "A1B 2BC",
-    "Address": "48 Main St",
+    "address": "48 Main St",
     "cityId": 0
   },
   {
@@ -396,7 +396,7 @@
     "lat": 51.0472,
     "lng": -114.072,
     "zip": "A1B 2BC",
-    "Address": "49 Main St",
+    "address": "49 Main St",
     "cityId": 0
   }
 ]

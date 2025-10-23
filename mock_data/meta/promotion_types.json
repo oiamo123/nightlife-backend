@@ -1,22 +1,18 @@
 [
   {
     "id": 0,
-    "promotionType": "Discount",
-    "preferredBy": [0]
+    "promotionType": "Discount"
   },
   {
     "id": 1,
-    "promotionType": "Buy One Get One",
-    "preferredBy": [0]
+    "promotionType": "Buy One Get One"
   },
   {
     "id": 2,
-    "promotionType": "Loyalty",
-    "preferredBy": [0]
+    "promotionType": "Loyalty"
   },
   {
     "id": 3,
-    "promotionType": "Flash Sale",
-    "preferredBy": [0]
+    "promotionType": "Flash Sale"
   }
 ]

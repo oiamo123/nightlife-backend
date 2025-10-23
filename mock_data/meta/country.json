@@ -2,6 +2,7 @@
   {
     "id": 0,
     "country": "Canada",
-    "isoCode": "CAD"
+    "isoCode": "CAD",
+    "currencyCodeId": 0
   }
 ]

@@ -1,7 +1,7 @@
 [
   {
     "id": 1,
-    "venueId": 1,
+    "venueId": 0,
     "locationId": 1,
     "promotionTypeId": 0,
     "title": "Weekend Special",
@@ -16,7 +16,7 @@
   },
   {
     "id": 2,
-    "venueId": 2,
+    "venueId": 0,
     "locationId": 2,
     "promotionTypeId": 0,
     "title": "Happy Hour Deal",
@@ -31,7 +31,7 @@
   },
   {
     "id": 3,
-    "venueId": 3,
+    "venueId": 0,
     "locationId": 3,
     "promotionTypeId": 0,
     "title": "VIP Experience",
@@ -46,7 +46,7 @@
   },
   {
     "id": 4,
-    "venueId": 4,
+    "venueId": 0,
     "locationId": 4,
     "promotionTypeId": 0,
     "title": "Student Night",
@@ -61,7 +61,7 @@
   },
   {
     "id": 5,
-    "venueId": 5,
+    "venueId": 0,
     "locationId": 5,
     "promotionTypeId": 0,
     "title": "Ladies Night",
@@ -76,7 +76,7 @@
   },
   {
     "id": 6,
-    "venueId": 6,
+    "venueId": 0,
     "locationId": 6,
     "promotionTypeId": 0,
     "title": "Early Bird Special",
@@ -91,7 +91,7 @@
   },
   {
     "id": 7,
-    "venueId": 7,
+    "venueId": 0,
     "locationId": 7,
     "promotionTypeId": 0,
     "title": "Group Booking",
@@ -106,7 +106,7 @@
   },
   {
     "id": 8,
-    "venueId": 8,
+    "venueId": 0,
     "locationId": 8,
     "promotionTypeId": 0,
     "title": "Cocktail Hour",

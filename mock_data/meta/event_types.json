@@ -1,6 +1,6 @@
 [
   { "id": 0, "eventType": "EDM", "eventCategoryId": 0 },
-  { "id": 0, "eventType": "Pop", "eventCategoryId": 0 },
+  { "id": 1, "eventType": "Pop", "eventCategoryId": 0 },
   { "id": 2, "eventType": "Hiphop", "eventCategoryId": 0 },
   { "id": 3, "eventType": "Country", "eventCategoryId": 0 },
   { "id": 4, "eventType": "Rock", "eventCategoryId": 0 },

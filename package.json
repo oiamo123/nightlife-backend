@@ -7,22 +7,25 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon ./index.js",
+    "start": "nodemon --exec ts-node ./index.ts",
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
     "docker-build:dev": "docker build -t nightlife -f Dockerfile .",
     "docker-run:dev": "docker run -it --rm -p 3000:3000 -v $(pwd):/app -v $(pwd)/data/map_tiles.mbtiles:/app/data/map_tiles.mbtiles nightlife",
     "prisma:generate": "npx prisma generate --schema=./prisma/schema.prisma",
     "prisma:migrate": "npx prisma migrate dev",
-    "prisma:seed": "npx prisma db seed"
+    "prisma:seed": "npx prisma db seed",
+    "prisma:reset": "npx prisma migrate reset"
   },
   "prisma": {
-    "seed": "node db/seed.js"
+    "seed": "node db/seed.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.17.1",
     "cors": "^2.8.5",
     "express": "^5.1.0",
-    "sqlite3": "^5.1.7"
+    "sqlite3": "^5.1.7",
+    "ts-node": "^10.9.2"
   },
   "devDependencies": {
     "nodemon": "^3.1.10",
