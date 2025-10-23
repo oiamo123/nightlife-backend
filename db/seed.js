@@ -1,4 +1,33 @@
 import { PrismaClient } from "@prisma/client";
+
+// mock data
+import locations from "../mock_data/locations/locations.json" with { type: "json" };
+import locations from "../mock_data/locations/locations.json" with { type: "json" };
+import locations from "../mock_data/locations/locations.json" with { type: "json" };
+import locations from "../mock_data/locations/locations.json" with { type: "json" };
+import locations from "../mock_data/locations/locations.json" with { type: "json" };
+import locations from "../mock_data/locations/locations.json" with { type: "json" };
+import locations from "../mock_data/locations/locations.json" with { type: "json" };
+import locations from "../mock_data/locations/locations.json" with { type: "json" };
+import locations from "../mock_data/locations/locations.json" with { type: "json" };
+import locations from "../mock_data/locations/locations.json" with { type: "json" };
+import locations from "../mock_data/locations/locations.json" with { type: "json" };
+import locations from "../mock_data/locations/locations.json" with { type: "json" };
+import locations from "../mock_data/locations/locations.json" with { type: "json" };
+import locations from "../mock_data/locations/locations.json" with { type: "json" };
+import locations from "../mock_data/locations/locations.json" with { type: "json" };
+import locations from "../mock_data/locations/locations.json" with { type: "json" };
+import locations from "../mock_data/locations/locations.json" with { type: "json" };
+import locations from "../mock_data/locations/locations.json" with { type: "json" };
+import locations from "../mock_data/locations/locations.json" with { type: "json" };
+import locations from "../mock_data/locations/locations.json" with { type: "json" };
+import locations from "../mock_data/locations/locations.json" with { type: "json" };
+import locations from "../mock_data/locations/locations.json" with { type: "json" };
+import locations from "../mock_data/locations/locations.json" with { type: "json" };
+import locations from "../mock_data/locations/locations.json" with { type: "json" };
+import locations from "../mock_data/locations/locations.json" with { type: "json" };
+import locations from "../mock_data/locations/locations.json" with { type: "json" };
+import locations from "../mock_data/locations/locations.json" with { type: "json" };
 import locations from "../mock_data/locations/locations.json" with { type: "json" };
 
 const prisma = new PrismaClient();

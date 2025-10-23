@@ -1,0 +1,11 @@
+[
+  {
+    "id": 0,
+    "accountId": 0,
+    "linkedAccountTypeId": 0,
+    "externalId": 0,
+    "displayName": "John Doe",
+    "profileUrl": "https://some-address/john-doe",
+    "linkedAt": "2025-01-01T00:00:000"
+  }
+]

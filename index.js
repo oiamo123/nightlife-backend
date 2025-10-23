@@ -31,7 +31,7 @@ app.use("/venues", venuesRouter);
 const prisma = new PrismaClient();
 
 app.get("/", async (req, res) => {
-  const data = await prisma.location.findFirst();
+  const data = await prisma.location.findMany();
   console.log(data);
 
   res.send("blah");

@@ -1,9 +1,8 @@
 [
   {
-    "accountId": 1,
-    "locationGranted": true,
-    "notificationsGranted": true,
-    "cameraGranted": false,
-    "photoGranted": true
+    "id": 0,
+    "accountId": 0,
+    "permissionForId": 0,
+    "permissionTypeId": 0
   }
 ]

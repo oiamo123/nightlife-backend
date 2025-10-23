@@ -2,13 +2,12 @@ FROM node:20-bookworm
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY package.json package-lock.json ./
+
 RUN npm install
 
 COPY . .
 
-RUN npx prisma generate
-
 EXPOSE 3000
 
-CMD ["sh", "-c", "npx prisma migrate deploy && node index.js"]
+CMD ["npm", "run", "start"]

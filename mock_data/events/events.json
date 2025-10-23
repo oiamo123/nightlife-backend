@@ -2,7 +2,6 @@
   {
     "id": 1,
     "venueId": 1,
-    "categoryGroupId": 2,
     "locationId": 1,
     "title": "Saturday Night Live",
     "headline": "This is a headline",
@@ -17,7 +16,6 @@
   {
     "id": 2,
     "venueId": 102,
-    "categoryGroupId": 2,
     "locationId": 2,
     "title": "Rooftop Jazz Evening",
     "headline": "This is a headline",
@@ -32,7 +30,6 @@
   {
     "id": 3,
     "venueId": 103,
-    "categoryGroupId": 2,
     "locationId": 3,
     "title": "Latin Night Fiesta",
     "headline": "This is a headline",
@@ -47,7 +44,6 @@
   {
     "id": 4,
     "venueId": 104,
-    "categoryGroupId": 2,
     "locationId": 4,
     "title": "Karaoke Championship",
     "headline": "This is a headline",
@@ -62,7 +58,6 @@
   {
     "id": 5,
     "venueId": 105,
-    "categoryGroupId": 2,
     "locationId": 5,
     "title": "EDM Festival Night",
     "headline": "This is a headline",
@@ -77,7 +72,6 @@
   {
     "id": 6,
     "venueId": 106,
-    "categoryGroupId": 2,
     "locationId": 6,
     "title": "Wine Tasting & Music",
     "headline": "This is a headline",
@@ -92,7 +86,6 @@
   {
     "id": 7,
     "venueId": 107,
-    "categoryGroupId": 2,
     "locationId": 7,
     "title": "Hip-Hop Block Party",
     "headline": "This is a headline",
@@ -107,7 +100,6 @@
   {
     "id": 8,
     "venueId": 108,
-    "categoryGroupId": 2,
     "locationId": 8,
     "title": "Cocktail Masterclass",
     "headline": "This is a headline",
@@ -122,7 +114,6 @@
   {
     "id": 9,
     "venueId": 109,
-    "categoryGroupId": 2,
     "locationId": 9,
     "title": "Retro 80s Dance Party",
     "headline": "This is a headline",
@@ -137,7 +128,6 @@
   {
     "id": 10,
     "venueId": 110,
-    "categoryGroupId": 2,
     "locationId": 10,
     "title": "Live Band Showcase",
     "headline": "This is a headline",
@@ -152,7 +142,6 @@
   {
     "id": 11,
     "venueId": 111,
-    "categoryGroupId": 2,
     "locationId": 11,
     "title": "Trivia Night Championship",
     "headline": "This is a headline",
@@ -167,7 +156,6 @@
   {
     "id": 12,
     "venueId": 112,
-    "categoryGroupId": 2,
     "locationId": 12,
     "title": "Comedy Night Special",
     "headline": "This is a headline",
@@ -182,7 +170,6 @@
   {
     "id": 13,
     "venueId": 113,
-    "categoryGroupId": 2,
     "locationId": 13,
     "title": "Salsa Dancing Lessons",
     "headline": "This is a headline",
@@ -197,7 +184,6 @@
   {
     "id": 14,
     "venueId": 114,
-    "categoryGroupId": 2,
     "locationId": 14,
     "title": "Acoustic Open Mic",
     "headline": "This is a headline",
@@ -212,7 +198,6 @@
   {
     "id": 15,
     "venueId": 115,
-    "categoryGroupId": 2,
     "locationId": 15,
     "title": "VIP Bottle Service Party",
     "headline": "This is a headline",
@@ -227,7 +212,6 @@
   {
     "id": 16,
     "venueId": 116,
-    "categoryGroupId": 2,
     "locationId": 16,
     "title": "Reggae Sunset Session",
     "headline": "This is a headline",
@@ -242,7 +226,6 @@
   {
     "id": 17,
     "venueId": 117,
-    "categoryGroupId": 2,
     "locationId": 17,
     "title": "Pool Tournament Night",
     "headline": "This is a headline",
@@ -257,7 +240,6 @@
   {
     "id": 18,
     "venueId": 118,
-    "categoryGroupId": 2,
     "locationId": 18,
     "title": "House Music Marathon",
     "headline": "This is a headline",
@@ -272,7 +254,6 @@
   {
     "id": 19,
     "venueId": 119,
-    "categoryGroupId": 2,
     "locationId": 19,
     "title": "Craft Beer Tasting",
     "headline": "This is a headline",
@@ -287,7 +268,6 @@
   {
     "id": 20,
     "venueId": 120,
-    "categoryGroupId": 2,
     "locationId": 20,
     "title": "New Year's Eve Gala",
     "headline": "This is a headline",
@@ -302,7 +282,6 @@
   {
     "id": 21,
     "venueId": 121,
-    "categoryGroupId": 2,
     "locationId": 21,
     "title": "Speed Dating Night",
     "headline": "This is a headline",
@@ -317,7 +296,6 @@
   {
     "id": 22,
     "venueId": 122,
-    "categoryGroupId": 2,
     "locationId": 22,
     "title": "Techno Underground",
     "headline": "This is a headline",
@@ -332,7 +310,6 @@
   {
     "id": 23,
     "venueId": 123,
-    "categoryGroupId": 2,
     "locationId": 23,
     "title": "Singles Mixer Party",
     "headline": "This is a headline",
@@ -347,7 +324,6 @@
   {
     "id": 24,
     "venueId": 124,
-    "categoryGroupId": 2,
     "locationId": 24,
     "title": "Drag Queen Bingo",
     "headline": "This is a headline",
@@ -362,7 +338,6 @@
   {
     "id": 25,
     "venueId": 125,
-    "categoryGroupId": 2,
     "locationId": 25,
     "title": "Rooftop Movie Night",
     "headline": "This is a headline",

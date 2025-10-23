@@ -1,0 +1,12 @@
+[
+  {
+    "id": 0,
+    "accountId": 0,
+    "eventId": 0,
+    "currencyCodeId": 0,
+    "transactionDate": "2025-01-01T00:00:000",
+    "description": "Purchased an event",
+    "paymentMethodId": 0,
+    "paymentStatusId": 0
+  }
+]
