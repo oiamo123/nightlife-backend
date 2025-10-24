@@ -1,9 +1,10 @@
--- Install POSTGIS
-CREATE EXTENSION IF NOT EXISTS postgis;
+CREATE EXTENSION postgis;
 
 -- CreateTable
 CREATE TABLE "Location" (
     "id" SERIAL NOT NULL,
+    "lat" DOUBLE PRECISION NOT NULL,
+    "lng" DOUBLE PRECISION NOT NULL,
     "geom" geometry(Point,4326) NOT NULL,
     "zip" TEXT NOT NULL,
     "address" TEXT NOT NULL,

@@ -1,9 +1,11 @@
 import express from "express";
+import prisma from "../../lib/prisma.ts";
+
 const router = express.Router();
 
-import promotions from "../../../mock_data/promotions/promotions.json" with { type: "json" };
+router.get("/", async (req, res) => {
+  const promotions = await prisma.venue.findMany();
 
-router.get("/", (req, res) => {
   res.send(promotions);
 });
 

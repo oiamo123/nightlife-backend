@@ -1,9 +1,15 @@
 import express from "express";
+import prisma from "../../lib/prisma.ts";
+
 const router = express.Router();
 
-import events from "../../../mock_data/events/events.json" with { type: "json" };
+router.get("/", async (req, res) => {
+  const events = await prisma.event.findMany({
+    include: {
+      location: true,
+    },
+  });
 
-router.get("/", (req, res) => {
   res.send(events);
 });
 

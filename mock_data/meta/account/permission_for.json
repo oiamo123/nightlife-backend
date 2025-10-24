@@ -2,5 +2,13 @@
   {
     "id": 0,
     "permissionFor": "Location"
+  },
+  {
+    "id": 1,
+    "permissionFor": "Storage"
+  },
+  {
+    "id": 2,
+    "permissionFor": "Calendar / Events"
   }
 ]

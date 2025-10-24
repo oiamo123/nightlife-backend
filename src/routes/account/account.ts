@@ -1,11 +1,11 @@
 import express from "express";
-import followingRouter from "./following.js";
-import linkedAccountsRouter from "./linked_accounts.js";
-import notificationsRouter from "./notifications.js";
-import permissionsRouter from "./permissions.js";
-import preferencesRouter from "./preferences.js";
-import securityRouter from "./security.js";
-import transactionsRouter from "./transactions.js";
+import followingRouter from "./following.ts";
+import linkedAccountsRouter from "./linked_accounts.ts";
+import notificationsRouter from "./notifications.ts";
+import permissionsRouter from "./permissions.ts";
+import preferencesRouter from "./preferences.ts";
+import securityRouter from "./security.ts";
+import transactionsRouter from "./transactions.ts";
 
 const router = express.Router();
 

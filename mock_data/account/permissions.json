@@ -4,5 +4,17 @@
     "accountId": 0,
     "permissionForId": 0,
     "permissionTypeId": 0
+  },
+  {
+    "id": 1,
+    "accountId": 0,
+    "permissionForId": 1,
+    "permissionTypeId": 0
+  },
+  {
+    "id": 2,
+    "accountId": 0,
+    "permissionForId": 2,
+    "permissionTypeId": 0
   }
 ]

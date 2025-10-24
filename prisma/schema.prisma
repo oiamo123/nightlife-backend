@@ -12,6 +12,8 @@ generator client {
 ////////////////////////////////
 model Location {
   id         Int                                 @id @default(autoincrement())
+  lat        Float
+  lng        Float
   geom       Unsupported("geometry(Point,4326)")
   zip        String
   address    String

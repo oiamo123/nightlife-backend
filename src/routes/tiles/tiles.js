@@ -11,8 +11,6 @@ const db = new sqlite3.Database(dbPath, sqlite3.OPEN_READONLY);
 router.get("/:z/:x/:y.pbf", (req, res) => {
   const { x, y, z } = req.params;
 
-  console.log(`X: ${x} Y: ${y} Z: ${z}`);
-
   const query =
     "SELECT tile_data FROM tiles WHERE zoom_level = ? AND tile_column = ? AND tile_row = ?";
 
@@ -20,7 +18,6 @@ router.get("/:z/:x/:y.pbf", (req, res) => {
 
   db.get(query, [z, x, convertedY], (err, row) => {
     if (err) {
-      console.error("SQLite error:", err);
       return res.status(500).send("Internal server error");
     }
 

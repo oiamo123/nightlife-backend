@@ -1,6 +1,18 @@
 [
   {
     "id": 0,
-    "permissionType": "All the time"
+    "permissionType": "Always"
+  },
+  {
+    "id": 1,
+    "permissionType": "Never"
+  },
+  {
+    "id": 2,
+    "permissionType": "While using the app"
+  },
+  {
+    "id": 3,
+    "permissionType": "Ask Next Time"
   }
 ]

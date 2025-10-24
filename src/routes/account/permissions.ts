@@ -1,8 +1,18 @@
 import express from "express";
+import prisma from "../../lib/prisma.ts";
+
 const router = express.Router();
 
-router.get("/", (req, res) => {
-  res.send("Get Permissions");
+router.get("/", async (req, res) => {
+  const id = req.query.id;
+
+  const userPermissions = await prisma.userPermission.findMany({
+    where: {
+      accountId: Number(id),
+    },
+  });
+
+  res.send(userPermissions);
 });
 
 router.post("/", (req, res) => {
