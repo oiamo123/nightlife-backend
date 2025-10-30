@@ -106,37 +106,39 @@ model Event {
 ////////////////////////////////
 // PROMOTIONS
 ////////////////////////////////
-model PromotionType {
-  id            Int         @id @default(autoincrement())
-  promotionType String
-  preferredBy   Account[]   @relation("AccountPromoPreferences")
-  promotions    Promotion[]
+model PromotionCategory {
+  id                Int             @id @default(autoincrement())
+  promotionCategory String
+  promotionTypes    PromotionType[]
+  promotions        Promotion[]
 }
 
-model DiscountType {
-  id           Int         @id @default(autoincrement())
-  discountType String
-  promotions   Promotion[]
+model PromotionType {
+  id                  Int                @id @default(autoincrement())
+  promotionType       String
+  promotionCategoryId Int?
+  promotionCategory   PromotionCategory? @relation(fields: [promotionCategoryId], references: [id])
+  promotions          Promotion[]        @relation("PromotionPromotionType")
+  followedBy          Account[]          @relation("PromotionTypeFollowers")
+  preferredBy         Account[]          @relation("AccountPromoPreferences")
 }
 
 model Promotion {
-  id              Int           @id @default(autoincrement())
-  venueId         Int
-  venue           Venue         @relation(fields: [venueId], references: [id])
-  locationId      Int
-  location        Location      @relation(fields: [locationId], references: [id])
-  promotionTypeId Int
-  promotionType   PromotionType @relation(fields: [promotionTypeId], references: [id])
-  title           String
-  headline        String
-  image           String?
-  discountAmount  Float
-  discountTypeId  Int
-  discountType    DiscountType  @relation(fields: [discountTypeId], references: [id])
-  startDate       DateTime
-  endDate         DateTime
-  total           Int?
-  remaining       Int?
+  id                  Int               @id @default(autoincrement())
+  venueId             Int
+  venue               Venue             @relation(fields: [venueId], references: [id])
+  locationId          Int
+  location            Location          @relation(fields: [locationId], references: [id])
+  title               String
+  headline            String
+  description         String
+  price               Float?
+  startDate           DateTime
+  endDate             DateTime
+  image               String?
+  promotionCategoryId Int
+  promotionCategory   PromotionCategory @relation(fields: [promotionCategoryId], references: [id])
+  promotionTypes      PromotionType[]   @relation("PromotionPromotionType")
 
   @@index([locationId])
 }
@@ -265,28 +267,29 @@ model Transaction {
 }
 
 model Account {
-  id                  Int                @id @default(autoincrement())
-  password            String
-  phoneNumber         String
-  name                String
-  dateOfBirth         DateTime
-  email               String?
-  profileImage        String?
-  createdAt           DateTime           @default(now())
-  followingVenues     Venue[]            @relation("VenueFollowers")
-  followingEventTypes EventType[]        @relation("EventTypeFollowers")
-  venuePreferences    VenueType[]        @relation("AccountVenuePreferences")
-  eventPreferences    EventType[]        @relation("AccountEventPreferences")
-  promoPreferences    PromotionType[]    @relation("AccountPromoPreferences")
-  linkedAccounts      LinkedAccount[]
-  notifications       UserNotification[]
-  permissions         UserPermission[]
-  transactions        Transaction[]
-  tickets             Ticket[]
-  isValidated         Boolean
-  twoFactorSecret     String
-  twoFactorEnabled    Boolean
-  twoFactorValidated  Boolean
+  id                      Int                @id @default(autoincrement())
+  password                String
+  phoneNumber             String
+  name                    String
+  dateOfBirth             DateTime
+  email                   String?
+  profileImage            String?
+  createdAt               DateTime           @default(now())
+  followingVenues         Venue[]            @relation("VenueFollowers")
+  followingEventTypes     EventType[]        @relation("EventTypeFollowers")
+  followingPromotionTypes PromotionType[]    @relation("PromotionTypeFollowers")
+  venuePreferences        VenueType[]        @relation("AccountVenuePreferences")
+  eventPreferences        EventType[]        @relation("AccountEventPreferences")
+  promoPreferences        PromotionType[]    @relation("AccountPromoPreferences")
+  linkedAccounts          LinkedAccount[]
+  notifications           UserNotification[]
+  permissions             UserPermission[]
+  transactions            Transaction[]
+  tickets                 Ticket[]
+  isValidated             Boolean
+  twoFactorSecret         String
+  twoFactorEnabled        Boolean
+  twoFactorValidated      Boolean
 }
 
 model Ticket {

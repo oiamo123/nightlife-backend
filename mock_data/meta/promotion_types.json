@@ -1,18 +1,112 @@
 [
   {
     "id": 0,
-    "promotionType": "Discount"
+    "promotionType": "Wings",
+    "promotionCategoryId": 0
   },
   {
     "id": 1,
-    "promotionType": "Buy One Get One"
+    "promotionType": "Tacos",
+    "promotionCategoryId": 0
   },
   {
     "id": 2,
-    "promotionType": "Loyalty"
+    "promotionType": "Pizza",
+    "promotionCategoryId": 0
   },
   {
     "id": 3,
-    "promotionType": "Flash Sale"
+    "promotionType": "Burgers",
+    "promotionCategoryId": 0
+  },
+  {
+    "id": 4,
+    "promotionType": "Appetizers",
+    "promotionCategoryId": 0
+  },
+  {
+    "id": 5,
+    "promotionType": "Draft",
+    "promotionCategoryId": 1
+  },
+  {
+    "id": 6,
+    "promotionType": "Cocktails",
+    "promotionCategoryId": 1
+  },
+  {
+    "id": 7,
+    "promotionType": "Highballs",
+    "promotionCategoryId": 1
+  },
+  {
+    "id": 8,
+    "promotionType": "Wine",
+    "promotionCategoryId": 1
+  },
+  {
+    "id": 9,
+    "promotionType": "Shots",
+    "promotionCategoryId": 1
+  },
+  {
+    "id": 10,
+    "promotionType": "Ladies",
+    "promotionCategoryId": 2
+  },
+  {
+    "id": 11,
+    "promotionType": "Service Industry",
+    "promotionCategoryId": 2
+  },
+  {
+    "id": 12,
+    "promotionType": "Students",
+    "promotionCategoryId": 2
+  },
+  {
+    "id": 13,
+    "promotionType": "Early Bird",
+    "promotionCategoryId": 2
+  },
+  {
+    "id": 14,
+    "promotionType": "Seniors",
+    "promotionCategoryId": 2
+  },
+  {
+    "id": 15,
+    "promotionType": "Veterans",
+    "promotionCategoryId": 2
+  },
+  {
+    "id": 16,
+    "promotionType": "First Responders",
+    "promotionCategoryId": 2
+  },
+  {
+    "id": 17,
+    "promotionType": "Buy One Get One",
+    "promotionCategoryId": 3
+  },
+  {
+    "id": 18,
+    "promotionType": "All-You-Can-Drink",
+    "promotionCategoryId": 3
+  },
+  {
+    "id": 19,
+    "promotionType": "All-You-Can-Eat",
+    "promotionCategoryId": 3
+  },
+  {
+    "id": 20,
+    "promotionType": "Free Entry",
+    "promotionCategoryId": 3
+  },
+  {
+    "id": 21,
+    "promotionType": "Complimentary",
+    "promotionCategoryId": 3
   }
 ]

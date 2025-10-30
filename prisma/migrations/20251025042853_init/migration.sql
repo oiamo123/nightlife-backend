@@ -113,8 +113,6 @@ CREATE TABLE "Promotion" (
     "discountTypeId" INTEGER NOT NULL,
     "startDate" TIMESTAMP(3) NOT NULL,
     "endDate" TIMESTAMP(3) NOT NULL,
-    "total" INTEGER,
-    "remaining" INTEGER,
 
     CONSTRAINT "Promotion_pkey" PRIMARY KEY ("id")
 );

@@ -3,8 +3,24 @@ import prisma from "../../lib/prisma.ts";
 
 const router = express.Router();
 
+router.get("/:id", async (req, res) => {
+  const id = req.params.id;
+
+  const promotions = await prisma.promotion.findMany({
+    where: {
+      id: Number(id),
+    },
+  });
+
+  res.send(promotions);
+});
+
 router.get("/", async (req, res) => {
-  const promotions = await prisma.venue.findMany();
+  const promotions = await prisma.promotion.findMany({
+    include: {
+      location: true,
+    },
+  });
 
   res.send(promotions);
 });

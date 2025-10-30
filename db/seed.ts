@@ -11,9 +11,9 @@ import states from "../mock_data/meta/state.json" with { type: "json" };
 import cities from "../mock_data/meta/city.json" with { type: "json" };
 import eventCategories from "../mock_data/meta/event_categories.json" with { type: "json" };
 import eventTypes from "../mock_data/meta/event_types.json" with { type: "json" };
-import venueTypes from "../mock_data/meta/venue_types.json" with { type: "json" };
+import promotionCategories from "../mock_data/meta/promotion_categories.json" with { type: "json" }
 import promotionTypes from "../mock_data/meta/promotion_types.json" with { type: "json" };
-import discountTypes from "../mock_data/meta/discount_type.json" with { type: "json" };
+import venueTypes from "../mock_data/meta/venue_types.json" with { type: "json" };
 
 import accounts from "../mock_data/account/account.json" with { type: "json" };
 import userPermissions from "../mock_data/account/permissions.json" with { type: "json" }
@@ -58,12 +58,12 @@ async function main() {
     await prisma.venueType.create({ data: val })
   }
 
-  for (const val of promotionTypes) {
-    await prisma.promotionType.create({ data: val })
+  for (const val of promotionCategories) {
+    await prisma.promotionCategory.create({ data: val })
   }
 
-  for (const val of discountTypes) {
-    await prisma.discountType.create({ data: val })
+  for (const val of promotionTypes) {
+    await prisma.promotionType.create({ data: val })
   }
 
   for (const val of venues) {

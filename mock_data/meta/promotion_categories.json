@@ -1,0 +1,18 @@
+[
+  {
+    "id": 0,
+    "promotionCategory": "Food"
+  },
+  {
+    "id": 1,
+    "promotionCategory": "Drinks"
+  },
+  {
+    "id": 2,
+    "promotionCategory": "Discounts"
+  },
+  {
+    "id": 3,
+    "promotionCategory": "Special Nights"
+  }
+]
