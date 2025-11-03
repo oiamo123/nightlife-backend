@@ -24,19 +24,31 @@ model Location {
   promotions Promotion[]
 
   @@index([cityId])
+  @@index([lat, lng])
 }
 
 model CurrencyCode {
-  id           Int           @id @default(autoincrement())
-  currencyCode String
-  countries    Country[]
-  transactions Transaction[]
+  id             Int           @id @default(autoincrement())
+  currencyCode   String
+  currencySymbol String
+  countries      Country[]
+  transactions   Transaction[]
+}
+
+model TimeZone {
+  id            Int    @id @default(autoincrement())
+  zoneName      String
+  gmtOffset     Int
+  gmtOffsetName String
+  abbreviation  String
+  tzName        String
+  cities        City[]
 }
 
 model Country {
   id             Int          @id @default(autoincrement())
   country        String
-  isoCode        String
+  iso3           String
   currencyCodeId Int
   currencyCode   CurrencyCode @relation(fields: [currencyCodeId], references: [id])
   states         State[]
@@ -52,13 +64,17 @@ model State {
 }
 
 model City {
-  id        Int        @id @default(autoincrement())
-  city      String
-  countryId Int
-  country   Country    @relation(fields: [countryId], references: [id])
-  stateId   Int?
-  state     State?     @relation(fields: [stateId], references: [id])
-  location  Location[]
+  id         Int        @id @default(autoincrement())
+  city       String
+  countryId  Int
+  country    Country    @relation(fields: [countryId], references: [id])
+  stateId    Int?
+  state      State?     @relation(fields: [stateId], references: [id])
+  location   Location[]
+  timeZoneId Int
+  timeZone   TimeZone   @relation(fields: [timeZoneId], references: [id])
+
+  @@index([city])
 }
 
 ////////////////////////////////

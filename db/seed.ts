@@ -6,9 +6,6 @@ import venues from "../mock_data/venues/venues.json" with { type: "json" };
 import promotions from "../mock_data/promotions/promotions.json" with { type: "json" };
 import events from "../mock_data/events/events.json" with { type: "json" };
 import currencyCodes from "../mock_data/meta/currency_code.json" with { type: "json" };
-import countries from "../mock_data/meta/country.json" with { type: "json" };
-import states from "../mock_data/meta/state.json" with { type: "json" };
-import cities from "../mock_data/meta/city.json" with { type: "json" };
 import eventCategories from "../mock_data/meta/event_categories.json" with { type: "json" };
 import eventTypes from "../mock_data/meta/event_types.json" with { type: "json" };
 import promotionCategories from "../mock_data/meta/promotion_categories.json" with { type: "json" }
@@ -20,23 +17,69 @@ import userPermissions from "../mock_data/account/permissions.json" with { type:
 import permissionsFor from "../mock_data/meta//account/permission_for.json" with { type: "json" }
 import permissionType from "../mock_data/meta/account/permission_type.json" with { type: "json" }
 
+import countryStateCity from "../mock_data/countries/countries+states+cities.json" with { type: "json" }
+import { count } from "console";
+
 const prisma = new PrismaClient();
 
 async function main() {
-  for (const val of currencyCodes) {
-    await prisma.currencyCode.create({ data: val })
-  }
+  for (const country of countryStateCity) {
+    const currency = await prisma.currencyCode.create({
+      data: {
+        currencyCode: country.currency,
+        currencySymbol: country.currency_symbol
+      }
+    })
 
-  for (const val of countries) {
-    await prisma.country.create({ data: val })
-  }
+    for (const timeZone of country.timezones) {
+      let tz = await prisma.timeZone.findFirst({
+        where: { zoneName: timeZone.zoneName },
+      });
+    
+      if (!tz) {
+        await prisma.timeZone.create({
+          data: {
+            zoneName: timeZone.zoneName,
+            gmtOffset: timeZone.gmtOffset,
+            gmtOffsetName: timeZone.gmtOffsetName,
+            abbreviation: timeZone.abbreviation,
+            tzName: timeZone.tzName
+          }
+        })
+      }
+    }
 
-  for (const val of states) {
-    await prisma.state.create({ data: val })
-  }
+    const newCountry = await prisma.country.create({
+      data: {
+        country: country.name.toLowerCase(),
+        iso3: country.iso3,
+        currencyCodeId: currency.id
+      }
+    })
 
-  for (const val of cities) {
-    await prisma.city.create({ data: val })
+    for (const state of country.states) {
+      const newProvince = await prisma.state.create({
+        data: {
+          state: state.name.toLowerCase(),
+          countryId: newCountry.id,
+        }
+      })
+
+      const tz = await prisma.timeZone.findFirst({
+        where: { zoneName: state.timezone },
+      });
+
+      for (const city of state.cities) {
+        await prisma.city.create({
+          data: {
+            city: city.name.toLowerCase(),
+            timeZoneId: tz.id,
+            stateId: newProvince.id,
+            countryId: newCountry.id,
+          }
+        })
+      }
+    }
   }
 
   for (const val of locations) {
@@ -67,15 +110,36 @@ async function main() {
   }
 
   for (const val of venues) {
-    await prisma.venue.create({ data: val })
+    await prisma.venue.create({ 
+      data: { 
+        ...val, 
+        venueTypes: {
+          connect: val.venueTypes.map((venueType: number) => ({ id: venueType }))
+        }
+      } 
+    })
   }
 
   for (const val of promotions) {
-    await prisma.promotion.create({ data: val })
+    await prisma.promotion.create({ 
+      data: { 
+        ...val, 
+        promotionTypes: {
+          connect: val.promotionTypes.map((promoType: number) => ({ id: promoType }))
+        }
+      } 
+    })
   }
 
   for (const val of events) {
-    await prisma.event.create({ data: val })
+    await prisma.event.create({ 
+      data: { 
+        ...val, 
+        eventTypes: {
+          connect: val.eventTypes.map((eventType: number) => ({ id: eventType }))
+        }
+      } 
+    })
   }
 
   for (const val of accounts) {

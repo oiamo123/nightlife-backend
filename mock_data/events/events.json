@@ -7,10 +7,11 @@
     "headline": "This is a headline",
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at nunc tempus est condimentum vulputate. Cras sit amet ipsum elementum, dapibus odio et, efficitur est. Aenean nisi arcu, aliquam sit amet consectetur nec, interdum nec nibh. Quisque quis urna consequat, pretium nibh quis, placerat nunc. Praesent sodales, augue et tincidunt condimentum, neque mi gravida orci, at lobortis velit risus quis diam. Etiam aliquet facilisis mi, quis molestie arcu tempor ac. Sed feugiat sodales ligula, eu rhoncus libero. Proin a nunc quis eros euismod dignissim in vitae nulla. Fusce consequat suscipit metus, non lobortis arcu porttitor sed. Fusce in fringilla ex. Fusce vehicula mollis tortor at accumsan. Integer fringilla metus nec turpis mattis, eu posuere arcu facilisis. Donec vel malesuada nisi. Nam ac imperdiet magna. Nunc aliquam varius tempor. Ut vulputate tincidunt elit eu condimentum.",
     "price": 25.0,
-    "startDate": "2025-01-01T00:00:00+02:00",
-    "endDate": "2025-01-02T00:00:00+02:00",
+    "startDate": "2025-01-01T00:00:00Z",
+    "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=800",
-    "eventCategoryId": 0
+    "eventCategoryId": 0,
+    "eventTypes": [1, 2, 3, 4]
   },
   {
     "id": 2,
@@ -20,10 +21,11 @@
     "headline": "This is a headline",
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at nunc tempus est condimentum vulputate. Cras sit amet ipsum elementum, dapibus odio et, efficitur est. Aenean nisi arcu, aliquam sit amet consectetur nec, interdum nec nibh. Quisque quis urna consequat, pretium nibh quis, placerat nunc. Praesent sodales, augue et tincidunt condimentum, neque mi gravida orci, at lobortis velit risus quis diam. Etiam aliquet facilisis mi, quis molestie arcu tempor ac. Sed feugiat sodales ligula, eu rhoncus libero. Proin a nunc quis eros euismod dignissim in vitae nulla. Fusce consequat suscipit metus, non lobortis arcu porttitor sed. Fusce in fringilla ex. Fusce vehicula mollis tortor at accumsan. Integer fringilla metus nec turpis mattis, eu posuere arcu facilisis. Donec vel malesuada nisi. Nam ac imperdiet magna. Nunc aliquam varius tempor. Ut vulputate tincidunt elit eu condimentum.",
     "price": 35.0,
-    "startDate": "2025-01-01T00:00:00+02:00",
-    "endDate": "2025-01-02T00:00:00+02:00",
+    "startDate": "2025-01-01T00:00:00Z",
+    "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800",
-    "eventCategoryId": 0
+    "eventCategoryId": 0,
+    "eventTypes": [1, 2, 3, 4]
   },
   {
     "id": 3,
@@ -33,10 +35,11 @@
     "headline": "This is a headline",
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at nunc tempus est condimentum vulputate. Cras sit amet ipsum elementum, dapibus odio et, efficitur est. Aenean nisi arcu, aliquam sit amet consectetur nec, interdum nec nibh. Quisque quis urna consequat, pretium nibh quis, placerat nunc. Praesent sodales, augue et tincidunt condimentum, neque mi gravida orci, at lobortis velit risus quis diam. Etiam aliquet facilisis mi, quis molestie arcu tempor ac. Sed feugiat sodales ligula, eu rhoncus libero. Proin a nunc quis eros euismod dignissim in vitae nulla. Fusce consequat suscipit metus, non lobortis arcu porttitor sed. Fusce in fringilla ex. Fusce vehicula mollis tortor at accumsan. Integer fringilla metus nec turpis mattis, eu posuere arcu facilisis. Donec vel malesuada nisi. Nam ac imperdiet magna. Nunc aliquam varius tempor. Ut vulputate tincidunt elit eu condimentum.",
     "price": 20.0,
-    "startDate": "2025-01-01T00:00:00+02:00",
-    "endDate": "2025-01-02T00:00:00+02:00",
+    "startDate": "2025-01-01T00:00:00Z",
+    "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800",
-    "eventCategoryId": 0
+    "eventCategoryId": 0,
+    "eventTypes": [1, 2, 3, 4]
   },
   {
     "id": 4,
@@ -46,10 +49,11 @@
     "headline": "This is a headline",
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at nunc tempus est condimentum vulputate. Cras sit amet ipsum elementum, dapibus odio et, efficitur est. Aenean nisi arcu, aliquam sit amet consectetur nec, interdum nec nibh. Quisque quis urna consequat, pretium nibh quis, placerat nunc. Praesent sodales, augue et tincidunt condimentum, neque mi gravida orci, at lobortis velit risus quis diam. Etiam aliquet facilisis mi, quis molestie arcu tempor ac. Sed feugiat sodales ligula, eu rhoncus libero. Proin a nunc quis eros euismod dignissim in vitae nulla. Fusce consequat suscipit metus, non lobortis arcu porttitor sed. Fusce in fringilla ex. Fusce vehicula mollis tortor at accumsan. Integer fringilla metus nec turpis mattis, eu posuere arcu facilisis. Donec vel malesuada nisi. Nam ac imperdiet magna. Nunc aliquam varius tempor. Ut vulputate tincidunt elit eu condimentum.",
     "price": 15.0,
-    "startDate": "2025-01-01T00:00:00+02:00",
-    "endDate": "2025-01-02T00:00:00+02:00",
+    "startDate": "2025-01-01T00:00:00Z",
+    "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800",
-    "eventCategoryId": 0
+    "eventCategoryId": 0,
+    "eventTypes": [1, 2, 3, 4]
   },
   {
     "id": 5,
@@ -59,10 +63,11 @@
     "headline": "This is a headline",
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at nunc tempus est condimentum vulputate. Cras sit amet ipsum elementum, dapibus odio et, efficitur est. Aenean nisi arcu, aliquam sit amet consectetur nec, interdum nec nibh. Quisque quis urna consequat, pretium nibh quis, placerat nunc. Praesent sodales, augue et tincidunt condimentum, neque mi gravida orci, at lobortis velit risus quis diam. Etiam aliquet facilisis mi, quis molestie arcu tempor ac. Sed feugiat sodales ligula, eu rhoncus libero. Proin a nunc quis eros euismod dignissim in vitae nulla. Fusce consequat suscipit metus, non lobortis arcu porttitor sed. Fusce in fringilla ex. Fusce vehicula mollis tortor at accumsan. Integer fringilla metus nec turpis mattis, eu posuere arcu facilisis. Donec vel malesuada nisi. Nam ac imperdiet magna. Nunc aliquam varius tempor. Ut vulputate tincidunt elit eu condimentum.",
     "price": 45.0,
-    "startDate": "2025-01-01T00:00:00+02:00",
-    "endDate": "2025-01-02T00:00:00+02:00",
+    "startDate": "2025-01-01T00:00:00Z",
+    "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?w=800",
-    "eventCategoryId": 0
+    "eventCategoryId": 0,
+    "eventTypes": [1, 2, 3, 4]
   },
   {
     "id": 6,
@@ -72,10 +77,11 @@
     "headline": "This is a headline",
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at nunc tempus est condimentum vulputate. Cras sit amet ipsum elementum, dapibus odio et, efficitur est. Aenean nisi arcu, aliquam sit amet consectetur nec, interdum nec nibh. Quisque quis urna consequat, pretium nibh quis, placerat nunc. Praesent sodales, augue et tincidunt condimentum, neque mi gravida orci, at lobortis velit risus quis diam. Etiam aliquet facilisis mi, quis molestie arcu tempor ac. Sed feugiat sodales ligula, eu rhoncus libero. Proin a nunc quis eros euismod dignissim in vitae nulla. Fusce consequat suscipit metus, non lobortis arcu porttitor sed. Fusce in fringilla ex. Fusce vehicula mollis tortor at accumsan. Integer fringilla metus nec turpis mattis, eu posuere arcu facilisis. Donec vel malesuada nisi. Nam ac imperdiet magna. Nunc aliquam varius tempor. Ut vulputate tincidunt elit eu condimentum.",
     "price": 40.0,
-    "startDate": "2025-01-01T00:00:00+02:00",
-    "endDate": "2025-01-02T00:00:00+02:00",
+    "startDate": "2025-01-01T00:00:00Z",
+    "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=800",
-    "eventCategoryId": 0
+    "eventCategoryId": 0,
+    "eventTypes": [1, 2, 3, 4]
   },
   {
     "id": 7,
@@ -85,10 +91,11 @@
     "headline": "This is a headline",
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at nunc tempus est condimentum vulputate. Cras sit amet ipsum elementum, dapibus odio et, efficitur est. Aenean nisi arcu, aliquam sit amet consectetur nec, interdum nec nibh. Quisque quis urna consequat, pretium nibh quis, placerat nunc. Praesent sodales, augue et tincidunt condimentum, neque mi gravida orci, at lobortis velit risus quis diam. Etiam aliquet facilisis mi, quis molestie arcu tempor ac. Sed feugiat sodales ligula, eu rhoncus libero. Proin a nunc quis eros euismod dignissim in vitae nulla. Fusce consequat suscipit metus, non lobortis arcu porttitor sed. Fusce in fringilla ex. Fusce vehicula mollis tortor at accumsan. Integer fringilla metus nec turpis mattis, eu posuere arcu facilisis. Donec vel malesuada nisi. Nam ac imperdiet magna. Nunc aliquam varius tempor. Ut vulputate tincidunt elit eu condimentum.",
     "price": 18.0,
-    "startDate": "2025-01-01T00:00:00+02:00",
-    "endDate": "2025-01-02T00:00:00+02:00",
+    "startDate": "2025-01-01T00:00:00Z",
+    "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1506157786151-b8491531f063?w=800",
-    "eventCategoryId": 0
+    "eventCategoryId": 0,
+    "eventTypes": [1, 2, 3, 4]
   },
   {
     "id": 8,
@@ -98,10 +105,11 @@
     "headline": "This is a headline",
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at nunc tempus est condimentum vulputate. Cras sit amet ipsum elementum, dapibus odio et, efficitur est. Aenean nisi arcu, aliquam sit amet consectetur nec, interdum nec nibh. Quisque quis urna consequat, pretium nibh quis, placerat nunc. Praesent sodales, augue et tincidunt condimentum, neque mi gravida orci, at lobortis velit risus quis diam. Etiam aliquet facilisis mi, quis molestie arcu tempor ac. Sed feugiat sodales ligula, eu rhoncus libero. Proin a nunc quis eros euismod dignissim in vitae nulla. Fusce consequat suscipit metus, non lobortis arcu porttitor sed. Fusce in fringilla ex. Fusce vehicula mollis tortor at accumsan. Integer fringilla metus nec turpis mattis, eu posuere arcu facilisis. Donec vel malesuada nisi. Nam ac imperdiet magna. Nunc aliquam varius tempor. Ut vulputate tincidunt elit eu condimentum.",
     "price": 55.0,
-    "startDate": "2025-01-01T00:00:00+02:00",
-    "endDate": "2025-01-02T00:00:00+02:00",
+    "startDate": "2025-01-01T00:00:00Z",
+    "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1571266028243-d220c2ccb3ee?w=800",
-    "eventCategoryId": 0
+    "eventCategoryId": 0,
+    "eventTypes": [1, 2, 3, 4]
   },
   {
     "id": 9,
@@ -111,10 +119,11 @@
     "headline": "This is a headline",
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at nunc tempus est condimentum vulputate. Cras sit amet ipsum elementum, dapibus odio et, efficitur est. Aenean nisi arcu, aliquam sit amet consectetur nec, interdum nec nibh. Quisque quis urna consequat, pretium nibh quis, placerat nunc. Praesent sodales, augue et tincidunt condimentum, neque mi gravida orci, at lobortis velit risus quis diam. Etiam aliquet facilisis mi, quis molestie arcu tempor ac. Sed feugiat sodales ligula, eu rhoncus libero. Proin a nunc quis eros euismod dignissim in vitae nulla. Fusce consequat suscipit metus, non lobortis arcu porttitor sed. Fusce in fringilla ex. Fusce vehicula mollis tortor at accumsan. Integer fringilla metus nec turpis mattis, eu posuere arcu facilisis. Donec vel malesuada nisi. Nam ac imperdiet magna. Nunc aliquam varius tempor. Ut vulputate tincidunt elit eu condimentum.",
     "price": 22.0,
-    "startDate": "2025-01-01T00:00:00+02:00",
-    "endDate": "2025-01-02T00:00:00+02:00",
+    "startDate": "2025-01-01T00:00:00Z",
+    "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1516997121675-4c2d1684aa3e?w=800",
-    "eventCategoryId": 0
+    "eventCategoryId": 0,
+    "eventTypes": [1, 2, 3, 4]
   },
   {
     "id": 10,
@@ -124,10 +133,11 @@
     "headline": "This is a headline",
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at nunc tempus est condimentum vulputate. Cras sit amet ipsum elementum, dapibus odio et, efficitur est. Aenean nisi arcu, aliquam sit amet consectetur nec, interdum nec nibh. Quisque quis urna consequat, pretium nibh quis, placerat nunc. Praesent sodales, augue et tincidunt condimentum, neque mi gravida orci, at lobortis velit risus quis diam. Etiam aliquet facilisis mi, quis molestie arcu tempor ac. Sed feugiat sodales ligula, eu rhoncus libero. Proin a nunc quis eros euismod dignissim in vitae nulla. Fusce consequat suscipit metus, non lobortis arcu porttitor sed. Fusce in fringilla ex. Fusce vehicula mollis tortor at accumsan. Integer fringilla metus nec turpis mattis, eu posuere arcu facilisis. Donec vel malesuada nisi. Nam ac imperdiet magna. Nunc aliquam varius tempor. Ut vulputate tincidunt elit eu condimentum.",
     "price": 12.0,
-    "startDate": "2025-01-01T00:00:00+02:00",
-    "endDate": "2025-01-02T00:00:00+02:00",
+    "startDate": "2025-01-01T00:00:00Z",
+    "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=800",
-    "eventCategoryId": 0
+    "eventCategoryId": 0,
+    "eventTypes": [1, 2, 3, 4]
   },
   {
     "id": 11,
@@ -137,10 +147,11 @@
     "headline": "This is a headline",
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at nunc tempus est condimentum vulputate. Cras sit amet ipsum elementum, dapibus odio et, efficitur est. Aenean nisi arcu, aliquam sit amet consectetur nec, interdum nec nibh. Quisque quis urna consequat, pretium nibh quis, placerat nunc. Praesent sodales, augue et tincidunt condimentum, neque mi gravida orci, at lobortis velit risus quis diam. Etiam aliquet facilisis mi, quis molestie arcu tempor ac. Sed feugiat sodales ligula, eu rhoncus libero. Proin a nunc quis eros euismod dignissim in vitae nulla. Fusce consequat suscipit metus, non lobortis arcu porttitor sed. Fusce in fringilla ex. Fusce vehicula mollis tortor at accumsan. Integer fringilla metus nec turpis mattis, eu posuere arcu facilisis. Donec vel malesuada nisi. Nam ac imperdiet magna. Nunc aliquam varius tempor. Ut vulputate tincidunt elit eu condimentum.",
     "price": 8.0,
-    "startDate": "2025-01-01T00:00:00+02:00",
-    "endDate": "2025-01-02T00:00:00+02:00",
+    "startDate": "2025-01-01T00:00:00Z",
+    "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=800",
-    "eventCategoryId": 0
+    "eventCategoryId": 0,
+    "eventTypes": [1, 2, 3, 4]
   },
   {
     "id": 12,
@@ -150,10 +161,11 @@
     "headline": "This is a headline",
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at nunc tempus est condimentum vulputate. Cras sit amet ipsum elementum, dapibus odio et, efficitur est. Aenean nisi arcu, aliquam sit amet consectetur nec, interdum nec nibh. Quisque quis urna consequat, pretium nibh quis, placerat nunc. Praesent sodales, augue et tincidunt condimentum, neque mi gravida orci, at lobortis velit risus quis diam. Etiam aliquet facilisis mi, quis molestie arcu tempor ac. Sed feugiat sodales ligula, eu rhoncus libero. Proin a nunc quis eros euismod dignissim in vitae nulla. Fusce consequat suscipit metus, non lobortis arcu porttitor sed. Fusce in fringilla ex. Fusce vehicula mollis tortor at accumsan. Integer fringilla metus nec turpis mattis, eu posuere arcu facilisis. Donec vel malesuada nisi. Nam ac imperdiet magna. Nunc aliquam varius tempor. Ut vulputate tincidunt elit eu condimentum.",
     "price": 30.0,
-    "startDate": "2025-01-01T00:00:00+02:00",
-    "endDate": "2025-01-02T00:00:00+02:00",
+    "startDate": "2025-01-01T00:00:00Z",
+    "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1574391884720-bbc4b93ce850?w=800",
-    "eventCategoryId": 0
+    "eventCategoryId": 0,
+    "eventTypes": [1, 2, 3, 4]
   },
   {
     "id": 13,
@@ -163,10 +175,11 @@
     "headline": "This is a headline",
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at nunc tempus est condimentum vulputate. Cras sit amet ipsum elementum, dapibus odio et, efficitur est. Aenean nisi arcu, aliquam sit amet consectetur nec, interdum nec nibh. Quisque quis urna consequat, pretium nibh quis, placerat nunc. Praesent sodales, augue et tincidunt condimentum, neque mi gravida orci, at lobortis velit risus quis diam. Etiam aliquet facilisis mi, quis molestie arcu tempor ac. Sed feugiat sodales ligula, eu rhoncus libero. Proin a nunc quis eros euismod dignissim in vitae nulla. Fusce consequat suscipit metus, non lobortis arcu porttitor sed. Fusce in fringilla ex. Fusce vehicula mollis tortor at accumsan. Integer fringilla metus nec turpis mattis, eu posuere arcu facilisis. Donec vel malesuada nisi. Nam ac imperdiet magna. Nunc aliquam varius tempor. Ut vulputate tincidunt elit eu condimentum.",
     "price": 25.0,
-    "startDate": "2025-01-01T00:00:00+02:00",
-    "endDate": "2025-01-02T00:00:00+02:00",
+    "startDate": "2025-01-01T00:00:00Z",
+    "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800",
-    "eventCategoryId": 0
+    "eventCategoryId": 0,
+    "eventTypes": [1, 2, 3, 4]
   },
   {
     "id": 14,
@@ -176,10 +189,11 @@
     "headline": "This is a headline",
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at nunc tempus est condimentum vulputate. Cras sit amet ipsum elementum, dapibus odio et, efficitur est. Aenean nisi arcu, aliquam sit amet consectetur nec, interdum nec nibh. Quisque quis urna consequat, pretium nibh quis, placerat nunc. Praesent sodales, augue et tincidunt condimentum, neque mi gravida orci, at lobortis velit risus quis diam. Etiam aliquet facilisis mi, quis molestie arcu tempor ac. Sed feugiat sodales ligula, eu rhoncus libero. Proin a nunc quis eros euismod dignissim in vitae nulla. Fusce consequat suscipit metus, non lobortis arcu porttitor sed. Fusce in fringilla ex. Fusce vehicula mollis tortor at accumsan. Integer fringilla metus nec turpis mattis, eu posuere arcu facilisis. Donec vel malesuada nisi. Nam ac imperdiet magna. Nunc aliquam varius tempor. Ut vulputate tincidunt elit eu condimentum.",
     "price": 5.0,
-    "startDate": "2025-01-01T00:00:00+02:00",
-    "endDate": "2025-01-02T00:00:00+02:00",
+    "startDate": "2025-01-01T00:00:00Z",
+    "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800",
-    "eventCategoryId": 0
+    "eventCategoryId": 0,
+    "eventTypes": [1, 2, 3, 4]
   },
   {
     "id": 15,
@@ -189,10 +203,11 @@
     "headline": "This is a headline",
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at nunc tempus est condimentum vulputate. Cras sit amet ipsum elementum, dapibus odio et, efficitur est. Aenean nisi arcu, aliquam sit amet consectetur nec, interdum nec nibh. Quisque quis urna consequat, pretium nibh quis, placerat nunc. Praesent sodales, augue et tincidunt condimentum, neque mi gravida orci, at lobortis velit risus quis diam. Etiam aliquet facilisis mi, quis molestie arcu tempor ac. Sed feugiat sodales ligula, eu rhoncus libero. Proin a nunc quis eros euismod dignissim in vitae nulla. Fusce consequat suscipit metus, non lobortis arcu porttitor sed. Fusce in fringilla ex. Fusce vehicula mollis tortor at accumsan. Integer fringilla metus nec turpis mattis, eu posuere arcu facilisis. Donec vel malesuada nisi. Nam ac imperdiet magna. Nunc aliquam varius tempor. Ut vulputate tincidunt elit eu condimentum.",
     "price": 150.0,
-    "startDate": "2025-01-01T00:00:00+02:00",
-    "endDate": "2025-01-02T00:00:00+02:00",
+    "startDate": "2025-01-01T00:00:00Z",
+    "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=800",
-    "eventCategoryId": 0
+    "eventCategoryId": 0,
+    "eventTypes": [1, 2, 3, 4]
   },
   {
     "id": 16,
@@ -202,10 +217,11 @@
     "headline": "This is a headline",
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at nunc tempus est condimentum vulputate. Cras sit amet ipsum elementum, dapibus odio et, efficitur est. Aenean nisi arcu, aliquam sit amet consectetur nec, interdum nec nibh. Quisque quis urna consequat, pretium nibh quis, placerat nunc. Praesent sodales, augue et tincidunt condimentum, neque mi gravida orci, at lobortis velit risus quis diam. Etiam aliquet facilisis mi, quis molestie arcu tempor ac. Sed feugiat sodales ligula, eu rhoncus libero. Proin a nunc quis eros euismod dignissim in vitae nulla. Fusce consequat suscipit metus, non lobortis arcu porttitor sed. Fusce in fringilla ex. Fusce vehicula mollis tortor at accumsan. Integer fringilla metus nec turpis mattis, eu posuere arcu facilisis. Donec vel malesuada nisi. Nam ac imperdiet magna. Nunc aliquam varius tempor. Ut vulputate tincidunt elit eu condimentum.",
     "price": 16.0,
-    "startDate": "2025-01-01T00:00:00+02:00",
-    "endDate": "2025-01-02T00:00:00+02:00",
+    "startDate": "2025-01-01T00:00:00Z",
+    "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800",
-    "eventCategoryId": 0
+    "eventCategoryId": 0,
+    "eventTypes": [1, 2, 3, 4]
   },
   {
     "id": 17,
@@ -215,10 +231,11 @@
     "headline": "This is a headline",
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at nunc tempus est condimentum vulputate. Cras sit amet ipsum elementum, dapibus odio et, efficitur est. Aenean nisi arcu, aliquam sit amet consectetur nec, interdum nec nibh. Quisque quis urna consequat, pretium nibh quis, placerat nunc. Praesent sodales, augue et tincidunt condimentum, neque mi gravida orci, at lobortis velit risus quis diam. Etiam aliquet facilisis mi, quis molestie arcu tempor ac. Sed feugiat sodales ligula, eu rhoncus libero. Proin a nunc quis eros euismod dignissim in vitae nulla. Fusce consequat suscipit metus, non lobortis arcu porttitor sed. Fusce in fringilla ex. Fusce vehicula mollis tortor at accumsan. Integer fringilla metus nec turpis mattis, eu posuere arcu facilisis. Donec vel malesuada nisi. Nam ac imperdiet magna. Nunc aliquam varius tempor. Ut vulputate tincidunt elit eu condimentum.",
     "price": 20.0,
-    "startDate": "2025-01-01T00:00:00+02:00",
-    "endDate": "2025-01-02T00:00:00+02:00",
+    "startDate": "2025-01-01T00:00:00Z",
+    "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800",
-    "eventCategoryId": 0
+    "eventCategoryId": 0,
+    "eventTypes": [1, 2, 3, 4]
   },
   {
     "id": 18,
@@ -228,10 +245,11 @@
     "headline": "This is a headline",
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at nunc tempus est condimentum vulputate. Cras sit amet ipsum elementum, dapibus odio et, efficitur est. Aenean nisi arcu, aliquam sit amet consectetur nec, interdum nec nibh. Quisque quis urna consequat, pretium nibh quis, placerat nunc. Praesent sodales, augue et tincidunt condimentum, neque mi gravida orci, at lobortis velit risus quis diam. Etiam aliquet facilisis mi, quis molestie arcu tempor ac. Sed feugiat sodales ligula, eu rhoncus libero. Proin a nunc quis eros euismod dignissim in vitae nulla. Fusce consequat suscipit metus, non lobortis arcu porttitor sed. Fusce in fringilla ex. Fusce vehicula mollis tortor at accumsan. Integer fringilla metus nec turpis mattis, eu posuere arcu facilisis. Donec vel malesuada nisi. Nam ac imperdiet magna. Nunc aliquam varius tempor. Ut vulputate tincidunt elit eu condimentum.",
     "price": 35.0,
-    "startDate": "2025-01-01T00:00:00+02:00",
-    "endDate": "2025-01-02T00:00:00+02:00",
+    "startDate": "2025-01-01T00:00:00Z",
+    "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=800",
-    "eventCategoryId": 0
+    "eventCategoryId": 0,
+    "eventTypes": [1, 2, 3, 4]
   },
   {
     "id": 19,
@@ -241,10 +259,11 @@
     "headline": "This is a headline",
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at nunc tempus est condimentum vulputate. Cras sit amet ipsum elementum, dapibus odio et, efficitur est. Aenean nisi arcu, aliquam sit amet consectetur nec, interdum nec nibh. Quisque quis urna consequat, pretium nibh quis, placerat nunc. Praesent sodales, augue et tincidunt condimentum, neque mi gravida orci, at lobortis velit risus quis diam. Etiam aliquet facilisis mi, quis molestie arcu tempor ac. Sed feugiat sodales ligula, eu rhoncus libero. Proin a nunc quis eros euismod dignissim in vitae nulla. Fusce consequat suscipit metus, non lobortis arcu porttitor sed. Fusce in fringilla ex. Fusce vehicula mollis tortor at accumsan. Integer fringilla metus nec turpis mattis, eu posuere arcu facilisis. Donec vel malesuada nisi. Nam ac imperdiet magna. Nunc aliquam varius tempor. Ut vulputate tincidunt elit eu condimentum.",
     "price": 28.0,
-    "startDate": "2025-01-01T00:00:00+02:00",
-    "endDate": "2025-01-02T00:00:00+02:00",
+    "startDate": "2025-01-01T00:00:00Z",
+    "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800",
-    "eventCategoryId": 0
+    "eventCategoryId": 0,
+    "eventTypes": [1, 2, 3, 4]
   },
   {
     "id": 20,
@@ -254,10 +273,11 @@
     "headline": "This is a headline",
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at nunc tempus est condimentum vulputate. Cras sit amet ipsum elementum, dapibus odio et, efficitur est. Aenean nisi arcu, aliquam sit amet consectetur nec, interdum nec nibh. Quisque quis urna consequat, pretium nibh quis, placerat nunc. Praesent sodales, augue et tincidunt condimentum, neque mi gravida orci, at lobortis velit risus quis diam. Etiam aliquet facilisis mi, quis molestie arcu tempor ac. Sed feugiat sodales ligula, eu rhoncus libero. Proin a nunc quis eros euismod dignissim in vitae nulla. Fusce consequat suscipit metus, non lobortis arcu porttitor sed. Fusce in fringilla ex. Fusce vehicula mollis tortor at accumsan. Integer fringilla metus nec turpis mattis, eu posuere arcu facilisis. Donec vel malesuada nisi. Nam ac imperdiet magna. Nunc aliquam varius tempor. Ut vulputate tincidunt elit eu condimentum.",
     "price": 125.0,
-    "startDate": "2025-01-01T00:00:00+02:00",
-    "endDate": "2025-01-02T00:00:00+02:00",
+    "startDate": "2025-01-01T00:00:00Z",
+    "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800",
-    "eventCategoryId": 0
+    "eventCategoryId": 0,
+    "eventTypes": [1, 2, 3, 4]
   },
   {
     "id": 21,
@@ -267,10 +287,11 @@
     "headline": "This is a headline",
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at nunc tempus est condimentum vulputate. Cras sit amet ipsum elementum, dapibus odio et, efficitur est. Aenean nisi arcu, aliquam sit amet consectetur nec, interdum nec nibh. Quisque quis urna consequat, pretium nibh quis, placerat nunc. Praesent sodales, augue et tincidunt condimentum, neque mi gravida orci, at lobortis velit risus quis diam. Etiam aliquet facilisis mi, quis molestie arcu tempor ac. Sed feugiat sodales ligula, eu rhoncus libero. Proin a nunc quis eros euismod dignissim in vitae nulla. Fusce consequat suscipit metus, non lobortis arcu porttitor sed. Fusce in fringilla ex. Fusce vehicula mollis tortor at accumsan. Integer fringilla metus nec turpis mattis, eu posuere arcu facilisis. Donec vel malesuada nisi. Nam ac imperdiet magna. Nunc aliquam varius tempor. Ut vulputate tincidunt elit eu condimentum.",
     "price": 35.0,
-    "startDate": "2025-01-01T00:00:00+02:00",
-    "endDate": "2025-01-02T00:00:00+02:00",
+    "startDate": "2025-01-01T00:00:00Z",
+    "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1516997121675-4c2d1684aa3e?w=800",
-    "eventCategoryId": 0
+    "eventCategoryId": 0,
+    "eventTypes": [1, 2, 3, 4]
   },
   {
     "id": 22,
@@ -280,10 +301,11 @@
     "headline": "This is a headline",
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at nunc tempus est condimentum vulputate. Cras sit amet ipsum elementum, dapibus odio et, efficitur est. Aenean nisi arcu, aliquam sit amet consectetur nec, interdum nec nibh. Quisque quis urna consequat, pretium nibh quis, placerat nunc. Praesent sodales, augue et tincidunt condimentum, neque mi gravida orci, at lobortis velit risus quis diam. Etiam aliquet facilisis mi, quis molestie arcu tempor ac. Sed feugiat sodales ligula, eu rhoncus libero. Proin a nunc quis eros euismod dignissim in vitae nulla. Fusce consequat suscipit metus, non lobortis arcu porttitor sed. Fusce in fringilla ex. Fusce vehicula mollis tortor at accumsan. Integer fringilla metus nec turpis mattis, eu posuere arcu facilisis. Donec vel malesuada nisi. Nam ac imperdiet magna. Nunc aliquam varius tempor. Ut vulputate tincidunt elit eu condimentum.",
     "price": 40.0,
-    "startDate": "2025-01-01T00:00:00+02:00",
-    "endDate": "2025-01-02T00:00:00+02:00",
+    "startDate": "2025-01-01T00:00:00Z",
+    "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800",
-    "eventCategoryId": 0
+    "eventCategoryId": 0,
+    "eventTypes": [1, 2, 3, 4]
   },
   {
     "id": 23,
@@ -293,10 +315,11 @@
     "headline": "This is a headline",
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at nunc tempus est condimentum vulputate. Cras sit amet ipsum elementum, dapibus odio et, efficitur est. Aenean nisi arcu, aliquam sit amet consectetur nec, interdum nec nibh. Quisque quis urna consequat, pretium nibh quis, placerat nunc. Praesent sodales, augue et tincidunt condimentum, neque mi gravida orci, at lobortis velit risus quis diam. Etiam aliquet facilisis mi, quis molestie arcu tempor ac. Sed feugiat sodales ligula, eu rhoncus libero. Proin a nunc quis eros euismod dignissim in vitae nulla. Fusce consequat suscipit metus, non lobortis arcu porttitor sed. Fusce in fringilla ex. Fusce vehicula mollis tortor at accumsan. Integer fringilla metus nec turpis mattis, eu posuere arcu facilisis. Donec vel malesuada nisi. Nam ac imperdiet magna. Nunc aliquam varius tempor. Ut vulputate tincidunt elit eu condimentum.",
     "price": 18.0,
-    "startDate": "2025-01-01T00:00:00+02:00",
-    "endDate": "2025-01-02T00:00:00+02:00",
+    "startDate": "2025-01-01T00:00:00Z",
+    "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=800",
-    "eventCategoryId": 0
+    "eventCategoryId": 0,
+    "eventTypes": [1, 2, 3, 4]
   },
   {
     "id": 24,
@@ -306,10 +329,11 @@
     "headline": "This is a headline",
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at nunc tempus est condimentum vulputate. Cras sit amet ipsum elementum, dapibus odio et, efficitur est. Aenean nisi arcu, aliquam sit amet consectetur nec, interdum nec nibh. Quisque quis urna consequat, pretium nibh quis, placerat nunc. Praesent sodales, augue et tincidunt condimentum, neque mi gravida orci, at lobortis velit risus quis diam. Etiam aliquet facilisis mi, quis molestie arcu tempor ac. Sed feugiat sodales ligula, eu rhoncus libero. Proin a nunc quis eros euismod dignissim in vitae nulla. Fusce consequat suscipit metus, non lobortis arcu porttitor sed. Fusce in fringilla ex. Fusce vehicula mollis tortor at accumsan. Integer fringilla metus nec turpis mattis, eu posuere arcu facilisis. Donec vel malesuada nisi. Nam ac imperdiet magna. Nunc aliquam varius tempor. Ut vulputate tincidunt elit eu condimentum.",
     "price": 22.0,
-    "startDate": "2025-01-01T00:00:00+02:00",
-    "endDate": "2025-01-02T00:00:00+02:00",
+    "startDate": "2025-01-01T00:00:00Z",
+    "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800",
-    "eventCategoryId": 0
+    "eventCategoryId": 0,
+    "eventTypes": [1, 2, 3, 4]
   },
   {
     "id": 25,
@@ -319,9 +343,10 @@
     "headline": "This is a headline",
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at nunc tempus est condimentum vulputate. Cras sit amet ipsum elementum, dapibus odio et, efficitur est. Aenean nisi arcu, aliquam sit amet consectetur nec, interdum nec nibh. Quisque quis urna consequat, pretium nibh quis, placerat nunc. Praesent sodales, augue et tincidunt condimentum, neque mi gravida orci, at lobortis velit risus quis diam. Etiam aliquet facilisis mi, quis molestie arcu tempor ac. Sed feugiat sodales ligula, eu rhoncus libero. Proin a nunc quis eros euismod dignissim in vitae nulla. Fusce consequat suscipit metus, non lobortis arcu porttitor sed. Fusce in fringilla ex. Fusce vehicula mollis tortor at accumsan. Integer fringilla metus nec turpis mattis, eu posuere arcu facilisis. Donec vel malesuada nisi. Nam ac imperdiet magna. Nunc aliquam varius tempor. Ut vulputate tincidunt elit eu condimentum.",
     "price": 15.0,
-    "startDate": "2025-01-01T00:00:00+02:00",
-    "endDate": "2025-01-02T00:00:00+02:00",
+    "startDate": "2025-01-01T00:00:00Z",
+    "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=800",
-    "eventCategoryId": 0
+    "eventCategoryId": 0,
+    "eventTypes": [1, 2, 3, 4]
   }
 ]

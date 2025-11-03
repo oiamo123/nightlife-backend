@@ -10,7 +10,8 @@ import promosRouter from "./routes/promotions/promotions.ts";
 import searchRouter from "./routes/search/search.js";
 import tilesRouter from "./routes/tiles/tiles.js";
 import venuesRouter from "./routes/venues/venues.ts";
-import metaRouter from "./routes/meta/categories.ts";
+import metaRouter from "./routes/meta/meta.ts";
+import locationsRouter from "./routes/locations/locations.ts";
 
 const app: Express = express();
 app.use(cors());
@@ -26,6 +27,7 @@ app.use("/search", searchRouter);
 app.use("/tiles", tilesRouter);
 app.use("/venues", venuesRouter);
 app.use("/meta", metaRouter);
+app.use("/locations", locationsRouter);
 
 app.listen(PORT, () => {
   console.log(`Server listening at http://localhost:${3000}`);

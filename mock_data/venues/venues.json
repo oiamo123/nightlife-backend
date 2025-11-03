@@ -8,6 +8,7 @@
     "description": "A chic lounge with live music and craft cocktails.",
     "image": "https://picsum.photos/200/150",
     "phoneNumber": "+1 555-123-4567",
-    "email": "info@bluevelvetlounge.com"
+    "email": "info@bluevelvetlounge.com",
+    "venueTypes": [1]
   }
 ]

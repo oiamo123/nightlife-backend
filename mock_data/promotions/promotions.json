@@ -8,8 +8,9 @@
     "headline": "Package discount coupon",
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at nunc tempus est condimentum vulputate. Cras sit amet ipsum elementum, dapibus odio et, efficitur est. Aenean nisi arcu, aliquam sit amet consectetur nec, interdum nec nibh. Quisque quis urna consequat, pretium nibh quis, placerat nunc. Praesent sodales, augue et tincidunt condimentum, neque mi gravida orci, at lobortis velit risus quis diam. Etiam aliquet facilisis mi, quis molestie arcu tempor ac. Sed feugiat sodales ligula, eu rhoncus libero. Proin a nunc quis eros euismod dignissim in vitae nulla. Fusce consequat suscipit metus, non lobortis arcu porttitor sed. Fusce in fringilla ex. Fusce vehicula mollis tortor at accumsan. Integer fringilla metus nec turpis mattis, eu posuere arcu facilisis. Donec vel malesuada nisi. Nam ac imperdiet magna. Nunc aliquam varius tempor. Ut vulputate tincidunt elit eu condimentum.",
     "image": "https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=800",
-    "startDate": "2025-10-15T00:00:00.000Z",
-    "endDate": "2025-10-31T23:59:59.000Z"
+    "startDate": "2025-10-15T00:00:00Z",
+    "endDate": "2025-10-31T23:59:59Z",
+    "promotionTypes": [1, 2, 3]
   },
   {
     "id": 2,
@@ -20,8 +21,9 @@
     "headline": "Discount on first order",
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at nunc tempus est condimentum vulputate. Cras sit amet ipsum elementum, dapibus odio et, efficitur est. Aenean nisi arcu, aliquam sit amet consectetur nec, interdum nec nibh. Quisque quis urna consequat, pretium nibh quis, placerat nunc. Praesent sodales, augue et tincidunt condimentum, neque mi gravida orci, at lobortis velit risus quis diam. Etiam aliquet facilisis mi, quis molestie arcu tempor ac. Sed feugiat sodales ligula, eu rhoncus libero. Proin a nunc quis eros euismod dignissim in vitae nulla. Fusce consequat suscipit metus, non lobortis arcu porttitor sed. Fusce in fringilla ex. Fusce vehicula mollis tortor at accumsan. Integer fringilla metus nec turpis mattis, eu posuere arcu facilisis. Donec vel malesuada nisi. Nam ac imperdiet magna. Nunc aliquam varius tempor. Ut vulputate tincidunt elit eu condimentum.",
     "image": "https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=800",
-    "startDate": "2025-10-14T00:00:00.000Z",
-    "endDate": "2025-11-15T23:59:59.000Z"
+    "startDate": "2025-10-14T00:00:00Z",
+    "endDate": "2025-11-15T23:59:59Z",
+    "promotionTypes": [1, 2, 3]
   },
   {
     "id": 3,
@@ -32,8 +34,9 @@
     "headline": "Package discount coupon",
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at nunc tempus est condimentum vulputate. Cras sit amet ipsum elementum, dapibus odio et, efficitur est. Aenean nisi arcu, aliquam sit amet consectetur nec, interdum nec nibh. Quisque quis urna consequat, pretium nibh quis, placerat nunc. Praesent sodales, augue et tincidunt condimentum, neque mi gravida orci, at lobortis velit risus quis diam. Etiam aliquet facilisis mi, quis molestie arcu tempor ac. Sed feugiat sodales ligula, eu rhoncus libero. Proin a nunc quis eros euismod dignissim in vitae nulla. Fusce consequat suscipit metus, non lobortis arcu porttitor sed. Fusce in fringilla ex. Fusce vehicula mollis tortor at accumsan. Integer fringilla metus nec turpis mattis, eu posuere arcu facilisis. Donec vel malesuada nisi. Nam ac imperdiet magna. Nunc aliquam varius tempor. Ut vulputate tincidunt elit eu condimentum.",
     "image": "https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=800",
-    "startDate": "2025-10-16T00:00:00.000Z",
-    "endDate": "2025-12-01T23:59:59.000Z"
+    "startDate": "2025-10-16T00:00:00Z",
+    "endDate": "2025-12-01T23:59:59Z",
+    "promotionTypes": [1, 2, 3]
   },
   {
     "id": 4,
@@ -44,8 +47,9 @@
     "headline": "Package discount coupon",
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at nunc tempus est condimentum vulputate. Cras sit amet ipsum elementum, dapibus odio et, efficitur est. Aenean nisi arcu, aliquam sit amet consectetur nec, interdum nec nibh. Quisque quis urna consequat, pretium nibh quis, placerat nunc. Praesent sodales, augue et tincidunt condimentum, neque mi gravida orci, at lobortis velit risus quis diam. Etiam aliquet facilisis mi, quis molestie arcu tempor ac. Sed feugiat sodales ligula, eu rhoncus libero. Proin a nunc quis eros euismod dignissim in vitae nulla. Fusce consequat suscipit metus, non lobortis arcu porttitor sed. Fusce in fringilla ex. Fusce vehicula mollis tortor at accumsan. Integer fringilla metus nec turpis mattis, eu posuere arcu facilisis. Donec vel malesuada nisi. Nam ac imperdiet magna. Nunc aliquam varius tempor. Ut vulputate tincidunt elit eu condimentum.",
     "image": "https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=800",
-    "startDate": "2025-10-20T00:00:00.000Z",
-    "endDate": "2025-11-30T23:59:59.000Z"
+    "startDate": "2025-10-20T00:00:00Z",
+    "endDate": "2025-11-30T23:59:59Z",
+    "promotionTypes": [1, 2, 3]
   },
   {
     "id": 5,
@@ -56,8 +60,9 @@
     "headline": "Special discount for groups",
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at nunc tempus est condimentum vulputate. Cras sit amet ipsum elementum, dapibus odio et, efficitur est. Aenean nisi arcu, aliquam sit amet consectetur nec, interdum nec nibh. Quisque quis urna consequat, pretium nibh quis, placerat nunc. Praesent sodales, augue et tincidunt condimentum, neque mi gravida orci, at lobortis velit risus quis diam. Etiam aliquet facilisis mi, quis molestie arcu tempor ac. Sed feugiat sodales ligula, eu rhoncus libero. Proin a nunc quis eros euismod dignissim in vitae nulla. Fusce consequat suscipit metus, non lobortis arcu porttitor sed. Fusce in fringilla ex. Fusce vehicula mollis tortor at accumsan. Integer fringilla metus nec turpis mattis, eu posuere arcu facilisis. Donec vel malesuada nisi. Nam ac imperdiet magna. Nunc aliquam varius tempor. Ut vulputate tincidunt elit eu condimentum.",
     "image": "https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=800",
-    "startDate": "2025-10-18T00:00:00.000Z",
-    "endDate": "2025-11-10T23:59:59.000Z"
+    "startDate": "2025-10-18T00:00:00Z",
+    "endDate": "2025-11-10T23:59:59Z",
+    "promotionTypes": [1, 2, 3]
   },
   {
     "id": 6,
@@ -68,8 +73,9 @@
     "headline": "Package discount coupon",
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at nunc tempus est condimentum vulputate. Cras sit amet ipsum elementum, dapibus odio et, efficitur est. Aenean nisi arcu, aliquam sit amet consectetur nec, interdum nec nibh. Quisque quis urna consequat, pretium nibh quis, placerat nunc. Praesent sodales, augue et tincidunt condimentum, neque mi gravida orci, at lobortis velit risus quis diam. Etiam aliquet facilisis mi, quis molestie arcu tempor ac. Sed feugiat sodales ligula, eu rhoncus libero. Proin a nunc quis eros euismod dignissim in vitae nulla. Fusce consequat suscipit metus, non lobortis arcu porttitor sed. Fusce in fringilla ex. Fusce vehicula mollis tortor at accumsan. Integer fringilla metus nec turpis mattis, eu posuere arcu facilisis. Donec vel malesuada nisi. Nam ac imperdiet magna. Nunc aliquam varius tempor. Ut vulputate tincidunt elit eu condimentum.",
     "image": "https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=800",
-    "startDate": "2025-10-22T00:00:00.000Z",
-    "endDate": "2025-11-22T23:59:59.000Z"
+    "startDate": "2025-10-22T00:00:00Z",
+    "endDate": "2025-11-22T23:59:59Z",
+    "promotionTypes": [1, 2, 3]
   },
   {
     "id": 7,
@@ -80,8 +86,9 @@
     "headline": "Bulk discount available",
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at nunc tempus est condimentum vulputate. Cras sit amet ipsum elementum, dapibus odio et, efficitur est. Aenean nisi arcu, aliquam sit amet consectetur nec, interdum nec nibh. Quisque quis urna consequat, pretium nibh quis, placerat nunc. Praesent sodales, augue et tincidunt condimentum, neque mi gravida orci, at lobortis velit risus quis diam. Etiam aliquet facilisis mi, quis molestie arcu tempor ac. Sed feugiat sodales ligula, eu rhoncus libero. Proin a nunc quis eros euismod dignissim in vitae nulla. Fusce consequat suscipit metus, non lobortis arcu porttitor sed. Fusce in fringilla ex. Fusce vehicula mollis tortor at accumsan. Integer fringilla metus nec turpis mattis, eu posuere arcu facilisis. Donec vel malesuada nisi. Nam ac imperdiet magna. Nunc aliquam varius tempor. Ut vulputate tincidunt elit eu condimentum.",
     "image": "https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=800",
-    "startDate": "2025-10-25T00:00:00.000Z",
-    "endDate": "2025-12-15T23:59:59.000Z"
+    "startDate": "2025-10-25T00:00:00Z",
+    "endDate": "2025-12-15T23:59:59Z",
+    "promotionTypes": [1, 2, 3]
   },
   {
     "id": 8,
@@ -92,7 +99,8 @@
     "headline": "Premium drinks discount",
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at nunc tempus est condimentum vulputate. Cras sit amet ipsum elementum, dapibus odio et, efficitur est. Aenean nisi arcu, aliquam sit amet consectetur nec, interdum nec nibh. Quisque quis urna consequat, pretium nibh quis, placerat nunc. Praesent sodales, augue et tincidunt condimentum, neque mi gravida orci, at lobortis velit risus quis diam. Etiam aliquet facilisis mi, quis molestie arcu tempor ac. Sed feugiat sodales ligula, eu rhoncus libero. Proin a nunc quis eros euismod dignissim in vitae nulla. Fusce consequat suscipit metus, non lobortis arcu porttitor sed. Fusce in fringilla ex. Fusce vehicula mollis tortor at accumsan. Integer fringilla metus nec turpis mattis, eu posuere arcu facilisis. Donec vel malesuada nisi. Nam ac imperdiet magna. Nunc aliquam varius tempor. Ut vulputate tincidunt elit eu condimentum.",
     "image": "https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=800",
-    "startDate": "2025-10-17T00:00:00.000Z",
-    "endDate": "2025-11-17T23:59:59.000Z"
+    "startDate": "2025-10-17T00:00:00Z",
+    "endDate": "2025-11-17T23:59:59Z",
+    "promotionTypes": [1, 2, 3]
   }
 ]
