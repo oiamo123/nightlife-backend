@@ -48,6 +48,7 @@ CREATE TABLE "Country" (
 CREATE TABLE "State" (
     "id" SERIAL NOT NULL,
     "state" TEXT NOT NULL,
+    "iso2" TEXT NOT NULL,
     "countryId" INTEGER NOT NULL,
 
     CONSTRAINT "State_pkey" PRIMARY KEY ("id")
@@ -57,6 +58,7 @@ CREATE TABLE "State" (
 CREATE TABLE "City" (
     "id" SERIAL NOT NULL,
     "city" TEXT NOT NULL,
+    "geom" geometry(Point,4326) NOT NULL,
     "countryId" INTEGER NOT NULL,
     "stateId" INTEGER,
     "timeZoneId" INTEGER NOT NULL,
@@ -93,7 +95,7 @@ CREATE TABLE "Event" (
     "startDate" TIMESTAMP(3) NOT NULL,
     "endDate" TIMESTAMP(3) NOT NULL,
     "image" TEXT,
-    "eventCategoryId" INTEGER NOT NULL,
+    "eventTypeId" INTEGER NOT NULL,
 
     CONSTRAINT "Event_pkey" PRIMARY KEY ("id")
 );
@@ -127,7 +129,7 @@ CREATE TABLE "Promotion" (
     "startDate" TIMESTAMP(3) NOT NULL,
     "endDate" TIMESTAMP(3) NOT NULL,
     "image" TEXT,
-    "promotionCategoryId" INTEGER NOT NULL,
+    "promotionTypeId" INTEGER NOT NULL,
 
     CONSTRAINT "Promotion_pkey" PRIMARY KEY ("id")
 );
@@ -151,6 +153,14 @@ CREATE TABLE "Venue" (
     "image" TEXT,
     "phoneNumber" TEXT,
     "email" TEXT,
+    "opensAt" DOUBLE PRECISION NOT NULL,
+    "closesAt" DOUBLE PRECISION NOT NULL,
+    "verified" BOOLEAN NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL,
+    "ageRestriction" INTEGER NOT NULL,
+    "isOutdoor" BOOLEAN NOT NULL,
+    "isAccessible" BOOLEAN NOT NULL,
+    "venueTypeId" INTEGER NOT NULL,
 
     CONSTRAINT "Venue_pkey" PRIMARY KEY ("id")
 );
@@ -288,27 +298,11 @@ CREATE TABLE "Ticket" (
 );
 
 -- CreateTable
-CREATE TABLE "_EventEventType" (
+CREATE TABLE "_VenueMusicType" (
     "A" INTEGER NOT NULL,
     "B" INTEGER NOT NULL,
 
-    CONSTRAINT "_EventEventType_AB_pkey" PRIMARY KEY ("A","B")
-);
-
--- CreateTable
-CREATE TABLE "_PromotionPromotionType" (
-    "A" INTEGER NOT NULL,
-    "B" INTEGER NOT NULL,
-
-    CONSTRAINT "_PromotionPromotionType_AB_pkey" PRIMARY KEY ("A","B")
-);
-
--- CreateTable
-CREATE TABLE "_VenueTypeType" (
-    "A" INTEGER NOT NULL,
-    "B" INTEGER NOT NULL,
-
-    CONSTRAINT "_VenueTypeType_AB_pkey" PRIMARY KEY ("A","B")
+    CONSTRAINT "_VenueMusicType_AB_pkey" PRIMARY KEY ("A","B")
 );
 
 -- CreateTable
@@ -369,22 +363,31 @@ CREATE INDEX "Location_lat_lng_idx" ON "Location"("lat", "lng");
 CREATE INDEX "City_city_idx" ON "City"("city");
 
 -- CreateIndex
+CREATE INDEX "Event_venueId_idx" ON "Event"("venueId");
+
+-- CreateIndex
+CREATE INDEX "Event_eventTypeId_idx" ON "Event"("eventTypeId");
+
+-- CreateIndex
 CREATE INDEX "Event_locationId_idx" ON "Event"("locationId");
+
+-- CreateIndex
+CREATE INDEX "Promotion_venueId_idx" ON "Promotion"("venueId");
+
+-- CreateIndex
+CREATE INDEX "Promotion_promotionTypeId_idx" ON "Promotion"("promotionTypeId");
 
 -- CreateIndex
 CREATE INDEX "Promotion_locationId_idx" ON "Promotion"("locationId");
 
 -- CreateIndex
+CREATE INDEX "Venue_venueTypeId_idx" ON "Venue"("venueTypeId");
+
+-- CreateIndex
 CREATE INDEX "Venue_locationId_idx" ON "Venue"("locationId");
 
 -- CreateIndex
-CREATE INDEX "_EventEventType_B_index" ON "_EventEventType"("B");
-
--- CreateIndex
-CREATE INDEX "_PromotionPromotionType_B_index" ON "_PromotionPromotionType"("B");
-
--- CreateIndex
-CREATE INDEX "_VenueTypeType_B_index" ON "_VenueTypeType"("B");
+CREATE INDEX "_VenueMusicType_B_index" ON "_VenueMusicType"("B");
 
 -- CreateIndex
 CREATE INDEX "_VenueFollowers_B_index" ON "_VenueFollowers"("B");
@@ -432,7 +435,7 @@ ALTER TABLE "Event" ADD CONSTRAINT "Event_venueId_fkey" FOREIGN KEY ("venueId") 
 ALTER TABLE "Event" ADD CONSTRAINT "Event_locationId_fkey" FOREIGN KEY ("locationId") REFERENCES "Location"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Event" ADD CONSTRAINT "Event_eventCategoryId_fkey" FOREIGN KEY ("eventCategoryId") REFERENCES "EventCategory"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Event" ADD CONSTRAINT "Event_eventTypeId_fkey" FOREIGN KEY ("eventTypeId") REFERENCES "EventType"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "PromotionType" ADD CONSTRAINT "PromotionType_promotionCategoryId_fkey" FOREIGN KEY ("promotionCategoryId") REFERENCES "PromotionCategory"("id") ON DELETE SET NULL ON UPDATE CASCADE;
@@ -444,10 +447,13 @@ ALTER TABLE "Promotion" ADD CONSTRAINT "Promotion_venueId_fkey" FOREIGN KEY ("ve
 ALTER TABLE "Promotion" ADD CONSTRAINT "Promotion_locationId_fkey" FOREIGN KEY ("locationId") REFERENCES "Location"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Promotion" ADD CONSTRAINT "Promotion_promotionCategoryId_fkey" FOREIGN KEY ("promotionCategoryId") REFERENCES "PromotionCategory"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Promotion" ADD CONSTRAINT "Promotion_promotionTypeId_fkey" FOREIGN KEY ("promotionTypeId") REFERENCES "PromotionType"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Venue" ADD CONSTRAINT "Venue_locationId_fkey" FOREIGN KEY ("locationId") REFERENCES "Location"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Venue" ADD CONSTRAINT "Venue_venueTypeId_fkey" FOREIGN KEY ("venueTypeId") REFERENCES "VenueType"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "UserPermission" ADD CONSTRAINT "UserPermission_accountId_fkey" FOREIGN KEY ("accountId") REFERENCES "Account"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -498,22 +504,10 @@ ALTER TABLE "Ticket" ADD CONSTRAINT "Ticket_eventId_fkey" FOREIGN KEY ("eventId"
 ALTER TABLE "Ticket" ADD CONSTRAINT "Ticket_transactionId_fkey" FOREIGN KEY ("transactionId") REFERENCES "Transaction"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "_EventEventType" ADD CONSTRAINT "_EventEventType_A_fkey" FOREIGN KEY ("A") REFERENCES "Event"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "_VenueMusicType" ADD CONSTRAINT "_VenueMusicType_A_fkey" FOREIGN KEY ("A") REFERENCES "EventType"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "_EventEventType" ADD CONSTRAINT "_EventEventType_B_fkey" FOREIGN KEY ("B") REFERENCES "EventType"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "_PromotionPromotionType" ADD CONSTRAINT "_PromotionPromotionType_A_fkey" FOREIGN KEY ("A") REFERENCES "Promotion"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "_PromotionPromotionType" ADD CONSTRAINT "_PromotionPromotionType_B_fkey" FOREIGN KEY ("B") REFERENCES "PromotionType"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "_VenueTypeType" ADD CONSTRAINT "_VenueTypeType_A_fkey" FOREIGN KEY ("A") REFERENCES "Venue"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "_VenueTypeType" ADD CONSTRAINT "_VenueTypeType_B_fkey" FOREIGN KEY ("B") REFERENCES "VenueType"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "_VenueMusicType" ADD CONSTRAINT "_VenueMusicType_B_fkey" FOREIGN KEY ("B") REFERENCES "Venue"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_VenueFollowers" ADD CONSTRAINT "_VenueFollowers_A_fkey" FOREIGN KEY ("A") REFERENCES "Account"("id") ON DELETE CASCADE ON UPDATE CASCADE;

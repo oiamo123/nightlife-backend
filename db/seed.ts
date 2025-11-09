@@ -5,26 +5,23 @@ import locations from "../mock_data/locations/locations.json" with { type: "json
 import venues from "../mock_data/venues/venues.json" with { type: "json" };
 import promotions from "../mock_data/promotions/promotions.json" with { type: "json" };
 import events from "../mock_data/events/events.json" with { type: "json" };
-import currencyCodes from "../mock_data/meta/currency_code.json" with { type: "json" };
 import eventCategories from "../mock_data/meta/event_categories.json" with { type: "json" };
 import eventTypes from "../mock_data/meta/event_types.json" with { type: "json" };
 import promotionCategories from "../mock_data/meta/promotion_categories.json" with { type: "json" }
 import promotionTypes from "../mock_data/meta/promotion_types.json" with { type: "json" };
 import venueTypes from "../mock_data/meta/venue_types.json" with { type: "json" };
-
 import accounts from "../mock_data/account/account.json" with { type: "json" };
 import userPermissions from "../mock_data/account/permissions.json" with { type: "json" }
 import permissionsFor from "../mock_data/meta//account/permission_for.json" with { type: "json" }
 import permissionType from "../mock_data/meta/account/permission_type.json" with { type: "json" }
-
 import countryStateCity from "../mock_data/countries/countries+states+cities.json" with { type: "json" }
-import { count } from "console";
 
 const prisma = new PrismaClient();
 
 async function main() {
-  for (const country of countryStateCity) {
-    const currency = await prisma.currencyCode.create({
+  for (const country of countryStateCity as any[]) {
+    if (country.name === "Canada" || country.name === "United States") {
+          const currency = await prisma.currencyCode.create({
       data: {
         currencyCode: country.currency,
         currencySymbol: country.currency_symbol
@@ -61,6 +58,7 @@ async function main() {
       const newProvince = await prisma.state.create({
         data: {
           state: state.name.toLowerCase(),
+          iso2: state.iso2.toLowerCase(),
           countryId: newCountry.id,
         }
       })
@@ -69,16 +67,13 @@ async function main() {
         where: { zoneName: state.timezone },
       });
 
-      for (const city of state.cities) {
-        await prisma.city.create({
-          data: {
-            city: city.name.toLowerCase(),
-            timeZoneId: tz.id,
-            stateId: newProvince.id,
-            countryId: newCountry.id,
-          }
-        })
+      for (const city of state.cities) {        
+        await prisma.$executeRaw`
+          INSERT INTO "City" ("city", "geom", "countryId", "stateId", "timeZoneId")
+          VALUES (${city.name.toLowerCase()}, ST_SetSRID(ST_MakePoint(${Number(city.latitude)}, ${Number(city.longitude)}), 4326), ${newCountry.id}, ${newProvince.id}, ${tz?.id ?? 0});
+        `;
       }
+    }
     }
   }
 
@@ -113,8 +108,8 @@ async function main() {
     await prisma.venue.create({ 
       data: { 
         ...val, 
-        venueTypes: {
-          connect: val.venueTypes.map((venueType: number) => ({ id: venueType }))
+        musicGenres: {
+          connect: val.musicGenres.map((musicGenre: number) => ({ id: musicGenre }))
         }
       } 
     })
@@ -124,9 +119,6 @@ async function main() {
     await prisma.promotion.create({ 
       data: { 
         ...val, 
-        promotionTypes: {
-          connect: val.promotionTypes.map((promoType: number) => ({ id: promoType }))
-        }
       } 
     })
   }
@@ -135,9 +127,6 @@ async function main() {
     await prisma.event.create({ 
       data: { 
         ...val, 
-        eventTypes: {
-          connect: val.eventTypes.map((eventType: number) => ({ id: eventType }))
-        }
       } 
     })
   }

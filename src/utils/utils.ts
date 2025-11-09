@@ -1,7 +1,5 @@
-import Response from "express";
-
-export const parseBounds = function (bounds: string): number[] {
-  const [swLat, swLng, neLat, neLng] = bounds.split(",").map(Number);
+export const parseBounds = function (bounds: number[]): number[] {
+  const [swLat, swLng, neLat, neLng] = bounds;
 
   const minLat = Math.min(swLat, neLat);
   const maxLat = Math.max(swLat, neLat);

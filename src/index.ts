@@ -12,6 +12,7 @@ import tilesRouter from "./routes/tiles/tiles.js";
 import venuesRouter from "./routes/venues/venues.ts";
 import metaRouter from "./routes/meta/meta.ts";
 import locationsRouter from "./routes/locations/locations.ts";
+import discoverRouter from "./routes/discover/discovery.ts";
 
 const app: Express = express();
 app.use(cors());
@@ -28,6 +29,7 @@ app.use("/tiles", tilesRouter);
 app.use("/venues", venuesRouter);
 app.use("/meta", metaRouter);
 app.use("/locations", locationsRouter);
+app.use("/discover", discoverRouter);
 
 app.listen(PORT, () => {
   console.log(`Server listening at http://localhost:${3000}`);

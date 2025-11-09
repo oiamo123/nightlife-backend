@@ -19,13 +19,16 @@ export function validate<T extends ZodType>({
 
         return failure({
           res,
+          // @ts-ignore
           validation: result.error.issues.map((issue) => issue.path[0]),
         });
       } else {
-        Object.assign(req[source], result.data);
+        (req as any).validatedData = result.data;
         next();
       }
     } catch (err: any) {
+      console.error(err);
+
       return error({
         res,
       });

@@ -10,12 +10,11 @@
     "startDate": "2025-01-01T00:00:00Z",
     "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=800",
-    "eventCategoryId": 0,
-    "eventTypes": [1, 2, 3, 4]
+    "eventTypeId": 1
   },
   {
     "id": 2,
-    "venueId": 0,
+    "venueId": 1,
     "locationId": 2,
     "title": "Rooftop Jazz Evening",
     "headline": "This is a headline",
@@ -24,12 +23,11 @@
     "startDate": "2025-01-01T00:00:00Z",
     "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800",
-    "eventCategoryId": 0,
-    "eventTypes": [1, 2, 3, 4]
+    "eventTypeId": 2
   },
   {
     "id": 3,
-    "venueId": 0,
+    "venueId": 2,
     "locationId": 3,
     "title": "Latin Night Fiesta",
     "headline": "This is a headline",
@@ -38,8 +36,7 @@
     "startDate": "2025-01-01T00:00:00Z",
     "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800",
-    "eventCategoryId": 0,
-    "eventTypes": [1, 2, 3, 4]
+    "eventTypeId": 3
   },
   {
     "id": 4,
@@ -52,12 +49,11 @@
     "startDate": "2025-01-01T00:00:00Z",
     "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800",
-    "eventCategoryId": 0,
-    "eventTypes": [1, 2, 3, 4]
+    "eventTypeId": 4
   },
   {
     "id": 5,
-    "venueId": 0,
+    "venueId": 1,
     "locationId": 5,
     "title": "EDM Festival Night",
     "headline": "This is a headline",
@@ -66,8 +62,7 @@
     "startDate": "2025-01-01T00:00:00Z",
     "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?w=800",
-    "eventCategoryId": 0,
-    "eventTypes": [1, 2, 3, 4]
+    "eventTypeId": 5
   },
   {
     "id": 6,
@@ -80,12 +75,11 @@
     "startDate": "2025-01-01T00:00:00Z",
     "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=800",
-    "eventCategoryId": 0,
-    "eventTypes": [1, 2, 3, 4]
+    "eventTypeId": 6
   },
   {
     "id": 7,
-    "venueId": 0,
+    "venueId": 2,
     "locationId": 7,
     "title": "Hip-Hop Block Party",
     "headline": "This is a headline",
@@ -94,8 +88,7 @@
     "startDate": "2025-01-01T00:00:00Z",
     "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1506157786151-b8491531f063?w=800",
-    "eventCategoryId": 0,
-    "eventTypes": [1, 2, 3, 4]
+    "eventTypeId": 7
   },
   {
     "id": 8,
@@ -108,12 +101,11 @@
     "startDate": "2025-01-01T00:00:00Z",
     "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1571266028243-d220c2ccb3ee?w=800",
-    "eventCategoryId": 0,
-    "eventTypes": [1, 2, 3, 4]
+    "eventTypeId": 8
   },
   {
     "id": 9,
-    "venueId": 0,
+    "venueId": 1,
     "locationId": 9,
     "title": "Retro 80s Dance Party",
     "headline": "This is a headline",
@@ -122,12 +114,11 @@
     "startDate": "2025-01-01T00:00:00Z",
     "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1516997121675-4c2d1684aa3e?w=800",
-    "eventCategoryId": 0,
-    "eventTypes": [1, 2, 3, 4]
+    "eventTypeId": 9
   },
   {
     "id": 10,
-    "venueId": 0,
+    "venueId": 2,
     "locationId": 10,
     "title": "Live Band Showcase",
     "headline": "This is a headline",
@@ -136,8 +127,7 @@
     "startDate": "2025-01-01T00:00:00Z",
     "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=800",
-    "eventCategoryId": 0,
-    "eventTypes": [1, 2, 3, 4]
+    "eventTypeId": 10
   },
   {
     "id": 11,
@@ -150,8 +140,7 @@
     "startDate": "2025-01-01T00:00:00Z",
     "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=800",
-    "eventCategoryId": 0,
-    "eventTypes": [1, 2, 3, 4]
+    "eventTypeId": 1
   },
   {
     "id": 12,
@@ -164,12 +153,11 @@
     "startDate": "2025-01-01T00:00:00Z",
     "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1574391884720-bbc4b93ce850?w=800",
-    "eventCategoryId": 0,
-    "eventTypes": [1, 2, 3, 4]
+    "eventTypeId": 2
   },
   {
     "id": 13,
-    "venueId": 0,
+    "venueId": 1,
     "locationId": 13,
     "title": "Salsa Dancing Lessons",
     "headline": "This is a headline",
@@ -178,12 +166,11 @@
     "startDate": "2025-01-01T00:00:00Z",
     "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800",
-    "eventCategoryId": 0,
-    "eventTypes": [1, 2, 3, 4]
+    "eventTypeId": 3
   },
   {
     "id": 14,
-    "venueId": 0,
+    "venueId": 2,
     "locationId": 14,
     "title": "Acoustic Open Mic",
     "headline": "This is a headline",
@@ -192,8 +179,7 @@
     "startDate": "2025-01-01T00:00:00Z",
     "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800",
-    "eventCategoryId": 0,
-    "eventTypes": [1, 2, 3, 4]
+    "eventTypeId": 4
   },
   {
     "id": 15,
@@ -206,12 +192,11 @@
     "startDate": "2025-01-01T00:00:00Z",
     "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=800",
-    "eventCategoryId": 0,
-    "eventTypes": [1, 2, 3, 4]
+    "eventTypeId": 5
   },
   {
     "id": 16,
-    "venueId": 0,
+    "venueId": 1,
     "locationId": 16,
     "title": "Reggae Sunset Session",
     "headline": "This is a headline",
@@ -220,12 +205,11 @@
     "startDate": "2025-01-01T00:00:00Z",
     "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800",
-    "eventCategoryId": 0,
-    "eventTypes": [1, 2, 3, 4]
+    "eventTypeId": 6
   },
   {
     "id": 17,
-    "venueId": 0,
+    "venueId": 2,
     "locationId": 17,
     "title": "Pool Tournament Night",
     "headline": "This is a headline",
@@ -234,8 +218,7 @@
     "startDate": "2025-01-01T00:00:00Z",
     "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800",
-    "eventCategoryId": 0,
-    "eventTypes": [1, 2, 3, 4]
+    "eventTypeId": 7
   },
   {
     "id": 18,
@@ -248,12 +231,11 @@
     "startDate": "2025-01-01T00:00:00Z",
     "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=800",
-    "eventCategoryId": 0,
-    "eventTypes": [1, 2, 3, 4]
+    "eventTypeId": 8
   },
   {
     "id": 19,
-    "venueId": 0,
+    "venueId": 1,
     "locationId": 19,
     "title": "Craft Beer Tasting",
     "headline": "This is a headline",
@@ -262,12 +244,11 @@
     "startDate": "2025-01-01T00:00:00Z",
     "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800",
-    "eventCategoryId": 0,
-    "eventTypes": [1, 2, 3, 4]
+    "eventTypeId": 9
   },
   {
     "id": 20,
-    "venueId": 0,
+    "venueId": 2,
     "locationId": 20,
     "title": "New Year's Eve Gala",
     "headline": "This is a headline",
@@ -276,12 +257,11 @@
     "startDate": "2025-01-01T00:00:00Z",
     "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800",
-    "eventCategoryId": 0,
-    "eventTypes": [1, 2, 3, 4]
+    "eventTypeId": 10
   },
   {
     "id": 21,
-    "venueId": 0,
+    "venueId": 1,
     "locationId": 21,
     "title": "Speed Dating Night",
     "headline": "This is a headline",
@@ -290,12 +270,11 @@
     "startDate": "2025-01-01T00:00:00Z",
     "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1516997121675-4c2d1684aa3e?w=800",
-    "eventCategoryId": 0,
-    "eventTypes": [1, 2, 3, 4]
+    "eventTypeId": 1
   },
   {
     "id": 22,
-    "venueId": 0,
+    "venueId": 2,
     "locationId": 22,
     "title": "Techno Underground",
     "headline": "This is a headline",
@@ -304,8 +283,7 @@
     "startDate": "2025-01-01T00:00:00Z",
     "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800",
-    "eventCategoryId": 0,
-    "eventTypes": [1, 2, 3, 4]
+    "eventTypeId": 2
   },
   {
     "id": 23,
@@ -318,12 +296,11 @@
     "startDate": "2025-01-01T00:00:00Z",
     "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=800",
-    "eventCategoryId": 0,
-    "eventTypes": [1, 2, 3, 4]
+    "eventTypeId": 3
   },
   {
     "id": 24,
-    "venueId": 0,
+    "venueId": 1,
     "locationId": 24,
     "title": "Drag Queen Bingo",
     "headline": "This is a headline",
@@ -332,12 +309,11 @@
     "startDate": "2025-01-01T00:00:00Z",
     "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800",
-    "eventCategoryId": 0,
-    "eventTypes": [1, 2, 3, 4]
+    "eventTypeId": 4
   },
   {
     "id": 25,
-    "venueId": 0,
+    "venueId": 2,
     "locationId": 25,
     "title": "Rooftop Movie Night",
     "headline": "This is a headline",
@@ -346,7 +322,6 @@
     "startDate": "2025-01-01T00:00:00Z",
     "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=800",
-    "eventCategoryId": 0,
-    "eventTypes": [1, 2, 3, 4]
+    "eventTypeId": 5
   }
 ]
