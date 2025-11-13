@@ -10,10 +10,9 @@ import eventTypes from "../mock_data/meta/event_types.json" with { type: "json" 
 import promotionCategories from "../mock_data/meta/promotion_categories.json" with { type: "json" }
 import promotionTypes from "../mock_data/meta/promotion_types.json" with { type: "json" };
 import venueTypes from "../mock_data/meta/venue_types.json" with { type: "json" };
-import accounts from "../mock_data/account/account.json" with { type: "json" };
-import userPermissions from "../mock_data/account/permissions.json" with { type: "json" }
 import permissionsFor from "../mock_data/meta//account/permission_for.json" with { type: "json" }
 import permissionType from "../mock_data/meta/account/permission_type.json" with { type: "json" }
+import userRoles from "../mock_data/meta/user_roles.json" with { type: "json" }
 import countryStateCity from "../mock_data/countries/countries+states+cities.json" with { type: "json" }
 
 const prisma = new PrismaClient();
@@ -131,10 +130,6 @@ async function main() {
     })
   }
 
-  for (const val of accounts) {
-    await prisma.account.create({ data: val })
-  }
-
   for (const val of permissionType) {
     await prisma.permissionType.create({ data: val })
   }
@@ -143,8 +138,8 @@ async function main() {
     await prisma.permissionFor.create({ data: val })
   }
 
-  for (const val of userPermissions) {
-    await prisma.userPermission.create({ data: val })
+  for (const val of userRoles) {
+    await prisma.userRole.create({ data: val })
   }
 
   console.log("\n\nSeeding complete\n\n")

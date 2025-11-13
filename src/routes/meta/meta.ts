@@ -1,6 +1,6 @@
 import express from "express";
 import prisma from "../../lib/prisma.ts";
-import { success } from "../../utils/utils.ts";
+import { success } from "../../shared/responses.ts";
 
 const router = express.Router();
 

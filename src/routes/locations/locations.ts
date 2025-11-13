@@ -1,19 +1,19 @@
 import express from "express";
 import prisma from "../../lib/prisma.ts";
-import { success } from "../../utils/utils.ts";
+import { success } from "../../shared/responses.ts";
 import { z } from "zod";
 import { validate } from "../../middleware/middleware.ts";
-import { asNumber, asString } from "../../shared/validation.ts";
+import { query } from "../../shared/validation.ts";
 
 const router = express.Router();
 
 const locationsSchema = z.object({
-  search: asString(),
+  search: query.string(),
 });
 
 const citySchema = z.object({
-  lat: asNumber(),
-  lng: asNumber(),
+  lat: query.number(),
+  lng: query.number(),
 });
 
 router.get(

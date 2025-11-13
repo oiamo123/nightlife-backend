@@ -4,7 +4,7 @@ export const SubcategoryType = {
   Venue: "venue",
 };
 
-export interface FeedItemDTO {
+export type FeedItemDTO = {
   id: number;
   image: string | null;
   title: string;
@@ -13,22 +13,31 @@ export interface FeedItemDTO {
   venueName?: string | null;
   subcategory: string;
   type: string;
-  location?: LocationDTO | null;
-}
+  location: LocationDTO;
+};
 
-export interface Marker {
+export type Marker = {
   lat: number;
   lng: number;
   id: number;
   title: string;
   type: string;
-}
+};
 
-export interface LocationDTO {
+export type CityDTO = {
+  id: number;
+  city: string;
+  countryId: number;
+  stateId: number;
+  timeZoneId: number;
+};
+
+export type LocationDTO = {
   id: number;
   lat: number;
   lng: number;
   zip: string;
   address: string;
   cityId: string;
-}
+  city: CityDTO;
+};

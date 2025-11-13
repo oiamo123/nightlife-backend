@@ -1,18 +1,13 @@
 import { z } from "zod";
-import {
-  asBoolean,
-  asDate,
-  asNumber,
-  asNumberArray,
-  asString,
-} from "../../shared/validation.ts";
+import { query } from "../../shared/validation.ts";
 import express from "express";
 import prisma from "../../lib/prisma.ts";
 import { validate } from "../../middleware/middleware.ts";
 import { DateTime } from "luxon";
-import { parseBounds, success } from "../../utils/utils.ts";
+import { parseBounds } from "../../utils/utils.ts";
+import { success } from "../../shared/responses.ts";
 import { Prisma } from "@prisma/client";
-import type { FeedItemDTO } from "../../shared/models.ts";
+import { type FeedItemDTO } from "../../shared/models.ts";
 import {
   mapEventToFeedItem,
   mapEventToMarker,
@@ -28,28 +23,29 @@ const router = express.Router();
 // Validation Schema
 // =======================================================
 const discoveryFilters = z.object({
-  venueIds: asNumberArray(),
-  promotionIds: asNumberArray(),
-  eventIds: asNumberArray(),
-  venueTypes: asNumberArray(),
-  hasEvents: asBoolean(),
-  hasPromotions: asBoolean(),
-  isAccessible: asBoolean(),
-  isOutdoors: asBoolean(),
-  promotionTypes: asNumberArray(),
-  maxPrice: asNumber(),
-  eventTypes: asNumberArray(),
-  startDate: asDate(),
-  endDate: asDate(),
-  locations: asNumberArray(),
-  bounds: asNumberArray(),
-  coords: asNumberArray(),
-  search: asString(),
+  venueIds: query.numberArray().optional(),
+  promotionIds: query.numberArray().optional(),
+  eventIds: query.numberArray().optional(),
+  venueTypes: query.numberArray().optional(),
+  hasEvents: query.boolean().optional(),
+  hasPromotions: query.boolean().optional(),
+  isAccessible: query.boolean().optional(),
+  isOutdoors: query.boolean().optional(),
+  promotionTypes: query.numberArray().optional(),
+  maxPrice: query.number().optional(),
+  eventTypes: query.numberArray().optional(),
+  startDate: query.date().optional(),
+  endDate: query.date().optional(),
+  locations: query.numberArray().optional(),
+  bounds: query.numberArray().optional(),
+  coords: query.numberArray().optional(),
+  search: query.string().optional(),
+  lastFetchedDate: query.date().optional(),
   view: z.enum(["map", "list"]).default("map"),
 });
 
 // =======================================================
-// Helper Functions
+// "Where" statement creators
 // =======================================================
 function createVenueWhere(filters: any): Prisma.VenueWhereInput {
   const where: Prisma.VenueWhereInput = {};
@@ -81,16 +77,6 @@ function createVenueWhere(filters: any): Prisma.VenueWhereInput {
     ];
   }
 
-  if (
-    filters.locations &&
-    filters.locations.length > 0 &&
-    filters.view === "list"
-  ) {
-    where.location = {
-      cityId: { in: filters.locations },
-    };
-  }
-
   return where;
 }
 
@@ -113,16 +99,6 @@ function createEventWhere(filters: any): Prisma.EventWhereInput {
     ];
   }
 
-  if (
-    filters.locations &&
-    filters.locations.length > 0 &&
-    filters.view === "list"
-  ) {
-    where.location = {
-      cityId: { in: filters.locations },
-    };
-  }
-
   return where;
 }
 
@@ -141,56 +117,44 @@ function createPromotionWhere(filters: any): Prisma.PromotionWhereInput {
     ];
   }
 
-  if (
-    filters.locations &&
-    filters.locations.length > 0 &&
-    filters.view === "list"
-  ) {
-    where.location = {
-      cityId: { in: filters.locations },
-    };
-  }
-
   return where;
 }
 
+// =======================================================
+// Fetches results by their specific ID's
+// =======================================================
 async function fetchDataByIds(
   venueIds: number[],
   promotionIds: number[],
   eventIds: number[]
 ): Promise<FeedItemDTO[]> {
   const feedItems: FeedItemDTO[] = [];
+
   const select = {
     id: true,
     image: true,
-    title: true,
-    venue: {
-      select: {
-        name: true,
-      },
-    },
     location: {
       select: {
         id: true,
         lat: true,
         lng: true,
         address: true,
+        cityId: true,
+        zip: true,
         city: true,
       },
     },
   };
 
+  // =======================================================
   // Fetch venues
+  // =======================================================
   if (venueIds && venueIds.length > 0) {
     const venues = await prisma.venue.findMany({
       where: { id: { in: venueIds } },
-      include: {
-        location: {
-          include: {
-            city: true,
-          },
-        },
-        venueType: true,
+      select: {
+        name: true,
+        ...select,
       },
     });
 
@@ -199,13 +163,18 @@ async function fetchDataByIds(
     });
   }
 
+  // =======================================================
   // Fetch events
+  // =======================================================
   if (eventIds && eventIds.length > 0) {
     const events = await prisma.event.findMany({
       where: { id: { in: eventIds } },
       select: {
         ...select,
+        title: true,
         price: true,
+        startDate: true,
+        venue: true,
         eventType: true,
       },
     });
@@ -215,12 +184,17 @@ async function fetchDataByIds(
     });
   }
 
+  // =======================================================
   // Fetch promotions
+  // =======================================================
   if (promotionIds && promotionIds.length > 0) {
     const promotions = await prisma.promotion.findMany({
       where: { id: { in: promotionIds } },
       select: {
         ...select,
+        title: true,
+        startDate: true,
+        venue: true,
         promotionType: true,
       },
     });
@@ -234,31 +208,33 @@ async function fetchDataByIds(
 }
 
 async function fetchDiscoveryData(filters: any) {
-  const { bounds, coords, view } = filters;
+  const { bounds, coords, view, lastFetchedDate } = filters;
 
+  // =======================================================
+  // Ensure necessary data
+  // =======================================================
   if (view === "map" && (!bounds || bounds.length !== 4)) {
     throw new Error("Bounds required for map view");
   } else if (view === "list" && (!coords || coords.length !== 2)) {
     throw new Error("Coords required for list view");
   }
 
+  // =======================================================
+  // Create our where statements
+  // =======================================================
   const venuesWhere = createVenueWhere(filters);
   const eventsWhere = createEventWhere(filters);
   const promotionsWhere = createPromotionWhere(filters);
 
-  const hasVenueFilters = Object.keys(venuesWhere).length > 0;
-  const hasEventFilters = Object.keys(eventsWhere).length > 0;
-  const hasPromotionFilters = Object.keys(promotionsWhere).length > 0;
-  const noFilters =
-    !hasVenueFilters && !hasEventFilters && !hasPromotionFilters;
-
-  const today = DateTime.now().toUTC();
-
-  const venueQuery: any = {};
-
+  // =======================================================
+  // If it's map, use the bounds
+  // If it's list view, use the provided city ids from the filter first
+  // If no city id's were provided, then use the coords to find the closest city
+  // =======================================================
+  const locationsQuery: any = {};
   if (view === "map") {
     const [minLat, maxLat, minLng, maxLng] = parseBounds(bounds);
-    venueQuery.location = {
+    locationsQuery.location = {
       lat: { gte: minLat, lte: maxLat },
       lng: { gte: minLng, lte: maxLng },
     };
@@ -280,18 +256,49 @@ async function fetchDiscoveryData(filters: any) {
     }
 
     if (filters.locations && filters.locations.length > 0) {
-      venueQuery.location = {
+      locationsQuery.location = {
         cityId: { in: filters.locations },
       };
     }
   }
 
-  // Always apply venue filters if they exist
+  // =======================================================
+  // Check if we have filters
+  // =======================================================
+  const hasVenueFilters = Object.keys(venuesWhere).length > 0;
+  const hasEventFilters = Object.keys(eventsWhere).length > 0;
+  const hasPromotionFilters = Object.keys(promotionsWhere).length > 0;
+  const noFilters =
+    !hasVenueFilters && !hasEventFilters && !hasPromotionFilters;
+
+  const venueQuery: any = {};
+
+  // =======================================================
+  // If it's map view, default it just +5 days
+  // If it's list view, undefined because we use pagination
+  // =======================================================
+  const today = lastFetchedDate ?? DateTime.now().toUTC().startOf("day");
+
+  const startDateFilter: string | undefined =
+    filters.startDate ?? today.toISO();
+
+  const endDateFilter: string | undefined =
+    filters.endDate ??
+    (view === "map"
+      ? today.plus({ days: 1 }).endOf("day").toISO()
+      : today.plus({ days: 7 }).endOf("day").toISO());
+
+  const startDateWhere: any = {};
+  if (startDateFilter !== undefined) startDateWhere.gte = startDateFilter;
+  if (endDateFilter !== undefined) startDateWhere.lte = endDateFilter;
+
+  // =======================================================
+  // Assign our filters
+  // =======================================================
   if (hasVenueFilters) {
     Object.assign(venueQuery, venuesWhere);
   }
 
-  // Apply event/promotion filters as AND conditions
   const nestedConditions: any[] = [];
 
   if (hasEventFilters) {
@@ -299,10 +306,7 @@ async function fetchDiscoveryData(filters: any) {
       events: {
         some: {
           ...eventsWhere,
-          startDate: {
-            gte: filters.startDate ?? today.toISO(),
-            lte: filters.endDate ?? today.plus({ days: 30 }).toISO(),
-          },
+          startDate: startDateWhere,
         },
       },
     });
@@ -313,36 +317,55 @@ async function fetchDiscoveryData(filters: any) {
       promotions: {
         some: {
           ...promotionsWhere,
-          startDate: {
-            gte: filters.startDate ?? today.toISO(),
-            lte: filters.endDate ?? today.plus({ days: 30 }).toISO(),
-          },
+          startDate: startDateWhere,
         },
       },
     });
   }
 
+  // =======================================================
+  // Determine if the query is nested or if we just want
+  // Venues or promotions or events
+  // =======================================================
   if (nestedConditions.length === 1) {
     Object.assign(venueQuery, nestedConditions[0]);
   } else if (nestedConditions.length > 1) {
     venueQuery.OR = nestedConditions;
   }
 
+  // =======================================================
+  // Query
+  // =======================================================
+  const locationSelect: any = {
+    select: {
+      id: true,
+      lat: true,
+      lng: true,
+      address: true,
+      cityId: true,
+      zip: true,
+      city: true,
+    },
+  };
+
   const data = await prisma.venue.findMany({
-    where: venueQuery,
+    where: {
+      ...venueQuery,
+      ...locationsQuery,
+    },
     select: {
       id: true,
       name: true,
       image: true,
       venueType: true,
-      location: true,
+      location: locationSelect,
       events: {
+        orderBy: {
+          startDate: "asc",
+        },
         where: {
           ...eventsWhere,
-          startDate: {
-            gte: filters.startDate ?? today.toISO(),
-            lte: filters.endDate ?? today.plus({ days: 30 }).toISO(),
-          },
+          startDate: startDateWhere,
         },
         select: {
           id: true,
@@ -354,12 +377,12 @@ async function fetchDiscoveryData(filters: any) {
         },
       },
       promotions: {
+        orderBy: {
+          startDate: "asc",
+        },
         where: {
           ...promotionsWhere,
-          startDate: {
-            gte: filters.startDate ?? today.toISO(),
-            lte: filters.endDate ?? today.plus({ days: 30 }).toISO(),
-          },
+          startDate: startDateWhere,
         },
         select: {
           id: true,
@@ -372,6 +395,12 @@ async function fetchDiscoveryData(filters: any) {
     },
   });
 
+  // =======================================================
+  // Map all of our results to the proper response
+  // If there's no filters, just return the events and promos
+  // If there's a venues filter and no events or promos, filter is venues first ie "is outdoors"
+  // Otherwise, the filter is events / promotions first ie "EDM concerts @ outdoor venues"
+  // =======================================================
   let results: any[] = [];
 
   const mapVenue = view === "map" ? mapVenueToMarker : mapVenueToFeedItem;
@@ -381,8 +410,6 @@ async function fetchDiscoveryData(filters: any) {
 
   data.forEach((v) => {
     if (noFilters) {
-      results.push(mapVenue(v));
-
       v.events.forEach((e) => {
         results.push(mapEvent(e, v));
       });
@@ -393,17 +420,18 @@ async function fetchDiscoveryData(filters: any) {
       return;
     }
 
-    if (hasVenueFilters) {
+    if (hasVenueFilters && !hasEventFilters && !hasPromotionFilters) {
       results.push(mapVenue(v));
+      return;
     }
 
-    if (hasEventFilters || (!hasVenueFilters && !hasPromotionFilters)) {
+    if (hasEventFilters) {
       v.events.forEach((e) => {
         results.push(mapEvent(e, v));
       });
     }
 
-    if (hasPromotionFilters || (!hasVenueFilters && !hasEventFilters)) {
+    if (hasPromotionFilters) {
       v.promotions.forEach((p) => {
         results.push(mapPromotion(p, v));
       });
@@ -426,6 +454,7 @@ router.get(
     try {
       // =======================================================
       // Case 1: Specific IDs provided - fetch directly
+      // For when a cluster is clicked on on the map
       // =======================================================
       if (
         (venueIds && venueIds.length > 0) ||

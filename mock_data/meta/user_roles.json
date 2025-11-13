@@ -1,0 +1,14 @@
+[
+  {
+    "id": 0,
+    "userRole": "User"
+  },
+  {
+    "id": 1,
+    "userRole": "VenueUser"
+  },
+  {
+    "id": 2,
+    "userRole": "VenueAdmin"
+  }
+]

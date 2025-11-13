@@ -1,7 +1,9 @@
 import express from "express";
 import prisma from "../../lib/prisma.ts";
-import { success } from "../../utils/utils.ts";
+import { success } from "../../shared/responses.ts";
 import { z } from "zod";
+import { query } from "../../shared/validation.ts";
+import { validate } from "../../middleware/middleware.ts";
 
 const router = express.Router();
 
@@ -9,7 +11,7 @@ const router = express.Router();
 // Schemas
 // =======================================================
 const singlePromotion = z.object({
-  id: z.coerce.number(),
+  id: query.number(),
 });
 
 const createPromotion = z.object({});
@@ -18,17 +20,38 @@ const updatePromotion = z.object({});
 
 const deletePromotion = z.object({});
 
-router.get("/:id", async (req, res) => {
-  const id = req.params.id;
+router.get(
+  "/:id",
+  validate({ schema: singlePromotion, source: "params" }),
+  async (req, res) => {
+    const { id } = (req as any).validatedData;
 
-  const promotions = await prisma.promotion.findMany({
-    where: {
-      id: Number(id),
-    },
-  });
+    const promotion = await prisma.promotion.findMany({
+      where: {
+        id: Number(id),
+      },
+      include: {
+        promotionType: true,
+        venue: {
+          include: {
+            venueType: true,
+          },
+        },
+        location: {
+          include: {
+            city: {
+              include: {
+                state: true,
+              },
+            },
+          },
+        },
+      },
+    });
 
-  success({ res, data: promotions });
-});
+    success({ res, data: promotion });
+  }
+);
 
 router.post("/", (req, res) => {
   res.send("Create Promo");

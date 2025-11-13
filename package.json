@@ -22,10 +22,15 @@
     "seed": "node db/seed.ts"
   },
   "dependencies": {
+    "@aws-sdk/client-ses": "^3.929.0",
     "@prisma/client": "^6.17.1",
     "@types/node": "^24.9.1",
+    "argon2": "^0.44.0",
+    "aws-sdk": "^2.1692.0",
     "cors": "^2.8.5",
     "express": "^5.1.0",
+    "handlebars": "^4.7.8",
+    "jsonwebtoken": "^9.0.2",
     "luxon": "^3.7.2",
     "sqlite3": "^5.1.7",
     "ts-node": "^10.9.2",

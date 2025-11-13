@@ -1,5 +1,6 @@
-import { ZodError, ZodType } from "zod";
-import { error, failure } from "../utils/utils.ts";
+import { ZodType } from "zod";
+import { error } from "../shared/responses.ts";
+import { type jwtPayload, verifyToken } from "../shared/tokens/tokens.ts";
 
 export function validate<T extends ZodType>({
   schema,
@@ -15,12 +16,13 @@ export function validate<T extends ZodType>({
       const result = schema.safeParse(data);
 
       if (!result.success) {
-        console.log(result.error);
-
-        return failure({
+        return error({
           res,
-          // @ts-ignore
-          validation: result.error.issues.map((issue) => issue.path[0]),
+          errors: result.error.issues.map((issue) => ({
+            field: issue.path[0] as string,
+            code: issue.code as string,
+          })),
+          message: "Validation failed",
         });
       } else {
         (req as any).validatedData = result.data;
@@ -31,7 +33,37 @@ export function validate<T extends ZodType>({
 
       return error({
         res,
+        message: err.error,
       });
     }
   };
 }
+
+export const authenticate = function (req, res, next) {
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return error({
+      res,
+      message: "Missing token",
+    });
+  }
+
+  const token = authHeader.split(" ")[1];
+
+  try {
+    const payload = verifyToken(token) as jwtPayload;
+    if (payload === null) {
+      throw new Error("Invalid or expired token");
+    }
+
+    (req as any).jwt = payload;
+    next();
+  } catch (err) {
+    return error({
+      res,
+      message: "Invalid or expired token",
+      status: 401,
+    });
+  }
+};

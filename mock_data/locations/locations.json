@@ -398,5 +398,13 @@
     "zip": "A1B 2BC",
     "address": "49 Main St",
     "cityId": 14
+  },
+  {
+    "id": 50,
+    "lat": 51.2917,
+    "lng": -114.0144,
+    "zip": "T4B 2A4",
+    "address": "305 1 Ave NW",
+    "cityId": 1
   }
 ]

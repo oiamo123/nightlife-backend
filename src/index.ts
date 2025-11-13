@@ -2,24 +2,25 @@ import express from "express";
 import type { Express } from "express";
 import cors from "cors";
 
-import accountRouter from "./routes/account/account.ts";
-import authRouter from "./routes/auth/auth.js";
+import authRouter from "./routes/auth/auth.ts";
 import eventsRouter from "./routes/events/events.ts";
 import paymentsRouter from "./routes/payments/payments.js";
 import promosRouter from "./routes/promotions/promotions.ts";
 import searchRouter from "./routes/search/search.js";
 import tilesRouter from "./routes/tiles/tiles.js";
+import userRouter from "./routes/user/user.ts";
 import venuesRouter from "./routes/venues/venues.ts";
 import metaRouter from "./routes/meta/meta.ts";
 import locationsRouter from "./routes/locations/locations.ts";
 import discoverRouter from "./routes/discover/discovery.ts";
 
 const app: Express = express();
+app.use(express.json());
 app.use(cors());
 
 const PORT = 3000;
 
-app.use("/account", accountRouter);
+app.use("/user", userRouter);
 app.use("/auth", authRouter);
 app.use("/events", eventsRouter);
 app.use("/payments", paymentsRouter);

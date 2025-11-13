@@ -40,19 +40,12 @@ export function mapVenueToFeedItem(venue: any): FeedItemDTO {
     date: null,
     subcategory: venue.venueType.venueType,
     type: SubcategoryType.Venue,
-    location: {
-      id: venue.location.id,
-      lat: venue.location.lat,
-      lng: venue.location.lng,
-      address: venue.location.address,
-      cityId: venue.location.cityId,
-      zip: venue.location.zip,
-    },
+    location: venue.location,
   };
 }
 
 export function mapEventToFeedItem(event: any, venue: any): FeedItemDTO {
-  console.log(event, venue);
+  const location = venue.location ? venue.location : event.location;
 
   return {
     id: event.id,
@@ -63,13 +56,16 @@ export function mapEventToFeedItem(event: any, venue: any): FeedItemDTO {
     venueName: venue.name,
     subcategory: event.eventType.eventType,
     type: SubcategoryType.Event,
+    location: location,
   };
 }
 
 export function mapPromotionToFeedItem(
   promotion: any,
-  venue: any | null
+  venue: any
 ): FeedItemDTO {
+  const location = venue.location ? venue.location : promotion.location;
+
   return {
     id: promotion.id,
     image: promotion.image,
@@ -79,5 +75,6 @@ export function mapPromotionToFeedItem(
     venueName: venue.name,
     subcategory: promotion.promotionType.promotionType,
     type: SubcategoryType.Promotion,
+    location: location,
   };
 }

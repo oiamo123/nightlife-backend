@@ -96,6 +96,8 @@ CREATE TABLE "Event" (
     "endDate" TIMESTAMP(3) NOT NULL,
     "image" TEXT,
     "eventTypeId" INTEGER NOT NULL,
+    "ageRestriction" INTEGER NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Event_pkey" PRIMARY KEY ("id")
 );
@@ -129,7 +131,9 @@ CREATE TABLE "Promotion" (
     "startDate" TIMESTAMP(3) NOT NULL,
     "endDate" TIMESTAMP(3) NOT NULL,
     "image" TEXT,
+    "ageRestriction" INTEGER NOT NULL,
     "promotionTypeId" INTEGER NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Promotion_pkey" PRIMARY KEY ("id")
 );
@@ -156,11 +160,11 @@ CREATE TABLE "Venue" (
     "opensAt" DOUBLE PRECISION NOT NULL,
     "closesAt" DOUBLE PRECISION NOT NULL,
     "verified" BOOLEAN NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL,
     "ageRestriction" INTEGER NOT NULL,
     "isOutdoor" BOOLEAN NOT NULL,
     "isAccessible" BOOLEAN NOT NULL,
     "venueTypeId" INTEGER NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Venue_pkey" PRIMARY KEY ("id")
 );
@@ -184,7 +188,7 @@ CREATE TABLE "PermissionType" (
 -- CreateTable
 CREATE TABLE "UserPermission" (
     "id" SERIAL NOT NULL,
-    "accountId" INTEGER NOT NULL,
+    "userId" INTEGER NOT NULL,
     "permissionForId" INTEGER NOT NULL,
     "permissionTypeId" INTEGER NOT NULL,
 
@@ -210,7 +214,7 @@ CREATE TABLE "NotificationFor" (
 -- CreateTable
 CREATE TABLE "UserNotification" (
     "id" SERIAL NOT NULL,
-    "accountId" INTEGER NOT NULL,
+    "userId" INTEGER NOT NULL,
     "notificationForId" INTEGER NOT NULL,
     "notificationTypeId" INTEGER NOT NULL,
 
@@ -228,11 +232,9 @@ CREATE TABLE "LinkedAccountType" (
 -- CreateTable
 CREATE TABLE "LinkedAccount" (
     "id" SERIAL NOT NULL,
-    "accountId" INTEGER NOT NULL,
+    "userId" INTEGER NOT NULL,
     "linkedAccountTypeId" INTEGER NOT NULL,
     "externalId" TEXT NOT NULL,
-    "displayName" TEXT NOT NULL,
-    "profileUrl" TEXT NOT NULL,
     "linkedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "LinkedAccount_pkey" PRIMARY KEY ("id")
@@ -257,7 +259,7 @@ CREATE TABLE "PaymentStatus" (
 -- CreateTable
 CREATE TABLE "Transaction" (
     "id" SERIAL NOT NULL,
-    "accountId" INTEGER NOT NULL,
+    "userId" INTEGER NOT NULL,
     "eventId" INTEGER,
     "currencyCodeId" INTEGER NOT NULL,
     "transactionDate" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -269,32 +271,66 @@ CREATE TABLE "Transaction" (
 );
 
 -- CreateTable
-CREATE TABLE "Account" (
+CREATE TABLE "UserRole" (
     "id" SERIAL NOT NULL,
-    "password" TEXT NOT NULL,
-    "phoneNumber" TEXT NOT NULL,
-    "name" TEXT NOT NULL,
-    "dateOfBirth" TIMESTAMP(3) NOT NULL,
-    "email" TEXT,
-    "profileImage" TEXT,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "isValidated" BOOLEAN NOT NULL,
-    "twoFactorSecret" TEXT NOT NULL,
-    "twoFactorEnabled" BOOLEAN NOT NULL,
-    "twoFactorValidated" BOOLEAN NOT NULL,
+    "userRole" TEXT NOT NULL,
 
-    CONSTRAINT "Account_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "UserRole_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "EmailTokens" (
+    "id" SERIAL NOT NULL,
+    "email" TEXT NOT NULL,
+    "token" TEXT NOT NULL,
+    "expiresAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "EmailTokens_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "User" (
+    "id" SERIAL NOT NULL,
+    "email" TEXT NOT NULL,
+    "password" TEXT,
+    "phoneNumber" TEXT,
+    "name" TEXT,
+    "dateOfBirth" TIMESTAMP(3),
+    "profileImage" TEXT,
+    "verified" BOOLEAN NOT NULL,
+    "roleId" INTEGER NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Ticket" (
     "id" SERIAL NOT NULL,
     "uuid" TEXT NOT NULL,
-    "accountId" INTEGER NOT NULL,
+    "userId" INTEGER NOT NULL,
     "eventId" INTEGER NOT NULL,
     "transactionId" INTEGER NOT NULL,
 
     CONSTRAINT "Ticket_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "RefreshToken" (
+    "id" SERIAL NOT NULL,
+    "token" TEXT NOT NULL,
+    "userId" INTEGER NOT NULL,
+    "validUntil" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "RefreshToken_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "_UserEventPreferences" (
+    "A" INTEGER NOT NULL,
+    "B" INTEGER NOT NULL,
+
+    CONSTRAINT "_UserEventPreferences_AB_pkey" PRIMARY KEY ("A","B")
 );
 
 -- CreateTable
@@ -306,51 +342,19 @@ CREATE TABLE "_VenueMusicType" (
 );
 
 -- CreateTable
-CREATE TABLE "_VenueFollowers" (
+CREATE TABLE "_UserPromotionPreferences" (
     "A" INTEGER NOT NULL,
     "B" INTEGER NOT NULL,
 
-    CONSTRAINT "_VenueFollowers_AB_pkey" PRIMARY KEY ("A","B")
+    CONSTRAINT "_UserPromotionPreferences_AB_pkey" PRIMARY KEY ("A","B")
 );
 
 -- CreateTable
-CREATE TABLE "_EventTypeFollowers" (
+CREATE TABLE "_UserVenuePreferences" (
     "A" INTEGER NOT NULL,
     "B" INTEGER NOT NULL,
 
-    CONSTRAINT "_EventTypeFollowers_AB_pkey" PRIMARY KEY ("A","B")
-);
-
--- CreateTable
-CREATE TABLE "_PromotionTypeFollowers" (
-    "A" INTEGER NOT NULL,
-    "B" INTEGER NOT NULL,
-
-    CONSTRAINT "_PromotionTypeFollowers_AB_pkey" PRIMARY KEY ("A","B")
-);
-
--- CreateTable
-CREATE TABLE "_AccountVenuePreferences" (
-    "A" INTEGER NOT NULL,
-    "B" INTEGER NOT NULL,
-
-    CONSTRAINT "_AccountVenuePreferences_AB_pkey" PRIMARY KEY ("A","B")
-);
-
--- CreateTable
-CREATE TABLE "_AccountEventPreferences" (
-    "A" INTEGER NOT NULL,
-    "B" INTEGER NOT NULL,
-
-    CONSTRAINT "_AccountEventPreferences_AB_pkey" PRIMARY KEY ("A","B")
-);
-
--- CreateTable
-CREATE TABLE "_AccountPromoPreferences" (
-    "A" INTEGER NOT NULL,
-    "B" INTEGER NOT NULL,
-
-    CONSTRAINT "_AccountPromoPreferences_AB_pkey" PRIMARY KEY ("A","B")
+    CONSTRAINT "_UserVenuePreferences_AB_pkey" PRIMARY KEY ("A","B")
 );
 
 -- CreateIndex
@@ -363,22 +367,10 @@ CREATE INDEX "Location_lat_lng_idx" ON "Location"("lat", "lng");
 CREATE INDEX "City_city_idx" ON "City"("city");
 
 -- CreateIndex
-CREATE INDEX "Event_venueId_idx" ON "Event"("venueId");
+CREATE INDEX "Event_venueId_startDate_eventTypeId_idx" ON "Event"("venueId", "startDate", "eventTypeId");
 
 -- CreateIndex
-CREATE INDEX "Event_eventTypeId_idx" ON "Event"("eventTypeId");
-
--- CreateIndex
-CREATE INDEX "Event_locationId_idx" ON "Event"("locationId");
-
--- CreateIndex
-CREATE INDEX "Promotion_venueId_idx" ON "Promotion"("venueId");
-
--- CreateIndex
-CREATE INDEX "Promotion_promotionTypeId_idx" ON "Promotion"("promotionTypeId");
-
--- CreateIndex
-CREATE INDEX "Promotion_locationId_idx" ON "Promotion"("locationId");
+CREATE INDEX "Promotion_venueId_startDate_promotionTypeId_idx" ON "Promotion"("venueId", "startDate", "promotionTypeId");
 
 -- CreateIndex
 CREATE INDEX "Venue_venueTypeId_idx" ON "Venue"("venueTypeId");
@@ -387,25 +379,22 @@ CREATE INDEX "Venue_venueTypeId_idx" ON "Venue"("venueTypeId");
 CREATE INDEX "Venue_locationId_idx" ON "Venue"("locationId");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+
+-- CreateIndex
+CREATE INDEX "User_email_phoneNumber_idx" ON "User"("email", "phoneNumber");
+
+-- CreateIndex
+CREATE INDEX "_UserEventPreferences_B_index" ON "_UserEventPreferences"("B");
+
+-- CreateIndex
 CREATE INDEX "_VenueMusicType_B_index" ON "_VenueMusicType"("B");
 
 -- CreateIndex
-CREATE INDEX "_VenueFollowers_B_index" ON "_VenueFollowers"("B");
+CREATE INDEX "_UserPromotionPreferences_B_index" ON "_UserPromotionPreferences"("B");
 
 -- CreateIndex
-CREATE INDEX "_EventTypeFollowers_B_index" ON "_EventTypeFollowers"("B");
-
--- CreateIndex
-CREATE INDEX "_PromotionTypeFollowers_B_index" ON "_PromotionTypeFollowers"("B");
-
--- CreateIndex
-CREATE INDEX "_AccountVenuePreferences_B_index" ON "_AccountVenuePreferences"("B");
-
--- CreateIndex
-CREATE INDEX "_AccountEventPreferences_B_index" ON "_AccountEventPreferences"("B");
-
--- CreateIndex
-CREATE INDEX "_AccountPromoPreferences_B_index" ON "_AccountPromoPreferences"("B");
+CREATE INDEX "_UserVenuePreferences_B_index" ON "_UserVenuePreferences"("B");
 
 -- AddForeignKey
 ALTER TABLE "Location" ADD CONSTRAINT "Location_cityId_fkey" FOREIGN KEY ("cityId") REFERENCES "City"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -456,7 +445,7 @@ ALTER TABLE "Venue" ADD CONSTRAINT "Venue_locationId_fkey" FOREIGN KEY ("locatio
 ALTER TABLE "Venue" ADD CONSTRAINT "Venue_venueTypeId_fkey" FOREIGN KEY ("venueTypeId") REFERENCES "VenueType"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "UserPermission" ADD CONSTRAINT "UserPermission_accountId_fkey" FOREIGN KEY ("accountId") REFERENCES "Account"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "UserPermission" ADD CONSTRAINT "UserPermission_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "UserPermission" ADD CONSTRAINT "UserPermission_permissionForId_fkey" FOREIGN KEY ("permissionForId") REFERENCES "PermissionFor"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -465,7 +454,7 @@ ALTER TABLE "UserPermission" ADD CONSTRAINT "UserPermission_permissionForId_fkey
 ALTER TABLE "UserPermission" ADD CONSTRAINT "UserPermission_permissionTypeId_fkey" FOREIGN KEY ("permissionTypeId") REFERENCES "PermissionType"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "UserNotification" ADD CONSTRAINT "UserNotification_accountId_fkey" FOREIGN KEY ("accountId") REFERENCES "Account"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "UserNotification" ADD CONSTRAINT "UserNotification_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "UserNotification" ADD CONSTRAINT "UserNotification_notificationForId_fkey" FOREIGN KEY ("notificationForId") REFERENCES "NotificationFor"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -474,13 +463,13 @@ ALTER TABLE "UserNotification" ADD CONSTRAINT "UserNotification_notificationForI
 ALTER TABLE "UserNotification" ADD CONSTRAINT "UserNotification_notificationTypeId_fkey" FOREIGN KEY ("notificationTypeId") REFERENCES "NotificationType"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "LinkedAccount" ADD CONSTRAINT "LinkedAccount_accountId_fkey" FOREIGN KEY ("accountId") REFERENCES "Account"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "LinkedAccount" ADD CONSTRAINT "LinkedAccount_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "LinkedAccount" ADD CONSTRAINT "LinkedAccount_linkedAccountTypeId_fkey" FOREIGN KEY ("linkedAccountTypeId") REFERENCES "LinkedAccountType"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Transaction" ADD CONSTRAINT "Transaction_accountId_fkey" FOREIGN KEY ("accountId") REFERENCES "Account"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Transaction" ADD CONSTRAINT "Transaction_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Transaction" ADD CONSTRAINT "Transaction_eventId_fkey" FOREIGN KEY ("eventId") REFERENCES "Event"("id") ON DELETE SET NULL ON UPDATE CASCADE;
@@ -495,7 +484,10 @@ ALTER TABLE "Transaction" ADD CONSTRAINT "Transaction_paymentMethodId_fkey" FORE
 ALTER TABLE "Transaction" ADD CONSTRAINT "Transaction_paymentStatusId_fkey" FOREIGN KEY ("paymentStatusId") REFERENCES "PaymentStatus"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Ticket" ADD CONSTRAINT "Ticket_accountId_fkey" FOREIGN KEY ("accountId") REFERENCES "Account"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "User" ADD CONSTRAINT "User_roleId_fkey" FOREIGN KEY ("roleId") REFERENCES "UserRole"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Ticket" ADD CONSTRAINT "Ticket_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Ticket" ADD CONSTRAINT "Ticket_eventId_fkey" FOREIGN KEY ("eventId") REFERENCES "Event"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -504,43 +496,25 @@ ALTER TABLE "Ticket" ADD CONSTRAINT "Ticket_eventId_fkey" FOREIGN KEY ("eventId"
 ALTER TABLE "Ticket" ADD CONSTRAINT "Ticket_transactionId_fkey" FOREIGN KEY ("transactionId") REFERENCES "Transaction"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "_UserEventPreferences" ADD CONSTRAINT "_UserEventPreferences_A_fkey" FOREIGN KEY ("A") REFERENCES "EventType"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_UserEventPreferences" ADD CONSTRAINT "_UserEventPreferences_B_fkey" FOREIGN KEY ("B") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "_VenueMusicType" ADD CONSTRAINT "_VenueMusicType_A_fkey" FOREIGN KEY ("A") REFERENCES "EventType"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_VenueMusicType" ADD CONSTRAINT "_VenueMusicType_B_fkey" FOREIGN KEY ("B") REFERENCES "Venue"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "_VenueFollowers" ADD CONSTRAINT "_VenueFollowers_A_fkey" FOREIGN KEY ("A") REFERENCES "Account"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "_UserPromotionPreferences" ADD CONSTRAINT "_UserPromotionPreferences_A_fkey" FOREIGN KEY ("A") REFERENCES "PromotionType"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "_VenueFollowers" ADD CONSTRAINT "_VenueFollowers_B_fkey" FOREIGN KEY ("B") REFERENCES "Venue"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "_UserPromotionPreferences" ADD CONSTRAINT "_UserPromotionPreferences_B_fkey" FOREIGN KEY ("B") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "_EventTypeFollowers" ADD CONSTRAINT "_EventTypeFollowers_A_fkey" FOREIGN KEY ("A") REFERENCES "Account"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "_UserVenuePreferences" ADD CONSTRAINT "_UserVenuePreferences_A_fkey" FOREIGN KEY ("A") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "_EventTypeFollowers" ADD CONSTRAINT "_EventTypeFollowers_B_fkey" FOREIGN KEY ("B") REFERENCES "EventType"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "_PromotionTypeFollowers" ADD CONSTRAINT "_PromotionTypeFollowers_A_fkey" FOREIGN KEY ("A") REFERENCES "Account"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "_PromotionTypeFollowers" ADD CONSTRAINT "_PromotionTypeFollowers_B_fkey" FOREIGN KEY ("B") REFERENCES "PromotionType"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "_AccountVenuePreferences" ADD CONSTRAINT "_AccountVenuePreferences_A_fkey" FOREIGN KEY ("A") REFERENCES "Account"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "_AccountVenuePreferences" ADD CONSTRAINT "_AccountVenuePreferences_B_fkey" FOREIGN KEY ("B") REFERENCES "VenueType"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "_AccountEventPreferences" ADD CONSTRAINT "_AccountEventPreferences_A_fkey" FOREIGN KEY ("A") REFERENCES "Account"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "_AccountEventPreferences" ADD CONSTRAINT "_AccountEventPreferences_B_fkey" FOREIGN KEY ("B") REFERENCES "EventType"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "_AccountPromoPreferences" ADD CONSTRAINT "_AccountPromoPreferences_A_fkey" FOREIGN KEY ("A") REFERENCES "Account"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "_AccountPromoPreferences" ADD CONSTRAINT "_AccountPromoPreferences_B_fkey" FOREIGN KEY ("B") REFERENCES "PromotionType"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "_UserVenuePreferences" ADD CONSTRAINT "_UserVenuePreferences_B_fkey" FOREIGN KEY ("B") REFERENCES "VenueType"("id") ON DELETE CASCADE ON UPDATE CASCADE;

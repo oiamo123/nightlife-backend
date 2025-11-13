@@ -10,7 +10,8 @@
     "startDate": "2025-01-01T00:00:00Z",
     "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=800",
-    "eventTypeId": 1
+    "eventTypeId": 1,
+    "ageRestriction": 18
   },
   {
     "id": 2,
@@ -23,7 +24,8 @@
     "startDate": "2025-01-01T00:00:00Z",
     "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800",
-    "eventTypeId": 2
+    "eventTypeId": 2,
+    "ageRestriction": 18
   },
   {
     "id": 3,
@@ -36,7 +38,8 @@
     "startDate": "2025-01-01T00:00:00Z",
     "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800",
-    "eventTypeId": 3
+    "eventTypeId": 3,
+    "ageRestriction": 18
   },
   {
     "id": 4,
@@ -49,7 +52,8 @@
     "startDate": "2025-01-01T00:00:00Z",
     "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800",
-    "eventTypeId": 4
+    "eventTypeId": 4,
+    "ageRestriction": 18
   },
   {
     "id": 5,
@@ -62,7 +66,8 @@
     "startDate": "2025-01-01T00:00:00Z",
     "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?w=800",
-    "eventTypeId": 5
+    "eventTypeId": 5,
+    "ageRestriction": 18
   },
   {
     "id": 6,
@@ -75,7 +80,8 @@
     "startDate": "2025-01-01T00:00:00Z",
     "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=800",
-    "eventTypeId": 6
+    "eventTypeId": 6,
+    "ageRestriction": 18
   },
   {
     "id": 7,
@@ -88,7 +94,8 @@
     "startDate": "2025-01-01T00:00:00Z",
     "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1506157786151-b8491531f063?w=800",
-    "eventTypeId": 7
+    "eventTypeId": 7,
+    "ageRestriction": 18
   },
   {
     "id": 8,
@@ -101,7 +108,8 @@
     "startDate": "2025-01-01T00:00:00Z",
     "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1571266028243-d220c2ccb3ee?w=800",
-    "eventTypeId": 8
+    "eventTypeId": 8,
+    "ageRestriction": 18
   },
   {
     "id": 9,
@@ -114,7 +122,8 @@
     "startDate": "2025-01-01T00:00:00Z",
     "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1516997121675-4c2d1684aa3e?w=800",
-    "eventTypeId": 9
+    "eventTypeId": 9,
+    "ageRestriction": 18
   },
   {
     "id": 10,
@@ -127,7 +136,8 @@
     "startDate": "2025-01-01T00:00:00Z",
     "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=800",
-    "eventTypeId": 10
+    "eventTypeId": 10,
+    "ageRestriction": 18
   },
   {
     "id": 11,
@@ -140,7 +150,8 @@
     "startDate": "2025-01-01T00:00:00Z",
     "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=800",
-    "eventTypeId": 1
+    "eventTypeId": 1,
+    "ageRestriction": 18
   },
   {
     "id": 12,
@@ -153,7 +164,8 @@
     "startDate": "2025-01-01T00:00:00Z",
     "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1574391884720-bbc4b93ce850?w=800",
-    "eventTypeId": 2
+    "eventTypeId": 2,
+    "ageRestriction": 18
   },
   {
     "id": 13,
@@ -166,7 +178,8 @@
     "startDate": "2025-01-01T00:00:00Z",
     "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800",
-    "eventTypeId": 3
+    "eventTypeId": 3,
+    "ageRestriction": 18
   },
   {
     "id": 14,
@@ -179,7 +192,8 @@
     "startDate": "2025-01-01T00:00:00Z",
     "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800",
-    "eventTypeId": 4
+    "eventTypeId": 4,
+    "ageRestriction": 18
   },
   {
     "id": 15,
@@ -192,7 +206,8 @@
     "startDate": "2025-01-01T00:00:00Z",
     "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=800",
-    "eventTypeId": 5
+    "eventTypeId": 5,
+    "ageRestriction": 18
   },
   {
     "id": 16,
@@ -205,7 +220,8 @@
     "startDate": "2025-01-01T00:00:00Z",
     "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800",
-    "eventTypeId": 6
+    "eventTypeId": 6,
+    "ageRestriction": 18
   },
   {
     "id": 17,
@@ -218,7 +234,8 @@
     "startDate": "2025-01-01T00:00:00Z",
     "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800",
-    "eventTypeId": 7
+    "eventTypeId": 7,
+    "ageRestriction": 18
   },
   {
     "id": 18,
@@ -231,7 +248,8 @@
     "startDate": "2025-01-01T00:00:00Z",
     "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=800",
-    "eventTypeId": 8
+    "eventTypeId": 8,
+    "ageRestriction": 18
   },
   {
     "id": 19,
@@ -244,7 +262,8 @@
     "startDate": "2025-01-01T00:00:00Z",
     "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800",
-    "eventTypeId": 9
+    "eventTypeId": 9,
+    "ageRestriction": 18
   },
   {
     "id": 20,
@@ -257,7 +276,8 @@
     "startDate": "2025-01-01T00:00:00Z",
     "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800",
-    "eventTypeId": 10
+    "eventTypeId": 10,
+    "ageRestriction": 18
   },
   {
     "id": 21,
@@ -270,7 +290,8 @@
     "startDate": "2025-01-01T00:00:00Z",
     "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1516997121675-4c2d1684aa3e?w=800",
-    "eventTypeId": 1
+    "eventTypeId": 1,
+    "ageRestriction": 18
   },
   {
     "id": 22,
@@ -283,7 +304,8 @@
     "startDate": "2025-01-01T00:00:00Z",
     "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800",
-    "eventTypeId": 2
+    "eventTypeId": 2,
+    "ageRestriction": 18
   },
   {
     "id": 23,
@@ -296,7 +318,8 @@
     "startDate": "2025-01-01T00:00:00Z",
     "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=800",
-    "eventTypeId": 3
+    "eventTypeId": 3,
+    "ageRestriction": 18
   },
   {
     "id": 24,
@@ -309,7 +332,8 @@
     "startDate": "2025-01-01T00:00:00Z",
     "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800",
-    "eventTypeId": 4
+    "eventTypeId": 4,
+    "ageRestriction": 18
   },
   {
     "id": 25,
@@ -322,6 +346,63 @@
     "startDate": "2025-01-01T00:00:00Z",
     "endDate": "2025-01-02T00:00:00Z",
     "image": "https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=800",
-    "eventTypeId": 5
+    "eventTypeId": 5,
+    "ageRestriction": 18
+  },
+  {
+    "id": 26,
+    "venueId": 3,
+    "locationId": 50,
+    "title": "Airdrie Winter Music Jam",
+    "headline": "Live local talent takes the stage",
+    "description": "Experience Airdrie’s vibrant music scene at the annual Winter Music Jam! Featuring local artists, warm drinks, and good vibes all night long. Bring your friends and enjoy a cozy evening of acoustic and electric performances.",
+    "price": 10.0,
+    "startDate": "2025-02-15T19:00:00Z",
+    "endDate": "2025-02-16T00:00:00Z",
+    "image": "https://images.unsplash.com/photo-1507878866276-a947ef722fee?w=800",
+    "eventTypeId": 4,
+    "ageRestriction": 18
+  },
+  {
+    "id": 27,
+    "venueId": 3,
+    "locationId": 50,
+    "title": "Airdrie Art & Wine Night",
+    "headline": "Sip, paint, and unwind",
+    "description": "A creative evening awaits at Airdrie’s favorite wine bar. Guided painting sessions, soft music, and great company — perfect for beginners and seasoned artists alike. All supplies included!",
+    "price": 25.0,
+    "startDate": "2025-03-08T18:30:00Z",
+    "endDate": "2025-03-08T21:30:00Z",
+    "image": "https://images.unsplash.com/photo-1556742393-d75f468bfcb0?w=800",
+    "eventTypeId": 6,
+    "ageRestriction": 18
+  },
+  {
+    "id": 28,
+    "venueId": 3,
+    "locationId": 50,
+    "title": "Airdrie Comedy Night",
+    "headline": "Laughs and good times guaranteed",
+    "description": "Join us for an evening of laughter featuring Alberta’s best up-and-coming comedians. Enjoy a full bar, delicious snacks, and the funniest night in Airdrie!",
+    "price": 15.0,
+    "startDate": "2025-04-05T20:00:00Z",
+    "endDate": "2025-04-06T00:00:00Z",
+    "image": "https://images.unsplash.com/photo-1525186402429-b4ff38bedbec?w=800",
+    "eventTypeId": 5,
+    "ageRestriction": 18
+  },
+  {
+    "id": 29,
+    "venueId": 3,
+    "locationId": 50,
+    "title": "Airdrie Farmers & Makers Market",
+    "headline": "Shop local. Eat local. Love local.",
+    "description": "A family-friendly outdoor market celebrating Airdrie’s local makers, farmers, and creators. Fresh produce, artisan goods, live music, and food trucks make this a can’t-miss weekend stop.",
+    "price": 0.0,
+    "startDate": "2025-05-11T10:00:00Z",
+    "endDate": "2025-05-11T16:00:00Z",
+    "image": "https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?w=800",
+    "eventTypeId": 7,
+    "ageRestriction": 18
   }
 ]

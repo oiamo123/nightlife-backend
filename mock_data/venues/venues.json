@@ -58,5 +58,25 @@
     "ageRestriction": 0,
     "isOutdoor": true,
     "isAccessible": true
+  },
+  {
+    "id": 3,
+    "locationId": 50,
+    "name": "The Station Social House",
+    "address": "305 1 Ave NW, Airdrie, AB",
+    "websiteUrl": "https://stationsocialhouse.com",
+    "description": "A cozy, community-focused bar and live event space in the heart of Airdrie. Known for local music nights, craft beers, and a welcoming atmosphere.",
+    "image": "https://images.unsplash.com/photo-1551022378-1b5e9b0c9f19?w=800",
+    "phoneNumber": "+1 403-555-0182",
+    "email": "hello@stationsocialhouse.com",
+    "venueTypeId": 1,
+    "opensAt": 11,
+    "closesAt": 2.0,
+    "musicGenres": [0, 1, 3, 5],
+    "verified": true,
+    "createdAt": "2025-04-01T00:00:00Z",
+    "ageRestriction": 18,
+    "isOutdoor": false,
+    "isAccessible": true
   }
 ]

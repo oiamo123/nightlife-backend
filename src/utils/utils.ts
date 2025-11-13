@@ -1,3 +1,6 @@
+import * as argon2 from "argon2";
+import crypto from "crypto";
+
 export const parseBounds = function (bounds: number[]): number[] {
   const [swLat, swLng, neLat, neLng] = bounds;
 
@@ -24,54 +27,26 @@ export const parseNumberArray = function (arrayString?: string[]): number[] {
   return array;
 };
 
-export const success = ({
-  res,
-  data,
-}: {
-  res;
-  data: Record<string, any>;
-  statusCode?: number;
-}) => {
-  return res.status(200).json({
-    success: true,
-    data,
-    status: 200,
-  });
+export const hashString = async function (str: string): Promise<string | null> {
+  try {
+    const hash = await argon2.hash(str);
+    return hash;
+  } catch (err) {
+    return null;
+  }
 };
 
-export const failure = ({
-  res,
-  validation = [],
-  errors = [],
-  statusCode = 400,
-}: {
-  res;
-  validation?: string[];
-  errors?: string[];
-  statusCode?: number;
-}) => {
-  return res.status(statusCode).json({
-    success: false,
-    data: {
-      validation,
-      errors,
-    },
-    status: statusCode,
-  });
+export const verifyHash = async function (
+  originalString: string,
+  newString: string
+): Promise<boolean> {
+  try {
+    return await argon2.verify(originalString, newString);
+  } catch (err) {
+    return false;
+  }
 };
 
-export const error = ({
-  res,
-  message = "Internal server error",
-}: {
-  res;
-  message?: string;
-}) => {
-  return res.status(500).json({
-    success: false,
-    data: {
-      message,
-    },
-    status: 500,
-  });
+export const generateToken = function () {
+  return crypto.randomBytes(32).toString("hex");
 };
