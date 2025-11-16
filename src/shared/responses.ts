@@ -16,17 +16,20 @@ export const success = ({
 export const error = ({
   res,
   errors,
-  message = "Internal server error",
+  code,
   status = 500,
+  message = "Internal server error",
 }: {
   res;
-  errors?: { field: string; code: string }[];
-  message?: string;
+  errors?: { field: string; message: string }[];
+  code?: string;
   status?: number;
+  message?: string;
 }) => {
   return res.status(status).json({
     success: false,
     message,
+    code,
     status,
     errors: errors,
   });

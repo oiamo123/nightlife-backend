@@ -4,12 +4,48 @@ import { z } from "zod";
 // Body validators (no coercion)
 // ===============================
 export const body = {
-  string: () => z.string().min(1),
+  string: () => z.string(),
   number: () => z.number(),
   boolean: () => z.boolean(),
   date: () => z.date(),
   stringArray: () => z.array(z.string()),
   numberArray: () => z.array(z.number()),
+
+  // ===============================
+  // Passwords
+  // ===============================
+  password: () =>
+    z
+      .string()
+      .min(8, "Password must be at least 8 characters long")
+      .refine((val) => /[A-Z]/.test(val), {
+        message: "Password must contain at least one uppercase letter",
+      })
+      .refine((val) => /[a-z]/.test(val), {
+        message: "Password must contain at least one lowercase letter",
+      })
+      .refine((val) => /\d/.test(val), {
+        message: "Password must contain at least one number",
+      })
+      .refine((val) => /[!@#$%^&*()_\-+=\[\]{};:",.<>?/\\|]/.test(val), {
+        message: "Password must contain at least one special character",
+      }),
+
+  // ===============================
+  // Emails
+  // ===============================
+  email: () =>
+    z
+      .string()
+      .refine(
+        (val) =>
+          /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z]{2,})+$/.test(
+            val
+          ),
+        {
+          message: "Please enter a valid email",
+        }
+      ),
 };
 
 export const query = {

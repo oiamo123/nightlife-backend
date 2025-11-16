@@ -2,18 +2,34 @@ import { PrismaClient } from "@prisma/client";
 
 // mock data
 import locations from "../mock_data/locations/locations.json" with { type: "json" };
+import users from "../mock_data/users/users.json" with { type: "json" }
 import venues from "../mock_data/venues/venues.json" with { type: "json" };
 import promotions from "../mock_data/promotions/promotions.json" with { type: "json" };
 import events from "../mock_data/events/events.json" with { type: "json" };
+import performers from "../mock_data/performers/performers.json" with { type: "json" };
+import eventPerformers from "../mock_data/performers/event_performers.json" with { type: "json" };
 import eventCategories from "../mock_data/meta/event_categories.json" with { type: "json" };
 import eventTypes from "../mock_data/meta/event_types.json" with { type: "json" };
 import promotionCategories from "../mock_data/meta/promotion_categories.json" with { type: "json" }
 import promotionTypes from "../mock_data/meta/promotion_types.json" with { type: "json" };
 import venueTypes from "../mock_data/meta/venue_types.json" with { type: "json" };
+import musicGenres from "../mock_data/venues/music_genres.json" with { type: "json" };
 import permissionsFor from "../mock_data/meta//account/permission_for.json" with { type: "json" }
 import permissionType from "../mock_data/meta/account/permission_type.json" with { type: "json" }
 import userRoles from "../mock_data/meta/user_roles.json" with { type: "json" }
 import countryStateCity from "../mock_data/countries/countries+states+cities.json" with { type: "json" }
+import linkTypes from "../mock_data/meta/link_type.json" with { type: "json" }
+import venueFollowers from "../mock_data/venues/venue_followers.json" with { type: "json" }
+import venueLikes from "../mock_data/venues/venue_likes.json" with { type: "json" }
+import venueLinks from "../mock_data/venues/venue_links.json" with { type: "json" }
+import venuePreferences from "../mock_data/venues/venue_preferences.json" with { type: "json" }
+import performerFollowers from "../mock_data/performers/performer_followers.json" with { type: "json" }
+import performerLikes from "../mock_data/performers/performer_likes.json" with { type: "json" }
+import performerLinks from "../mock_data/performers/performer_links.json" with { type: "json" }
+import eventLikes from "../mock_data/events/event_likes.json" with { type: "json" }
+import eventPreferences from "../mock_data/events/event_preferences.json" with { type: "json" }
+import promotionLikes from "../mock_data/promotions/promotion_likes.json" with { type: "json" }
+import promotionPreferences from "../mock_data/promotions/promotion_preferences.json" with { type: "json" }
 
 const prisma = new PrismaClient();
 
@@ -107,11 +123,12 @@ async function main() {
     await prisma.venue.create({ 
       data: { 
         ...val, 
-        musicGenres: {
-          connect: val.musicGenres.map((musicGenre: number) => ({ id: musicGenre }))
-        }
       } 
     })
+  }
+
+  for (const val of musicGenres) {
+    await prisma.musicGenre.create({ data: val })
   }
 
   for (const val of promotions) {
@@ -130,6 +147,22 @@ async function main() {
     })
   }
 
+  for (const val of performers) {
+    await prisma.performer.create({
+      data: {
+        ...val
+      }
+    })
+  }
+
+  for (const val of eventPerformers) {
+    await prisma.eventPerformer.create({
+      data: {
+        ...val
+      }
+    })
+  }
+
   for (const val of permissionType) {
     await prisma.permissionType.create({ data: val })
   }
@@ -141,6 +174,111 @@ async function main() {
   for (const val of userRoles) {
     await prisma.userRole.create({ data: val })
   }
+
+  for (const val of users) {
+    await prisma.user.create({
+      data: {
+        ...val
+      }
+    })
+  }
+
+  for (const val of linkTypes) {
+    await prisma.linkType.create({
+      data: {
+        ...val
+      }
+    })
+  }
+
+  for (const val of venueFollowers) {
+    await prisma.venueFollower.create({
+      data: {
+        ...val
+      }
+    })
+  }
+
+  for (const val of venueLikes) {
+    await prisma.venueLike.create({
+      data: {
+        ...val
+      }
+    })
+  }
+
+  for (const val of venueLinks) {
+    await prisma.venueLink.create({
+      data: {
+        ...val
+      }
+    })
+  }
+
+  for (const val of venuePreferences) {
+    await prisma.venueTypePreference.create({
+      data: {
+        ...val
+      }
+    })
+  }
+
+  for (const val of performerFollowers) {
+    await prisma.performerFollower.create({
+      data: {
+        ...val
+      }
+    })
+  }
+
+  for (const val of performerLikes) {
+    await prisma.performerLike.create({
+      data: {
+        ...val
+      }
+    })
+  }
+
+  for (const val of performerLinks) {
+    await prisma.performerLink.create({
+      data: {
+        ...val
+      }
+    })
+  }
+
+  for (const val of eventLikes) {
+    await prisma.eventLike.create({
+      data: {
+        ...val
+      }
+    })
+  }
+
+  for (const val of eventPreferences) {
+    await prisma.eventTypePreference.create({
+      data: {
+        ...val
+      }
+    })
+  }
+
+  for (const val of promotionLikes) {
+    await prisma.promotionLike.create({
+      data: {
+        ...val
+      }
+    })
+  }
+
+  for (const val of promotionPreferences) {
+    await prisma.promotionTypePreference.create({
+      data: {
+        ...val
+      }
+    })
+  }
+
 
   console.log("\n\nSeeding complete\n\n")
 }

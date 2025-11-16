@@ -1,5 +1,18 @@
 [
   {
+    "id": 0,
+    "venueId": 0,
+    "locationId": 8,
+    "title": "Cocktail Hour",
+    "headline": "Premium drinks discount",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit...",
+    "image": "https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=800",
+    "startDate": "2025-10-17T00:00:00Z",
+    "endDate": "2025-11-17T23:59:59Z",
+    "promotionTypeId": 6,
+    "ageRestriction": 18
+  },
+  {
     "id": 1,
     "venueId": 0,
     "locationId": 1,

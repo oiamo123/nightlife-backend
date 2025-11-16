@@ -45,7 +45,26 @@ export function mapVenueToFeedItem(venue: any): FeedItemDTO {
 }
 
 export function mapEventToFeedItem(event: any, venue: any): FeedItemDTO {
-  const location = venue.location ? venue.location : event.location;
+  const location =
+    venue != null && venue.location != null ? venue.location : event.location;
+
+  if (event.performers.length === 1) {
+    const performer = event.performers[0].performer;
+
+    console.log(performer);
+
+    return {
+      id: performer.id,
+      image: performer.image,
+      title: performer.name,
+      price: event.price,
+      date: event.startDate,
+      venueName: venue.name,
+      subcategory: event.eventType.eventType,
+      type: SubcategoryType.Performer,
+      location: location,
+    };
+  }
 
   return {
     id: event.id,

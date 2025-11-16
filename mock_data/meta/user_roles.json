@@ -9,6 +9,10 @@
   },
   {
     "id": 2,
-    "userRole": "VenueAdmin"
+    "userRole": "Venue"
+  },
+  {
+    "id": 3,
+    "userRole": "Organizer"
   }
 ]

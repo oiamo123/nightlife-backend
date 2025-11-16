@@ -5,6 +5,7 @@ import { validate } from "../../../middleware/middleware.ts";
 import { body } from "../../../shared/validation.ts";
 import { error, success } from "../../../shared/responses.ts";
 import { DateTime } from "luxon";
+import { ApiError } from "../../../shared/errors/api_error.ts";
 
 const router = express.Router();
 
@@ -20,17 +21,17 @@ router.get(
       const { token } = (req as any).validatedData;
 
       if (!token) {
-        throw new Error("Your link is invalid");
+        throw new ApiError({ message: "Your link is invalid" });
       }
 
-      const entry = await prisma.emailTokens.findFirst({
+      const entry = await prisma.emailToken.findFirst({
         where: {
           token,
         },
       });
 
       if (!entry || entry.expiresAt < DateTime.now().toUTC()) {
-        throw new Error("Your link is expired");
+        throw new ApiError({ message: "Your link is expired" });
       }
 
       await prisma.user.update({
@@ -38,13 +39,14 @@ router.get(
         data: { verified: true },
       });
 
-      await prisma.emailTokens.deleteMany({ where: { email: entry.email } });
+      await prisma.emailToken.deleteMany({ where: { email: entry.email } });
 
-      success({ res, data: ["Success"] });
+      success({ res, data: [] });
     } catch (err) {
       error({
         res,
-        message: err.message,
+        message:
+          err instanceof ApiError ? err.message : "Something went wrong.",
       });
     }
   }

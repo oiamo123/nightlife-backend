@@ -22,6 +22,7 @@ model Location {
   venues     Venue[]
   events     Event[]
   promotions Promotion[]
+  performers Performer[]
 
   @@index([cityId])
   @@index([lat, lng])
@@ -93,18 +94,26 @@ model EventType {
   eventType       String
   eventCategoryId Int?
   eventCategory   EventCategory? @relation(fields: [eventCategoryId], references: [id])
+  performers      Performer[]
   events          Event[]
-  // followedBy      User[]         @relation("EventTypeFollowers")
-  preferredBy     User[]         @relation("UserEventPreferences")
-  venues          Venue[]        @relation("VenueMusicType")
+
+  // Analytics
+  clicks EventTypeClick[]
+
+  // Social
+  prefferedBy EventTypePreference[]
+  followedBy  EventTypeFollower[]
+
+  // music genres
+  musicGenres MusicGenre[]
 }
 
 model Event {
-  id             Int           @id @default(autoincrement())
+  id             Int              @id @default(autoincrement())
   venueId        Int
-  venue          Venue         @relation(fields: [venueId], references: [id])
+  venue          Venue            @relation(fields: [venueId], references: [id])
   locationId     Int
-  location       Location      @relation(fields: [locationId], references: [id])
+  location       Location         @relation(fields: [locationId], references: [id])
   title          String
   headline       String
   description    String
@@ -114,10 +123,19 @@ model Event {
   image          String?
   eventTypeId    Int
   ageRestriction Int
-  createdAt      DateTime      @default(now())
-  eventType      EventType     @relation(fields: [eventTypeId], references: [id])
+  performers     EventPerformer[]
+  createdAt      DateTime         @default(now())
+  eventType      EventType        @relation(fields: [eventTypeId], references: [id])
   transactions   Transaction[]
   tickets        Ticket[]
+
+  // Analytics
+  clicks    EventClick[]
+  dwellTime EventDwellTime[]
+
+  // Social
+  likes EventLike[]
+  saves EventSave[]
 
   @@index([venueId, startDate, eventTypeId])
 }
@@ -137,8 +155,13 @@ model PromotionType {
   promotionCategoryId Int?
   promotions          Promotion[]
   promotionCategory   PromotionCategory? @relation(fields: [promotionCategoryId], references: [id])
-  preferredBy         User[]             @relation("UserPromotionPreferences")
-  // followedBy          User[]             @relation("PromotionTypeFollowers")
+
+  // Analytics
+  clicks PromotionTypeClick[]
+
+  // Social
+  prefferedBy PromotionTypePreference[]
+  followedBy  PromotionTypeFollower[]
 }
 
 model Promotion {
@@ -150,7 +173,6 @@ model Promotion {
   title           String
   headline        String
   description     String
-  price           Float?
   startDate       DateTime
   endDate         DateTime
   image           String?
@@ -159,6 +181,14 @@ model Promotion {
   createdAt       DateTime      @default(now())
   promotionType   PromotionType @relation(fields: [promotionTypeId], references: [id])
 
+  // Analytics
+  clicks    PromotionClick[]
+  dwellTime PromotionDwellTime[]
+
+  // Social
+  likes PromotionLike[]
+  saves PromotionSave[]
+
   @@index([venueId, startDate, promotionTypeId])
 }
 
@@ -166,43 +196,103 @@ model Promotion {
 // VENUES
 ////////////////////////////////
 model VenueType {
-  id          Int     @id @default(autoincrement())
-  venueType   String
-  venues      Venue[]
-  preferredBy User[]  @relation("UserVenuePreferences")
+  id        Int     @id @default(autoincrement())
+  venueType String
+  venues    Venue[]
+
+  // Analytics
+  clicks VenueTypeClick[]
+
+  // Social
+  prefferedBy VenueTypePreference[]
+}
+
+model MusicGenre {
+  id          Int       @id @default(autoincrement())
+  venueId     Int
+  venue       Venue     @relation(fields: [venueId], references: [id])
+  eventTypeId Int
+  eventType   EventType @relation(fields: [eventTypeId], references: [id])
+
+  @@index([venueId])
 }
 
 model Venue {
-  id             Int         @id @default(autoincrement())
+  id             Int          @id @default(autoincrement())
   locationId     Int
-  location       Location    @relation(fields: [locationId], references: [id])
+  location       Location     @relation(fields: [locationId], references: [id])
   name           String
   address        String
-  websiteUrl     String?
   description    String?
   image          String?
   phoneNumber    String?
   email          String?
   opensAt        Float
   closesAt       Float
-  verified       Boolean
   ageRestriction Int
   isOutdoor      Boolean
   isAccessible   Boolean
   events         Event[]
   promotions     Promotion[]
   venueTypeId    Int
-  createdAt      DateTime    @default(now())
-  venueType      VenueType   @relation(fields: [venueTypeId], references: [id])
-  musicGenres    EventType[] @relation("VenueMusicType")
-  // followers      User[]      @relation("VenueFollowers")
+  createdAt      DateTime     @default(now())
+  venueType      VenueType    @relation(fields: [venueTypeId], references: [id])
+  musicGenres    MusicGenre[]
+
+  // Analytical
+  clicks    VenueClick[]
+  dwellTime VenueDwellTime[]
+
+  // Social
+  likes      VenueLike[]
+  followedBy VenueFollower[]
+  links      VenueLink[]
 
   @@index([venueTypeId])
   @@index([locationId])
 }
 
 ////////////////////////////////
+// Performers
+////////////////////////////////
+model Performer {
+  id          Int      @id @default(autoincrement())
+  name        String
+  image       String?
+  description String
+  locationId  Int
+  location    Location @relation(fields: [locationId], references: [id])
+
+  events      EventPerformer[]
+  eventTypeId Int
+  eventType   EventType        @relation(fields: [eventTypeId], references: [id])
+
+  // Analytics
+  clicks    PerformerClick[]
+  dwellTime PerformerDwellTime[]
+  score     Int                  @default(0)
+
+  // Social
+  likes      PerformerLike[]
+  followedBy PerformerFollower[]
+  links      PerformerLink[]
+}
+
+model EventPerformer {
+  id          Int       @id @default(autoincrement())
+  eventId     Int
+  event       Event     @relation(fields: [eventId], references: [id])
+  performerId Int
+  performer   Performer @relation(fields: [performerId], references: [id])
+
+  @@index([eventId])
+  @@index([performerId])
+}
+
+////////////////////////////////
 // ACCOUNT
+////////////////////////////////
+// Permissions
 ////////////////////////////////
 model PermissionFor {
   id            Int              @id @default(autoincrement())
@@ -226,6 +316,9 @@ model UserPermission {
   permissionType   PermissionType @relation(fields: [permissionTypeId], references: [id])
 }
 
+////////////////////////////////
+// Notifications
+////////////////////////////////
 model NotificationType {
   id              Int                @id @default(autoincrement())
   notifcationType String
@@ -248,20 +341,72 @@ model UserNotification {
   notificationType   NotificationType @relation(fields: [notificationTypeId], references: [id])
 }
 
-model LinkedAccountType {
-  id                Int             @id @default(autoincrement())
-  linkedAccountType String
-  linkedAccounts    LinkedAccount[]
+model User {
+  id           Int       @id @default(autoincrement())
+  email        String    @unique
+  password     String?
+  name         String?
+  dateOfBirth  DateTime?
+  profileImage String?
+  verified     Boolean
+  roleId       Int
+  role         UserRole  @relation(fields: [roleId], references: [id])
+  createdAt    DateTime  @default(now())
+
+  // Clicks
+  venueClicks         VenueClick[]
+  performerClicks     PerformerClick[]
+  eventClicks         EventClick[]
+  promotionClicks     PromotionClick[]
+  venueTypeClicks     VenueTypeClick[]
+  eventTypeClicks     EventTypeClick[]
+  promotionTypeClicks PromotionTypeClick[]
+
+  // Dwell time
+  venueDwellTime     VenueDwellTime[]
+  performerDwellTime PerformerDwellTime[]
+  eventDwellTime     EventDwellTime[]
+  promotionDwellTime PromotionDwellTime[]
+
+  // Social
+  venueLikes    VenueLike[]
+  performerLike PerformerLike[]
+  eventLikes    EventLike[]
+  promotionLike PromotionLike[]
+
+  eventSaves     EventSave[]
+  promotionSaves PromotionSave[]
+
+  venuesFollowing        VenueFollower[]
+  performerFollowing     PerformerFollower[]
+  eventTypeFollowing     EventTypeFollower[]
+  promotionTypeFollowing PromotionTypeFollower[]
+
+  // Preferences
+  venueTypePreferences     VenueTypePreference[]
+  eventTypePreferences     EventTypePreference[]
+  promotionTypePreferences PromotionTypePreference[]
+
+  notifications UserNotification[]
+  permissions   UserPermission[]
+  transactions  Transaction[]
+  tickets       Ticket[]
+
+  @@index([email])
 }
 
-model LinkedAccount {
-  id                  Int               @id @default(autoincrement())
-  userId              Int
-  user                User              @relation(fields: [userId], references: [id])
-  linkedAccountTypeId Int
-  linkedAccountType   LinkedAccountType @relation(fields: [linkedAccountTypeId], references: [id])
-  externalId          String
-  linkedAt            DateTime          @default(now())
+////////////////////////////////
+// Payments / Tickets
+////////////////////////////////
+model Ticket {
+  id            Int         @id @default(autoincrement())
+  uuid          String      @default(uuid())
+  userId        Int
+  user          User        @relation(fields: [userId], references: [id])
+  eventId       Int
+  event         Event       @relation(fields: [eventId], references: [id])
+  transactionId Int
+  transaction   Transaction @relation(fields: [transactionId], references: [id])
 }
 
 model PaymentMethod {
@@ -293,60 +438,351 @@ model Transaction {
   tickets         Ticket[]
 }
 
+////////////////////////////////
+// Auth
+////////////////////////////////
+model RefreshToken {
+  id         Int      @id @default(autoincrement())
+  token      String
+  userId     Int
+  validUntil DateTime
+
+  @@index([userId])
+}
+
 model UserRole {
   id       Int    @id @default(autoincrement())
   userRole String
   users    User[]
 }
 
-model EmailTokens {
-  id        Int      @id @default(autoincrement())
-  email     String
-  token     String
-  expiresAt DateTime
-}
-
-model User {
-  id               Int                @id @default(autoincrement())
-  email            String             @unique
-  password         String?
-  phoneNumber      String?
-  name             String?
-  dateOfBirth      DateTime?
-  profileImage     String?
-  verified         Boolean
-  roleId           Int
-  role             UserRole           @relation(fields: [roleId], references: [id])
-  createdAt        DateTime           @default(now())
-  // followingVenues         Venue[]            @relation("VenueFollowers")
-  // followingEventTypes     EventType[]        @relation("EventTypeFollowers")
-  // followingPromotionTypes PromotionType[]    @relation("PromotionTypeFollowers")
-  venuePreferences VenueType[]        @relation("UserVenuePreferences")
-  eventPreferences EventType[]        @relation("UserEventPreferences")
-  promoPreferences PromotionType[]    @relation("UserPromotionPreferences")
-  linkedAccounts   LinkedAccount[]
-  notifications    UserNotification[]
-  permissions      UserPermission[]
-  transactions     Transaction[]
-  tickets          Ticket[]
-
-  @@index([email, phoneNumber])
-}
-
-model Ticket {
-  id            Int         @id @default(autoincrement())
-  uuid          String      @default(uuid())
-  userId        Int
-  user          User        @relation(fields: [userId], references: [id])
-  eventId       Int
-  event         Event       @relation(fields: [eventId], references: [id])
-  transactionId Int
-  transaction   Transaction @relation(fields: [transactionId], references: [id])
-}
-
-model RefreshToken {
+model EmailToken {
   id         Int      @id @default(autoincrement())
+  email      String   @unique
   token      String
-  userId     Int
-  validUntil DateTime
+  expiresAt  DateTime
+  resends    Int
+  lastSentAt DateTime
+
+  @@index([token])
+}
+
+////////////////////////////////
+// Analytics
+////////////////////////////////
+// Clicks
+////////////////////////////////
+model VenueClick {
+  id      Int      @id @default(autoincrement())
+  venueId Int
+  venue   Venue    @relation(fields: [venueId], references: [id])
+  userId  Int?
+  user    User?    @relation(fields: [userId], references: [id])
+  date    DateTime
+
+  @@index([venueId, date])
+  @@index([userId])
+  @@index([date])
+}
+
+model PerformerClick {
+  id          Int       @id @default(autoincrement())
+  performerId Int
+  performer   Performer @relation(fields: [performerId], references: [id])
+  userId      Int?
+  user        User?     @relation(fields: [userId], references: [id])
+  date        DateTime
+
+  @@index([performerId, date])
+  @@index([userId])
+  @@index([date])
+}
+
+model EventClick {
+  id      Int      @id @default(autoincrement())
+  eventId Int
+  event   Event    @relation(fields: [eventId], references: [id])
+  userId  Int?
+  user    User?    @relation(fields: [userId], references: [id])
+  date    DateTime
+
+  @@index([eventId, date])
+  @@index([userId])
+  @@index([date])
+}
+
+model PromotionClick {
+  id          Int       @id @default(autoincrement())
+  promotionId Int
+  promotion   Promotion @relation(fields: [promotionId], references: [id])
+  userId      Int?
+  user        User?     @relation(fields: [userId], references: [id])
+  date        DateTime
+
+  @@index([promotionId, date])
+  @@index([userId])
+  @@index([date])
+}
+
+model VenueTypeClick {
+  id          Int       @id @default(autoincrement())
+  venueTypeId Int
+  venueType   VenueType @relation(fields: [venueTypeId], references: [id])
+  userId      Int?
+  user        User?     @relation(fields: [userId], references: [id])
+  date        DateTime
+
+  @@index([venueTypeId, date])
+  @@index([userId])
+  @@index([date])
+}
+
+model EventTypeClick {
+  id          Int       @id @default(autoincrement())
+  eventTypeId Int
+  eventType   EventType @relation(fields: [eventTypeId], references: [id])
+  userId      Int?
+  user        User?     @relation(fields: [userId], references: [id])
+  date        DateTime
+
+  @@index([eventTypeId, date])
+  @@index([userId])
+  @@index([date])
+}
+
+model PromotionTypeClick {
+  id              Int           @id @default(autoincrement())
+  promotionTypeId Int
+  promotionType   PromotionType @relation(fields: [promotionTypeId], references: [id])
+  userId          Int?
+  user            User?         @relation(fields: [userId], references: [id])
+  date            DateTime
+
+  @@index([promotionTypeId, date])
+  @@index([userId])
+  @@index([date])
+}
+
+////////////////////////////////
+// Dwell Time
+////////////////////////////////
+model VenueDwellTime {
+  id       Int      @id @default(autoincrement())
+  venueId  Int
+  venue    Venue    @relation(fields: [venueId], references: [id])
+  userId   Int?
+  user     User?    @relation(fields: [userId], references: [id])
+  duration Int
+  date     DateTime @default(now())
+}
+
+model PerformerDwellTime {
+  id          Int       @id @default(autoincrement())
+  performerId Int
+  performer   Performer @relation(fields: [performerId], references: [id])
+  userId      Int?
+  user        User?     @relation(fields: [userId], references: [id])
+  duration    Int
+  date        DateTime  @default(now())
+}
+
+model EventDwellTime {
+  id       Int      @id @default(autoincrement())
+  eventId  Int
+  event    Event    @relation(fields: [eventId], references: [id])
+  userId   Int?
+  user     User?    @relation(fields: [userId], references: [id])
+  duration Int
+  date     DateTime @default(now())
+}
+
+model PromotionDwellTime {
+  id          Int       @id @default(autoincrement())
+  promotionId Int
+  promotion   Promotion @relation(fields: [promotionId], references: [id])
+  userId      Int?
+  user        User?     @relation(fields: [userId], references: [id])
+  duration    Int
+  date        DateTime  @default(now())
+}
+
+////////////////////////////////
+// Likes
+////////////////////////////////
+model VenueLike {
+  id      Int   @id @default(autoincrement())
+  venueId Int
+  venue   Venue @relation(fields: [venueId], references: [id])
+  userId  Int?
+  user    User? @relation(fields: [userId], references: [id])
+
+  @@index([venueId])
+  @@index([userId])
+}
+
+model PerformerLike {
+  id          Int       @id @default(autoincrement())
+  performerId Int
+  performer   Performer @relation(fields: [performerId], references: [id])
+  userId      Int?
+  user        User?     @relation(fields: [userId], references: [id])
+
+  @@index([performerId])
+  @@index([userId])
+}
+
+model EventLike {
+  id      Int   @id @default(autoincrement())
+  eventId Int
+  event   Event @relation(fields: [eventId], references: [id])
+  userId  Int?
+  user    User? @relation(fields: [userId], references: [id])
+
+  @@index([eventId])
+  @@index([userId])
+}
+
+model PromotionLike {
+  id          Int       @id @default(autoincrement())
+  promotionId Int
+  promotion   Promotion @relation(fields: [promotionId], references: [id])
+  userId      Int?
+  user        User?     @relation(fields: [userId], references: [id])
+
+  @@index([promotionId])
+  @@index([userId])
+}
+
+////////////////////////////////
+// Following
+////////////////////////////////
+model VenueFollower {
+  id      Int   @id @default(autoincrement())
+  venueId Int
+  venue   Venue @relation(fields: [venueId], references: [id])
+  userId  Int
+  user    User  @relation(fields: [userId], references: [id])
+
+  @@index([venueId])
+  @@index([userId])
+}
+
+model PerformerFollower {
+  id          Int       @id @default(autoincrement())
+  performerId Int
+  performer   Performer @relation(fields: [performerId], references: [id])
+  userId      Int
+  user        User      @relation(fields: [userId], references: [id])
+
+  @@index([performerId])
+  @@index([userId])
+}
+
+model EventTypeFollower {
+  id          Int       @id @default(autoincrement())
+  eventTypeId Int
+  eventType   EventType @relation(fields: [eventTypeId], references: [id])
+  userId      Int
+  user        User      @relation(fields: [userId], references: [id])
+
+  @@index([eventTypeId])
+  @@index([userId])
+}
+
+model PromotionTypeFollower {
+  id              Int           @id @default(autoincrement())
+  promotionTypeId Int
+  promotionType   PromotionType @relation(fields: [promotionTypeId], references: [id])
+  userId          Int
+  user            User          @relation(fields: [userId], references: [id])
+
+  @@index([promotionTypeId])
+  @@index([userId])
+}
+
+////////////////////////////////
+// Preferences
+////////////////////////////////
+model VenueTypePreference {
+  id          Int       @id @default(autoincrement())
+  venueTypeId Int
+  venueType   VenueType @relation(fields: [venueTypeId], references: [id])
+  userId      Int
+  user        User      @relation(fields: [userId], references: [id])
+
+  @@index([venueTypeId])
+  @@index([userId])
+}
+
+model EventTypePreference {
+  id          Int       @id @default(autoincrement())
+  eventTypeId Int
+  eventType   EventType @relation(fields: [eventTypeId], references: [id])
+  userId      Int
+  user        User      @relation(fields: [userId], references: [id])
+
+  @@index([eventTypeId])
+  @@index([userId])
+}
+
+model PromotionTypePreference {
+  id              Int           @id @default(autoincrement())
+  promotionTypeId Int
+  promotionType   PromotionType @relation(fields: [promotionTypeId], references: [id])
+  userId          Int
+  user            User          @relation(fields: [userId], references: [id])
+
+  @@index([promotionTypeId])
+  @@index([userId])
+}
+
+////////////////////////////////
+// Saves
+////////////////////////////////
+model EventSave {
+  id      Int   @id @default(autoincrement())
+  eventId Int
+  event   Event @relation(fields: [eventId], references: [id])
+  userId  Int?
+  user    User? @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+}
+
+model PromotionSave {
+  id          Int       @id @default(autoincrement())
+  promotionId Int
+  promotion   Promotion @relation(fields: [promotionId], references: [id])
+  userId      Int?
+  user        User?     @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+}
+
+////////////////////////////////
+// Links
+////////////////////////////////
+model LinkType {
+  id             Int             @id @default(autoincrement())
+  linkType       String
+  venueLinks     VenueLink[]
+  performerLinks PerformerLink[]
+}
+
+model VenueLink {
+  id         Int      @id @default(autoincrement())
+  link       String
+  linkTypeId Int
+  linkType   LinkType @relation(fields: [linkTypeId], references: [id])
+  venueId    Int
+  venue      Venue    @relation(fields: [venueId], references: [id])
+}
+
+model PerformerLink {
+  id          Int       @id @default(autoincrement())
+  link        String
+  linkTypeId  Int
+  linkType    LinkType  @relation(fields: [linkTypeId], references: [id])
+  performerId Int
+  performer   Performer @relation(fields: [performerId], references: [id])
 }

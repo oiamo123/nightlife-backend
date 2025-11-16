@@ -4,6 +4,7 @@ import { success } from "../../shared/responses.ts";
 import { z } from "zod";
 import { query } from "../../shared/validation.ts";
 import { validate } from "../../middleware/middleware.ts";
+import { mapEventToFeedItem } from "../../shared/mappers.ts";
 
 const router = express.Router();
 
@@ -26,20 +27,52 @@ router.get(
   async (req, res) => {
     const { id } = (req as any).validatedData;
 
-    const venue = await prisma.venue.findMany({
+    const likesQuery = prisma.venueLike.count({
+      where: {
+        venueId: id,
+      },
+    });
+
+    const followersQuery = prisma.venueFollower.count({
+      where: {
+        venueId: id,
+      },
+    });
+
+    const linksQuery = prisma.venueLink.findMany({
+      where: {
+        venueId: id,
+      },
+    });
+
+    const eventsQuery = prisma.event.findMany({
+      where: {
+        venueId: id,
+      },
+      include: {
+        performers: {
+          include: {
+            performer: true,
+          },
+        },
+      },
+    });
+
+    const promotionsQuery = prisma.promotion.findMany({
+      where: {
+        venueId: id,
+      },
+    });
+
+    const venueQuery = prisma.venue.findFirst({
       where: {
         id: Number(id),
       },
       include: {
         venueType: true,
-        events: {
+        musicGenres: {
           include: {
             eventType: true,
-          },
-        },
-        promotions: {
-          include: {
-            promotionType: true,
           },
         },
         location: {
@@ -54,7 +87,20 @@ router.get(
       },
     });
 
-    success({ res, data: venue });
+    const [likes, followers, links, events, promotions, venue] =
+      await Promise.all([
+        likesQuery,
+        followersQuery,
+        linksQuery,
+        eventsQuery,
+        promotionsQuery,
+        venueQuery,
+      ]);
+
+    success({
+      res,
+      data: [{ ...venue, events, promotions, followers, likes, links }],
+    });
   }
 );
 

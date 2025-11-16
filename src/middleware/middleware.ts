@@ -20,7 +20,7 @@ export function validate<T extends ZodType>({
           res,
           errors: result.error.issues.map((issue) => ({
             field: issue.path[0] as string,
-            code: issue.code as string,
+            message: issue.message as string,
           })),
           message: "Validation failed",
         });

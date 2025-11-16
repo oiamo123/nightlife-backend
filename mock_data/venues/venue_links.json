@@ -1,0 +1,38 @@
+[
+  {
+    "id": 0,
+    "link": "https://google.com",
+    "venueId": 0,
+    "linkTypeId": 0
+  },
+  {
+    "id": 1,
+    "link": "https://google.com",
+    "venueId": 0,
+    "linkTypeId": 1
+  },
+  {
+    "id": 2,
+    "link": "https://google.com",
+    "venueId": 1,
+    "linkTypeId": 2
+  },
+  {
+    "id": 3,
+    "link": "https://google.com",
+    "venueId": 2,
+    "linkTypeId": 2
+  },
+  {
+    "id": 4,
+    "link": "https://google.com",
+    "venueId": 3,
+    "linkTypeId": 4
+  },
+  {
+    "id": 5,
+    "link": "https://google.com",
+    "venueId": 3,
+    "linkTypeId": 3
+  }
+]

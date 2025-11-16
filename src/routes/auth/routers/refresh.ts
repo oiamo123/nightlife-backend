@@ -5,6 +5,7 @@ import { error, success } from "../../../shared/responses.ts";
 import { DateTime } from "luxon";
 import { verifyHash } from "../../../utils/utils.ts";
 import { signRefreshToken } from "../../../shared/tokens/tokens.ts";
+import { ApiError } from "../../../shared/errors/api_error.ts";
 
 const router = express.Router();
 
@@ -20,21 +21,17 @@ router.post("/", authenticate, async (req, res) => {
       },
     });
 
-    console.log(
-      `Found refresh token for: ${jwt.userId}, token: ${storedRefreshToken?.token}`
-    );
-
     if (
       !storedRefreshToken ||
       new DateTime(storedRefreshToken.validUntil) > DateTime.now()
     ) {
-      throw new Error("Invalid or expired token");
+      throw new ApiError({ message: "Invalid or expired token" });
     }
 
     const match = await verifyHash(storedRefreshToken.token, refreshToken!);
 
     if (!match) {
-      throw new Error("Invalid token");
+      throw new ApiError({ message: "Invalid token" });
     }
 
     const token = await signRefreshToken({

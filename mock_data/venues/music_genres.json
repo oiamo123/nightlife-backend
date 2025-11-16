@@ -1,0 +1,82 @@
+[
+  {
+    "id": 0,
+    "venueId": 0,
+    "eventTypeId": 0
+  },
+  {
+    "id": 1,
+    "venueId": 0,
+    "eventTypeId": 1
+  },
+  {
+    "id": 2,
+    "venueId": 0,
+    "eventTypeId": 2
+  },
+  {
+    "id": 3,
+    "venueId": 0,
+    "eventTypeId": 3
+  },
+  {
+    "id": 4,
+    "venueId": 0,
+    "eventTypeId": 4
+  },
+  {
+    "id": 5,
+    "venueId": 1,
+    "eventTypeId": 2
+  },
+  {
+    "id": 6,
+    "venueId": 1,
+    "eventTypeId": 5
+  },
+  {
+    "id": 7,
+    "venueId": 1,
+    "eventTypeId": 6
+  },
+  {
+    "id": 8,
+    "venueId": 1,
+    "eventTypeId": 7
+  },
+  {
+    "id": 9,
+    "venueId": 2,
+    "eventTypeId": 0
+  },
+  {
+    "id": 10,
+    "venueId": 2,
+    "eventTypeId": 3
+  },
+  {
+    "id": 11,
+    "venueId": 2,
+    "eventTypeId": 7
+  },
+  {
+    "id": 12,
+    "venueId": 3,
+    "eventTypeId": 0
+  },
+  {
+    "id": 13,
+    "venueId": 3,
+    "eventTypeId": 1
+  },
+  {
+    "id": 14,
+    "venueId": 3,
+    "eventTypeId": 3
+  },
+  {
+    "id": 15,
+    "venueId": 3,
+    "eventTypeId": 5
+  }
+]

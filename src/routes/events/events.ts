@@ -29,15 +29,31 @@ router.get(
   async (req, res) => {
     const { id } = (req as any).validatedData;
 
-    const event = await prisma.event.findMany({
+    const likesQuery = prisma.eventLike.count({
+      where: {
+        eventId: id,
+      },
+    });
+
+    const performersQuery = prisma.eventPerformer.findMany({
+      where: {
+        eventId: id,
+      },
+      include: {
+        performer: true,
+      },
+    });
+
+    const eventQuery = prisma.event.findFirst({
       where: {
         id: Number(id),
       },
       include: {
         eventType: true,
+        performers: true,
         venue: {
-          include: {
-            venueType: true,
+          select: {
+            id: true,
           },
         },
         location: {
@@ -52,7 +68,19 @@ router.get(
       },
     });
 
-    success({ res, data: event });
+    const [likes, performers, event] = await Promise.all([
+      likesQuery,
+      performersQuery,
+      eventQuery,
+    ]);
+
+    const [venueLikes, venueFollowers, venue] = await Promise.all([
+      venueLikesQuery,
+      venueFollowersQuery,
+      venueQuery,
+    ]);
+
+    success({ res, data: [{ ...event, performers, likes }] });
   }
 );
 

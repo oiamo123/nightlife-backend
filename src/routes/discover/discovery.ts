@@ -26,6 +26,7 @@ const discoveryFilters = z.object({
   venueIds: query.numberArray().optional(),
   promotionIds: query.numberArray().optional(),
   eventIds: query.numberArray().optional(),
+  performerIds: query.numberArray().optional(),
   venueTypes: query.numberArray().optional(),
   hasEvents: query.boolean().optional(),
   hasPromotions: query.boolean().optional(),
@@ -126,7 +127,8 @@ function createPromotionWhere(filters: any): Prisma.PromotionWhereInput {
 async function fetchDataByIds(
   venueIds: number[],
   promotionIds: number[],
-  eventIds: number[]
+  eventIds: number[],
+  performerIds: number[]
 ): Promise<FeedItemDTO[]> {
   const feedItems: FeedItemDTO[] = [];
 
@@ -176,6 +178,17 @@ async function fetchDataByIds(
         startDate: true,
         venue: true,
         eventType: true,
+        performers: {
+          select: {
+            performer: {
+              select: {
+                id: true,
+                name: true,
+                image: true,
+              },
+            },
+          },
+        },
       },
     });
 
@@ -374,6 +387,17 @@ async function fetchDiscoveryData(filters: any) {
           price: true,
           startDate: true,
           eventType: true,
+          performers: {
+            select: {
+              performer: {
+                select: {
+                  id: true,
+                  name: true,
+                  image: true,
+                },
+              },
+            },
+          },
         },
       },
       promotions: {
@@ -449,7 +473,7 @@ router.get(
   validate({ schema: discoveryFilters, source: "query" }),
   async (req, res) => {
     const filters = (req as any).validatedData;
-    const { venueIds, promotionIds, eventIds } = filters;
+    const { venueIds, promotionIds, eventIds, performerIds } = filters;
 
     try {
       // =======================================================
@@ -464,7 +488,8 @@ router.get(
         const feedItems = await fetchDataByIds(
           venueIds,
           promotionIds,
-          eventIds
+          eventIds,
+          performerIds
         );
 
         return success({ res, data: feedItems });

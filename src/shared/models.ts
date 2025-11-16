@@ -2,6 +2,7 @@ export const SubcategoryType = {
   Event: "event",
   Promotion: "promotion",
   Venue: "venue",
+  Performer: "performer",
 };
 
 export type FeedItemDTO = {

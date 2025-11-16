@@ -14,7 +14,6 @@ const router = express.Router();
 
 const registerSchema = z.object({
   email: body.email(),
-  password: body.password(),
 });
 
 router.post(
@@ -22,52 +21,47 @@ router.post(
   validate({ schema: registerSchema, source: "body" }),
   async (req, res) => {
     try {
-      const { email, password } = (req as any).validatedData;
-      if (!email || !password) {
+      const { email } = (req as any).validatedData;
+
+      const user = await prisma.user.findFirst({
+        where: {
+          email: email,
+        },
+      });
+
+      if (!user) throw new ApiError({ message: "Something went wrong." });
+
+      const existing = await prisma.emailToken.findFirst({
+        where: {
+          email: email,
+        },
+      });
+
+      if (!existing) throw new ApiError({ message: "Something went wrong." });
+
+      const now = DateTime.now().toUTC();
+      const lastSentAt = DateTime.fromISO(existing.lastSentAt);
+
+      if (existing.resends >= 3 && lastSentAt.plus({ hours: 24 }) > now) {
         throw new ApiError({
-          message: "You must provide an email and a password",
+          message: "We're unable to resend a verification link at this time.",
         });
       }
 
-      const existing = await prisma.user.findFirst({
-        where: { email },
-      });
-
-      if (existing) {
-        throw new ApiError({ message: "This email already exists" });
+      if (lastSentAt.plus({ minutes: 5 }) > now) {
+        throw new ApiError({
+          message:
+            "Please wait 5 minutes before attempting to send another link.",
+        });
       }
-
-      const passwordHashed = await hashString(password);
-      if (passwordHashed === null) {
-        throw new ApiError({ message: "Something went wrong" });
-      }
-
-      const role = await prisma.userRole.findFirst({
-        where: {
-          userRole: "User",
-        },
-      });
-
-      if (role === null) {
-        throw new ApiError({ message: "Something went wrong" });
-      }
-
-      await prisma.user.create({
-        data: {
-          email,
-          password: passwordHashed,
-          verified: false,
-          roleId: role.id,
-        },
-      });
 
       const token = generateToken();
 
-      await prisma.emailToken.create({
+      await prisma.emailToken.update({
+        where: { email },
         data: {
-          email,
           token,
-          resends: 0,
+          resends: existing.resends + 1,
           lastSentAt: DateTime.now().toUTC().toISO(),
           expiresAt: DateTime.now().plus({ minutes: 15 }).toUTC().toISO(),
         },
@@ -79,7 +73,7 @@ router.post(
         template: "verify_email",
         data: {
           email: "goiamo@invenre.com",
-          verificationLink: `http://localhost:8080/#/verify?token=${token}`,
+          verificationLink: `http://localhost:8080/#/auth/verify?token=${token}`,
           year: DateTime.now().year,
         },
       });
@@ -88,8 +82,7 @@ router.post(
     } catch (err) {
       error({
         res,
-        message:
-          err instanceof ApiError ? err.message : "Something went wrong.",
+        message: err instanceof ApiError ? err.message : "Something went wrong",
       });
     }
   }

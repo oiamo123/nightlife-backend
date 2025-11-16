@@ -1,0 +1,34 @@
+[
+  {
+    "id": 0,
+    "linkType": "Instagram"
+  },
+  {
+    "id": 1,
+    "linkType": "TikTok"
+  },
+  {
+    "id": 2,
+    "linkType": "Spotify"
+  },
+  {
+    "id": 3,
+    "linkType": "Apple Music"
+  },
+  {
+    "id": 4,
+    "linkType": "SoundCloud"
+  },
+  {
+    "id": 5,
+    "linkType": "Facebook"
+  },
+  {
+    "id": 6,
+    "linkType": "Website"
+  },
+  {
+    "id": 7,
+    "linkType": "Youtube"
+  }
+]

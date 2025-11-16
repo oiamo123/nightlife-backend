@@ -1,0 +1,130 @@
+[
+  {
+    "id": 0,
+    "name": "Grace Thompson",
+    "image": "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=800",
+    "description": "Grace is a contemporary vocalist exploring electronic and soul-infused music.",
+    "locationId": 16,
+    "eventTypeId": 4
+  },
+  {
+    "id": 1,
+    "name": "John Doe",
+    "image": "https://images.unsplash.com/photo-1556742393-d75f468bfcb0?w=800",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse placerat, lorem at finibus semper, ligula tortor iaculis lorem, vitae consectetur ligula ante lacinia sem. Sed vitae pharetra odio, et mattis lectus. Nullam at nibh a lectus ornare aliquet non iaculis odio. Maecenas dignissim, leo vitae tristique sollicitudin, justo orci accumsan sem, non interdum purus ligula vitae odio. Morbi accumsan dui eget tellus facilisis egestas. Aenean pharetra lorem ac nisi pellentesque posuere. Nam pharetra metus nec mauris interdum, eu consectetur orci iaculis. Maecenas vitae dui dui. Phasellus ornare molestie",
+    "locationId": 1,
+    "eventTypeId": 1
+  },
+  {
+    "id": 2,
+    "name": "Sophia Martinez",
+    "image": "https://images.unsplash.com/photo-1502767089025-6572583495b1?w=800",
+    "description": "Sophia is an eclectic musician blending jazz and electronic influences. Known for her soulful performances and high-energy live shows.",
+    "locationId": 2,
+    "eventTypeId": 2
+  },
+  {
+    "id": 3,
+    "name": "Liam Nguyen",
+    "image": "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=800",
+    "description": "Liam is a singer-songwriter who captivates audiences with acoustic performances and heartfelt lyrics.",
+    "locationId": 3,
+    "eventTypeId": 3
+  },
+  {
+    "id": 4,
+    "name": "Ava Johnson",
+    "image": "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=800",
+    "description": "Ava’s dynamic voice and stage presence make her a standout pop artist with a growing fanbase.",
+    "locationId": 4,
+    "eventTypeId": 4
+  },
+  {
+    "id": 5,
+    "name": "Ethan Patel",
+    "image": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=800",
+    "description": "Ethan is a DJ and electronic music producer, known for his hypnotic beats and festival performances.",
+    "locationId": 5,
+    "eventTypeId": 1
+  },
+  {
+    "id": 6,
+    "name": "Mia Chen",
+    "image": "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=800",
+    "description": "Mia fuses R&B and soul, delivering performances full of emotion and technical finesse.",
+    "locationId": 6,
+    "eventTypeId": 2
+  },
+  {
+    "id": 7,
+    "name": "Noah Kim",
+    "image": "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800",
+    "description": "Noah is a versatile drummer who has performed with various bands across multiple genres.",
+    "locationId": 7,
+    "eventTypeId": 3
+  },
+  {
+    "id": 8,
+    "name": "Olivia Brown",
+    "image": "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800",
+    "description": "Olivia is a contemporary dancer and choreographer, specializing in fusion and experimental styles.",
+    "locationId": 8,
+    "eventTypeId": 4
+  },
+  {
+    "id": 9,
+    "name": "Lucas Davis",
+    "image": "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=800",
+    "description": "Lucas is a guitarist and composer, mixing rock and classical elements in his compositions.",
+    "locationId": 9,
+    "eventTypeId": 1
+  },
+  {
+    "id": 10,
+    "name": "Emma Wilson",
+    "image": "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=800",
+    "description": "Emma is a spoken word artist whose performances are both emotive and thought-provoking.",
+    "locationId": 10,
+    "eventTypeId": 2
+  },
+  {
+    "id": 11,
+    "name": "James Anderson",
+    "image": "https://images.unsplash.com/photo-1556742393-d75f468bfcb0?w=800",
+    "description": "James is a pop singer with a talent for catchy hooks and energetic live shows.",
+    "locationId": 11,
+    "eventTypeId": 3
+  },
+  {
+    "id": 12,
+    "name": "Isabella Garcia",
+    "image": "https://images.unsplash.com/photo-1502767089025-6572583495b1?w=800",
+    "description": "Isabella blends Latin rhythms and soulful vocals, delivering unforgettable performances.",
+    "locationId": 12,
+    "eventTypeId": 4
+  },
+  {
+    "id": 13,
+    "name": "Benjamin Lee",
+    "image": "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=800",
+    "description": "Benjamin is a jazz saxophonist with a flair for improvisation and live collaboration.",
+    "locationId": 13,
+    "eventTypeId": 1
+  },
+  {
+    "id": 14,
+    "name": "Charlotte Taylor",
+    "image": "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=800",
+    "description": "Charlotte is a classical pianist known for her precision and emotive performances.",
+    "locationId": 14,
+    "eventTypeId": 2
+  },
+  {
+    "id": 15,
+    "name": "Daniel Robinson",
+    "image": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=800",
+    "description": "Daniel is an indie rock singer and songwriter with a growing following for his unique sound.",
+    "locationId": 15,
+    "eventTypeId": 3
+  }
+]

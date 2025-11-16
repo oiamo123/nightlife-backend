@@ -26,7 +26,13 @@ router.get(
   async (req, res) => {
     const { id } = (req as any).validatedData;
 
-    const promotion = await prisma.promotion.findMany({
+    const likeQuery = prisma.promotionLike.count({
+      where: {
+        promotionId: id,
+      },
+    });
+
+    const promotionQuery = prisma.promotion.findFirst({
       where: {
         id: Number(id),
       },
@@ -49,7 +55,9 @@ router.get(
       },
     });
 
-    success({ res, data: promotion });
+    const [likes, promotion] = await Promise.all([likeQuery, promotionQuery]);
+
+    success({ res, data: [{ ...promotion, likes }] });
   }
 );
 
