@@ -73,16 +73,16 @@ router.post(
         },
       });
 
-      await sendEmail({
-        to: email,
-        subject: "Verify Your Email",
-        template: "verify_email",
-        data: {
-          email: "goiamo@invenre.com",
-          verificationLink: `http://localhost:8080/#/verify?token=${token}`,
-          year: DateTime.now().year,
-        },
-      });
+      // await sendEmail({
+      //   to: email,
+      //   subject: "Verify Your Email",
+      //   template: "verify_email",
+      //   data: {
+      //     email: "goiamo@invenre.com",
+      //     verificationLink: `http://localhost:8080/#/verify?token=${token}`,
+      //     year: DateTime.now().year,
+      //   },
+      // });
 
       success({ res, data: [] });
     } catch (err) {

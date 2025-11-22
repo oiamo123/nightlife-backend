@@ -5,38 +5,34 @@
   },
   {
     "id": 1,
-    "venueType": "Strip Club"
-  },
-  {
-    "id": 2,
     "venueType": "Comedy Club"
   },
   {
-    "id": 3,
+    "id": 2,
     "venueType": "Lounge"
   },
   {
-    "id": 4,
+    "id": 3,
     "venueType": "Bar"
   },
   {
-    "id": 5,
+    "id": 4,
     "venueType": "Pub"
   },
   {
-    "id": 6,
+    "id": 5,
     "venueType": "Theatre"
   },
   {
-    "id": 7,
+    "id": 6,
     "venueType": "Casino"
   },
   {
-    "id": 8,
+    "id": 7,
     "venueType": "Beer Garden"
   },
   {
-    "id": 9,
+    "id": 8,
     "venueType": "Stadium"
   }
 ]

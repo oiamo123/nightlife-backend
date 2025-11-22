@@ -1,27 +1,34 @@
-import { z } from "zod";
 import express from "express";
-import { query } from "../../../shared/validation.ts";
-import { success } from "../../../shared/responses.ts";
+import { error, success } from "../../../shared/responses.ts";
+import { authenticate } from "../../../middleware/middleware.ts";
+import { ApiError } from "../../../shared/errors/api_error.ts";
+import prisma from "../../../lib/prisma.ts";
 
 const router = express.Router();
-
-const singleEvent = z.object({
-  id: query.number(),
-});
 
 // =======================================================
 // Routes
 // =======================================================
-router.post("/", async (req, res) => {
-  success({ res, data: ["Success"] });
-});
+router.get("/", authenticate({ roles: ["User"] }), async (req, res) => {
+  try {
+    const jwt = (req as any).jwt;
 
-router.post("/apple", (req, res) => {
-  success({ res, data: ["Success"] });
-});
+    await prisma.refreshToken.deleteMany({
+      where: {
+        userId: jwt.userId,
+      },
+    });
 
-router.post("/google", (req, res) => {
-  success({ res, data: ["Success"] });
+    return success({
+      res,
+      data: [],
+    });
+  } catch (err) {
+    return error({
+      res,
+      message: err instanceof ApiError ? err.message : "Something went wrong",
+    });
+  }
 });
 
 export default router;

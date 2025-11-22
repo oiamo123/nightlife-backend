@@ -5,6 +5,25 @@ export const SubcategoryType = {
   Performer: "performer",
 };
 
+export const Role = {
+  user: 0,
+  guest: 1,
+  venueUser: 2,
+  venue: 3,
+  organizer: 4,
+};
+
+export const EngagementType = {
+  click: 0,
+  impression: 1,
+  dwellTime: 0,
+};
+
+export const EngagementSource = {
+  map: 0,
+  list: 1,
+};
+
 export type FeedItemDTO = {
   id: number;
   image: string | null;
@@ -14,7 +33,8 @@ export type FeedItemDTO = {
   venueName?: string | null;
   subcategory: string;
   type: string;
-  location: LocationDTO;
+  location?: LocationDTO | null;
+  city?: CityDTO | null;
 };
 
 export type Marker = {

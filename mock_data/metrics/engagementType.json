@@ -1,0 +1,14 @@
+[
+  {
+    "id": 0,
+    "engagementType": "click"
+  },
+  {
+    "id": 1,
+    "engagementType": "impression"
+  },
+  {
+    "id": 2,
+    "engagementType": "dwellTime"
+  }
+]

@@ -12,21 +12,6 @@ export const parseBounds = function (bounds: number[]): number[] {
   return [minLat, maxLat, minLng, maxLng];
 };
 
-export const parseCoords = function (coords: string): number[] {
-  return coords.split(",").map(Number);
-};
-
-export const parseDate = function (dateString?: string): string {
-  const date = dateString === undefined ? new Date() : new Date(dateString);
-  return date.toISOString();
-};
-
-export const parseNumberArray = function (arrayString?: string[]): number[] {
-  const array =
-    arrayString === undefined ? [] : arrayString.map((s) => Number(s));
-  return array;
-};
-
 export const hashString = async function (str: string): Promise<string | null> {
   try {
     const hash = await argon2.hash(str);

@@ -7,7 +7,7 @@ export const body = {
   string: () => z.string(),
   number: () => z.number(),
   boolean: () => z.boolean(),
-  date: () => z.date(),
+  date: () => z.coerce.date(),
   stringArray: () => z.array(z.string()),
   numberArray: () => z.array(z.number()),
 

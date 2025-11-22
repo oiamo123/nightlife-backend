@@ -2,7 +2,7 @@ import { z } from "zod";
 import { query } from "../../shared/validation.ts";
 import express from "express";
 import prisma from "../../lib/prisma.ts";
-import { validate } from "../../middleware/middleware.ts";
+import { authenticate, validate } from "../../middleware/middleware.ts";
 import { DateTime } from "luxon";
 import { parseBounds } from "../../utils/utils.ts";
 import { success } from "../../shared/responses.ts";
@@ -26,7 +26,6 @@ const discoveryFilters = z.object({
   venueIds: query.numberArray().optional(),
   promotionIds: query.numberArray().optional(),
   eventIds: query.numberArray().optional(),
-  performerIds: query.numberArray().optional(),
   venueTypes: query.numberArray().optional(),
   hasEvents: query.boolean().optional(),
   hasPromotions: query.boolean().optional(),
@@ -41,7 +40,8 @@ const discoveryFilters = z.object({
   bounds: query.numberArray().optional(),
   coords: query.numberArray().optional(),
   search: query.string().optional(),
-  lastFetchedDate: query.date().optional(),
+  currentPage: query.number().optional(),
+  mapDate: query.date().optional(),
   view: z.enum(["map", "list"]).default("map"),
 });
 
@@ -127,8 +127,7 @@ function createPromotionWhere(filters: any): Prisma.PromotionWhereInput {
 async function fetchDataByIds(
   venueIds: number[],
   promotionIds: number[],
-  eventIds: number[],
-  performerIds: number[]
+  eventIds: number[]
 ): Promise<FeedItemDTO[]> {
   const feedItems: FeedItemDTO[] = [];
 
@@ -161,7 +160,7 @@ async function fetchDataByIds(
     });
 
     venues.forEach((venue) => {
-      feedItems.push(mapVenueToFeedItem(venue));
+      feedItems.push(mapVenueToFeedItem({ venue }));
     });
   }
 
@@ -185,6 +184,7 @@ async function fetchDataByIds(
                 id: true,
                 name: true,
                 image: true,
+                eventType: true,
               },
             },
           },
@@ -193,7 +193,9 @@ async function fetchDataByIds(
     });
 
     events.forEach((event) => {
-      feedItems.push(mapEventToFeedItem(event, event.venue));
+      feedItems.push(
+        mapEventToFeedItem({ event: event, venueName: event.venue.name })
+      );
     });
   }
 
@@ -213,7 +215,9 @@ async function fetchDataByIds(
     });
 
     promotions.forEach((promotion) => {
-      feedItems.push(mapPromotionToFeedItem(promotion, promotion.venue));
+      feedItems.push(
+        mapPromotionToFeedItem({ promotion, venueName: promotion.venue.name })
+      );
     });
   }
 
@@ -221,7 +225,7 @@ async function fetchDataByIds(
 }
 
 async function fetchDiscoveryData(filters: any) {
-  const { bounds, coords, view, lastFetchedDate } = filters;
+  const { bounds, coords, view } = filters;
 
   // =======================================================
   // Ensure necessary data
@@ -287,23 +291,37 @@ async function fetchDiscoveryData(filters: any) {
   const venueQuery: any = {};
 
   // =======================================================
-  // If it's map view, default it just +5 days
+  // If it's map view, default is just +1 day
   // If it's list view, undefined because we use pagination
   // =======================================================
-  const today = lastFetchedDate ?? DateTime.now().toUTC().startOf("day");
+  let startDate;
+  let endDate;
 
-  const startDateFilter: string | undefined =
-    filters.startDate ?? today.toISO();
+  if (view === "list") {
+    startDate = filters.startDate
+      ? DateTime.fromJSDate(filters.startDate).toUTC()
+      : undefined;
+    endDate = filters.endDate
+      ? DateTime.fromJSDate(filters.endDate).toUTC()
+      : undefined;
+  } else {
+    if (filters.mapDate) {
+      const mapDate = DateTime.fromJSDate(filters.mapDate);
 
-  const endDateFilter: string | undefined =
-    filters.endDate ??
-    (view === "map"
-      ? today.plus({ days: 1 }).endOf("day").toISO()
-      : today.plus({ days: 7 }).endOf("day").toISO());
+      startDate = mapDate.toUTC();
+      endDate = mapDate.plus({ days: 1 }).toUTC();
+    } else {
+      const today = DateTime.now().toUTC();
+      startDate = today;
+      endDate = today.plus({ days: 1 });
+    }
+  }
 
   const startDateWhere: any = {};
-  if (startDateFilter !== undefined) startDateWhere.gte = startDateFilter;
-  if (endDateFilter !== undefined) startDateWhere.lte = endDateFilter;
+  startDateWhere.gte = startDate ?? undefined;
+  startDateWhere.lte = endDate ?? undefined;
+
+  console.log(startDateWhere);
 
   // =======================================================
   // Assign our filters
@@ -361,6 +379,12 @@ async function fetchDiscoveryData(filters: any) {
     },
   };
 
+  const paginationQuery: any = {};
+  if (view == "list") {
+    paginationQuery.take = 30;
+    paginationQuery.skip = 30 * filters.currentPage;
+  }
+
   const data = await prisma.venue.findMany({
     where: {
       ...venueQuery,
@@ -394,10 +418,12 @@ async function fetchDiscoveryData(filters: any) {
                   id: true,
                   name: true,
                   image: true,
+                  eventType: true,
                 },
               },
             },
           },
+          location: locationSelect,
         },
       },
       promotions: {
@@ -414,9 +440,11 @@ async function fetchDiscoveryData(filters: any) {
           title: true,
           startDate: true,
           promotionType: true,
+          location: locationSelect,
         },
       },
     },
+    ...paginationQuery,
   });
 
   // =======================================================
@@ -434,30 +462,34 @@ async function fetchDiscoveryData(filters: any) {
 
   data.forEach((v) => {
     if (noFilters) {
+      // @ts-ignore
       v.events.forEach((e) => {
-        results.push(mapEvent(e, v));
+        results.push(mapEvent({ event: e, venueName: v.name }));
       });
 
+      // @ts-ignore
       v.promotions.forEach((p) => {
-        results.push(mapPromotion(p, v));
+        results.push(mapPromotion({ promotion: p, venueName: v.name }));
       });
       return;
     }
 
     if (hasVenueFilters && !hasEventFilters && !hasPromotionFilters) {
-      results.push(mapVenue(v));
+      results.push(mapVenue({ venue: v }));
       return;
     }
 
     if (hasEventFilters) {
+      // @ts-ignore
       v.events.forEach((e) => {
-        results.push(mapEvent(e, v));
+        results.push(mapEvent({ event: e, venueName: v.name }));
       });
     }
 
     if (hasPromotionFilters) {
+      // @ts-ignore
       v.promotions.forEach((p) => {
-        results.push(mapPromotion(p, v));
+        results.push(mapPromotion({ promotion: p, venueName: v.name }));
       });
     }
   });
@@ -470,10 +502,11 @@ async function fetchDiscoveryData(filters: any) {
 // =======================================================
 router.get(
   "/",
+  authenticate({}),
   validate({ schema: discoveryFilters, source: "query" }),
   async (req, res) => {
     const filters = (req as any).validatedData;
-    const { venueIds, promotionIds, eventIds, performerIds } = filters;
+    const { venueIds, promotionIds, eventIds } = filters;
 
     try {
       // =======================================================
@@ -488,8 +521,7 @@ router.get(
         const feedItems = await fetchDataByIds(
           venueIds,
           promotionIds,
-          eventIds,
-          performerIds
+          eventIds
         );
 
         return success({ res, data: feedItems });

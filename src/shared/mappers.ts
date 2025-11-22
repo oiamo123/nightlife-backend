@@ -1,7 +1,8 @@
+import { Prisma } from "@prisma/client";
 import { SubcategoryType } from "./models.ts";
 import type { Marker, FeedItemDTO } from "./models.ts";
 
-export function mapVenueToMarker(venue: any): Marker {
+export function mapVenueToMarker({ venue }: { venue: any }): Marker {
   return {
     id: venue.id,
     lat: venue.location.lat,
@@ -11,27 +12,31 @@ export function mapVenueToMarker(venue: any): Marker {
   };
 }
 
-export function mapEventToMarker(event: any, venue: any): Marker {
+export function mapEventToMarker({ event }: { event: any }): Marker {
   return {
     id: event.id,
-    lat: venue.location.lat,
-    lng: venue.location.lng,
+    lat: event.location.lat,
+    lng: event.location.lng,
     title: event.title,
     type: SubcategoryType.Event,
   };
 }
 
-export function mapPromotionToMarker(promotion: any, venue: any): Marker {
+export function mapPromotionToMarker({
+  promotion,
+}: {
+  promotion: any;
+}): Marker {
   return {
     id: promotion.id,
-    lat: venue.location.lat,
-    lng: venue.location.lng,
+    lat: promotion.location.lat,
+    lng: promotion.location.lng,
     title: promotion.title,
     type: SubcategoryType.Promotion,
   };
 }
 
-export function mapVenueToFeedItem(venue: any): FeedItemDTO {
+export function mapVenueToFeedItem({ venue }: { venue: any }): FeedItemDTO {
   return {
     id: venue.id,
     image: venue.image,
@@ -44,14 +49,15 @@ export function mapVenueToFeedItem(venue: any): FeedItemDTO {
   };
 }
 
-export function mapEventToFeedItem(event: any, venue: any): FeedItemDTO {
-  const location =
-    venue != null && venue.location != null ? venue.location : event.location;
-
-  if (event.performers.length === 1) {
+export function mapEventToFeedItem({
+  event,
+  venueName,
+}: {
+  event: any;
+  venueName?: string | null;
+}): FeedItemDTO {
+  if (event.performers != null && event.performers.length === 1) {
     const performer = event.performers[0].performer;
-
-    console.log(performer);
 
     return {
       id: performer.id,
@@ -59,10 +65,11 @@ export function mapEventToFeedItem(event: any, venue: any): FeedItemDTO {
       title: performer.name,
       price: event.price,
       date: event.startDate,
-      venueName: venue.name,
-      subcategory: event.eventType.eventType,
+      venueName: venueName,
+      subcategory: performer.eventType.eventType,
       type: SubcategoryType.Performer,
-      location: location,
+      location: event.location, // location they're playing at
+      city: performer.city, // performers home city
     };
   }
 
@@ -72,28 +79,47 @@ export function mapEventToFeedItem(event: any, venue: any): FeedItemDTO {
     title: event.title,
     price: event.price,
     date: event.startDate,
-    venueName: venue.name,
+    venueName: venueName,
     subcategory: event.eventType.eventType,
     type: SubcategoryType.Event,
-    location: location,
+    location: event.location,
   };
 }
 
-export function mapPromotionToFeedItem(
-  promotion: any,
-  venue: any
-): FeedItemDTO {
-  const location = venue.location ? venue.location : promotion.location;
-
+export function mapPromotionToFeedItem({
+  promotion,
+  venueName,
+}: {
+  promotion: any;
+  venueName: string;
+}): FeedItemDTO {
   return {
     id: promotion.id,
     image: promotion.image,
     title: promotion.title,
     price: promotion.price,
     date: promotion.startDate,
-    venueName: venue.name,
+    venueName: venueName,
     subcategory: promotion.promotionType.promotionType,
     type: SubcategoryType.Promotion,
-    location: location,
+    location: promotion.location,
+  };
+}
+
+export function mapPerformerToFeedItem({
+  performer,
+}: {
+  performer: any;
+}): FeedItemDTO {
+  return {
+    id: performer.id,
+    image: performer.image,
+    title: performer.name,
+    price: null,
+    date: performer.startDate,
+    venueName: null,
+    subcategory: performer.eventType.eventType,
+    type: SubcategoryType.Performer,
+    city: performer.city,
   };
 }

@@ -22,7 +22,6 @@ model Location {
   venues     Venue[]
   events     Event[]
   promotions Promotion[]
-  performers Performer[]
 
   @@index([cityId])
   @@index([lat, lng])
@@ -76,6 +75,7 @@ model City {
   location   Location[]
   timeZoneId Int
   timeZone   TimeZone                            @relation(fields: [timeZoneId], references: [id])
+  performers Performer[]
 
   @@index([city])
 }
@@ -96,9 +96,6 @@ model EventType {
   eventCategory   EventCategory? @relation(fields: [eventCategoryId], references: [id])
   performers      Performer[]
   events          Event[]
-
-  // Analytics
-  clicks EventTypeClick[]
 
   // Social
   prefferedBy EventTypePreference[]
@@ -130,8 +127,7 @@ model Event {
   tickets        Ticket[]
 
   // Analytics
-  clicks    EventClick[]
-  dwellTime EventDwellTime[]
+  clicks EventMetric[]
 
   // Social
   likes EventLike[]
@@ -156,9 +152,6 @@ model PromotionType {
   promotions          Promotion[]
   promotionCategory   PromotionCategory? @relation(fields: [promotionCategoryId], references: [id])
 
-  // Analytics
-  clicks PromotionTypeClick[]
-
   // Social
   prefferedBy PromotionTypePreference[]
   followedBy  PromotionTypeFollower[]
@@ -182,8 +175,7 @@ model Promotion {
   promotionType   PromotionType @relation(fields: [promotionTypeId], references: [id])
 
   // Analytics
-  clicks    PromotionClick[]
-  dwellTime PromotionDwellTime[]
+  clicks PromotionMetric[]
 
   // Social
   likes PromotionLike[]
@@ -199,9 +191,6 @@ model VenueType {
   id        Int     @id @default(autoincrement())
   venueType String
   venues    Venue[]
-
-  // Analytics
-  clicks VenueTypeClick[]
 
   // Social
   prefferedBy VenueTypePreference[]
@@ -240,8 +229,7 @@ model Venue {
   musicGenres    MusicGenre[]
 
   // Analytical
-  clicks    VenueClick[]
-  dwellTime VenueDwellTime[]
+  metrics VenueMetric[]
 
   // Social
   likes      VenueLike[]
@@ -256,21 +244,20 @@ model Venue {
 // Performers
 ////////////////////////////////
 model Performer {
-  id          Int      @id @default(autoincrement())
+  id          Int     @id @default(autoincrement())
   name        String
   image       String?
   description String
-  locationId  Int
-  location    Location @relation(fields: [locationId], references: [id])
+  cityId      Int
+  city        City    @relation(fields: [cityId], references: [id])
 
   events      EventPerformer[]
   eventTypeId Int
   eventType   EventType        @relation(fields: [eventTypeId], references: [id])
 
   // Analytics
-  clicks    PerformerClick[]
-  dwellTime PerformerDwellTime[]
-  score     Int                  @default(0)
+  metrics PerformerMetric[]
+  score   Int               @default(0)
 
   // Social
   likes      PerformerLike[]
@@ -284,6 +271,8 @@ model EventPerformer {
   event       Event     @relation(fields: [eventId], references: [id])
   performerId Int
   performer   Performer @relation(fields: [performerId], references: [id])
+  startDate   DateTime
+  endDate     DateTime
 
   @@index([eventId])
   @@index([performerId])
@@ -291,31 +280,6 @@ model EventPerformer {
 
 ////////////////////////////////
 // ACCOUNT
-////////////////////////////////
-// Permissions
-////////////////////////////////
-model PermissionFor {
-  id            Int              @id @default(autoincrement())
-  permissionFor String
-  permissions   UserPermission[]
-}
-
-model PermissionType {
-  id             Int              @id @default(autoincrement())
-  permissionType String
-  permissions    UserPermission[]
-}
-
-model UserPermission {
-  id               Int            @id @default(autoincrement())
-  userId           Int
-  user             User           @relation(fields: [userId], references: [id])
-  permissionForId  Int
-  permissionFor    PermissionFor  @relation(fields: [permissionForId], references: [id])
-  permissionTypeId Int
-  permissionType   PermissionType @relation(fields: [permissionTypeId], references: [id])
-}
-
 ////////////////////////////////
 // Notifications
 ////////////////////////////////
@@ -342,31 +306,24 @@ model UserNotification {
 }
 
 model User {
-  id           Int       @id @default(autoincrement())
-  email        String    @unique
-  password     String?
-  name         String?
-  dateOfBirth  DateTime?
-  profileImage String?
-  verified     Boolean
-  roleId       Int
-  role         UserRole  @relation(fields: [roleId], references: [id])
-  createdAt    DateTime  @default(now())
+  id             Int       @id @default(autoincrement())
+  email          String?   @unique
+  password       String?
+  name           String?
+  dateOfBirth    DateTime?
+  profileImage   String?
+  uuid           String?
+  verified       Boolean
+  preferencesSet Boolean   @default(false)
+  roleId         Int
+  role           UserRole  @relation(fields: [roleId], references: [id])
+  createdAt      DateTime  @default(now())
 
   // Clicks
-  venueClicks         VenueClick[]
-  performerClicks     PerformerClick[]
-  eventClicks         EventClick[]
-  promotionClicks     PromotionClick[]
-  venueTypeClicks     VenueTypeClick[]
-  eventTypeClicks     EventTypeClick[]
-  promotionTypeClicks PromotionTypeClick[]
-
-  // Dwell time
-  venueDwellTime     VenueDwellTime[]
-  performerDwellTime PerformerDwellTime[]
-  eventDwellTime     EventDwellTime[]
-  promotionDwellTime PromotionDwellTime[]
+  venueMetrics     VenueMetric[]
+  performerMetrics PerformerMetric[]
+  eventMetrics     EventMetric[]
+  promotionMetrics PromotionMetric[]
 
   // Social
   venueLikes    VenueLike[]
@@ -388,7 +345,6 @@ model User {
   promotionTypePreferences PromotionTypePreference[]
 
   notifications UserNotification[]
-  permissions   UserPermission[]
   transactions  Transaction[]
   tickets       Ticket[]
 
@@ -472,138 +428,96 @@ model EmailToken {
 ////////////////////////////////
 // Clicks
 ////////////////////////////////
-model VenueClick {
-  id      Int      @id @default(autoincrement())
-  venueId Int
-  venue   Venue    @relation(fields: [venueId], references: [id])
-  userId  Int?
-  user    User?    @relation(fields: [userId], references: [id])
-  date    DateTime
+model EngagementType {
+  id             Int    @id @default(autoincrement())
+  engagementType String
+
+  venueMetrics     VenueMetric[]
+  performerMetrics PerformerMetric[]
+  eventMetrics     EventMetric[]
+  promotionMetrics PromotionMetric[]
+}
+
+model EngagementSource {
+  id               Int    @id @default(autoincrement())
+  engagementSource String
+
+  venueMetrics     VenueMetric[]
+  performerMetrics PerformerMetric[]
+  eventMetrics     EventMetric[]
+  promotionMetrics PromotionMetric[]
+}
+
+model VenueMetric {
+  id                 Int              @id @default(autoincrement())
+  venueId            Int
+  venue              Venue            @relation(fields: [venueId], references: [id])
+  userId             Int?
+  user               User?            @relation(fields: [userId], references: [id])
+  duration           Int?
+  date               DateTime         @default(now())
+  engagementTypeId   Int
+  engagementType     EngagementType   @relation(fields: [engagementTypeId], references: [id])
+  engagementSourceId Int
+  engagementSource   EngagementSource @relation(fields: [engagementSourceId], references: [id])
 
   @@index([venueId, date])
   @@index([userId])
   @@index([date])
 }
 
-model PerformerClick {
-  id          Int       @id @default(autoincrement())
-  performerId Int
-  performer   Performer @relation(fields: [performerId], references: [id])
-  userId      Int?
-  user        User?     @relation(fields: [userId], references: [id])
-  date        DateTime
+model PerformerMetric {
+  id                 Int              @id @default(autoincrement())
+  performerId        Int
+  performer          Performer        @relation(fields: [performerId], references: [id])
+  userId             Int?
+  user               User?            @relation(fields: [userId], references: [id])
+  duration           Int?
+  date               DateTime         @default(now())
+  engagementTypeId   Int
+  engagementType     EngagementType   @relation(fields: [engagementTypeId], references: [id])
+  engagementSourceId Int
+  engagementSource   EngagementSource @relation(fields: [engagementSourceId], references: [id])
 
   @@index([performerId, date])
   @@index([userId])
   @@index([date])
 }
 
-model EventClick {
-  id      Int      @id @default(autoincrement())
-  eventId Int
-  event   Event    @relation(fields: [eventId], references: [id])
-  userId  Int?
-  user    User?    @relation(fields: [userId], references: [id])
-  date    DateTime
+model EventMetric {
+  id                 Int              @id @default(autoincrement())
+  eventId            Int
+  event              Event            @relation(fields: [eventId], references: [id])
+  userId             Int?
+  user               User?            @relation(fields: [userId], references: [id])
+  duration           Int?
+  date               DateTime         @default(now())
+  engagementTypeId   Int
+  engagementType     EngagementType   @relation(fields: [engagementTypeId], references: [id])
+  engagementSourceId Int
+  engagementSource   EngagementSource @relation(fields: [engagementSourceId], references: [id])
 
   @@index([eventId, date])
   @@index([userId])
   @@index([date])
 }
 
-model PromotionClick {
-  id          Int       @id @default(autoincrement())
-  promotionId Int
-  promotion   Promotion @relation(fields: [promotionId], references: [id])
-  userId      Int?
-  user        User?     @relation(fields: [userId], references: [id])
-  date        DateTime
+model PromotionMetric {
+  id                 Int              @id @default(autoincrement())
+  promotionId        Int
+  promotion          Promotion        @relation(fields: [promotionId], references: [id])
+  userId             Int?
+  user               User?            @relation(fields: [userId], references: [id])
+  duration           Int?
+  date               DateTime         @default(now())
+  engagementTypeId   Int
+  engagementType     EngagementType   @relation(fields: [engagementTypeId], references: [id])
+  engagementSourceId Int
+  engagementSource   EngagementSource @relation(fields: [engagementSourceId], references: [id])
 
   @@index([promotionId, date])
   @@index([userId])
   @@index([date])
-}
-
-model VenueTypeClick {
-  id          Int       @id @default(autoincrement())
-  venueTypeId Int
-  venueType   VenueType @relation(fields: [venueTypeId], references: [id])
-  userId      Int?
-  user        User?     @relation(fields: [userId], references: [id])
-  date        DateTime
-
-  @@index([venueTypeId, date])
-  @@index([userId])
-  @@index([date])
-}
-
-model EventTypeClick {
-  id          Int       @id @default(autoincrement())
-  eventTypeId Int
-  eventType   EventType @relation(fields: [eventTypeId], references: [id])
-  userId      Int?
-  user        User?     @relation(fields: [userId], references: [id])
-  date        DateTime
-
-  @@index([eventTypeId, date])
-  @@index([userId])
-  @@index([date])
-}
-
-model PromotionTypeClick {
-  id              Int           @id @default(autoincrement())
-  promotionTypeId Int
-  promotionType   PromotionType @relation(fields: [promotionTypeId], references: [id])
-  userId          Int?
-  user            User?         @relation(fields: [userId], references: [id])
-  date            DateTime
-
-  @@index([promotionTypeId, date])
-  @@index([userId])
-  @@index([date])
-}
-
-////////////////////////////////
-// Dwell Time
-////////////////////////////////
-model VenueDwellTime {
-  id       Int      @id @default(autoincrement())
-  venueId  Int
-  venue    Venue    @relation(fields: [venueId], references: [id])
-  userId   Int?
-  user     User?    @relation(fields: [userId], references: [id])
-  duration Int
-  date     DateTime @default(now())
-}
-
-model PerformerDwellTime {
-  id          Int       @id @default(autoincrement())
-  performerId Int
-  performer   Performer @relation(fields: [performerId], references: [id])
-  userId      Int?
-  user        User?     @relation(fields: [userId], references: [id])
-  duration    Int
-  date        DateTime  @default(now())
-}
-
-model EventDwellTime {
-  id       Int      @id @default(autoincrement())
-  eventId  Int
-  event    Event    @relation(fields: [eventId], references: [id])
-  userId   Int?
-  user     User?    @relation(fields: [userId], references: [id])
-  duration Int
-  date     DateTime @default(now())
-}
-
-model PromotionDwellTime {
-  id          Int       @id @default(autoincrement())
-  promotionId Int
-  promotion   Promotion @relation(fields: [promotionId], references: [id])
-  userId      Int?
-  user        User?     @relation(fields: [userId], references: [id])
-  duration    Int
-  date        DateTime  @default(now())
 }
 
 ////////////////////////////////

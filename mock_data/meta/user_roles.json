@@ -5,14 +5,18 @@
   },
   {
     "id": 1,
-    "userRole": "VenueUser"
+    "userRole": "Guest"
   },
   {
     "id": 2,
-    "userRole": "Venue"
+    "userRole": "VenueUser"
   },
   {
     "id": 3,
+    "userRole": "Venue"
+  },
+  {
+    "id": 4,
     "userRole": "Organizer"
   }
 ]

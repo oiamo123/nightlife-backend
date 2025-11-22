@@ -2,7 +2,7 @@ import express from "express";
 import prisma from "../../lib/prisma.ts";
 import { success } from "../../shared/responses.ts";
 import { z } from "zod";
-import { validate } from "../../middleware/middleware.ts";
+import { authenticate, validate } from "../../middleware/middleware.ts";
 import { query } from "../../shared/validation.ts";
 
 const router = express.Router();
@@ -18,6 +18,7 @@ const citySchema = z.object({
 
 router.get(
   "/",
+  authenticate({}),
   validate({ schema: locationsSchema, source: "query" }),
   async (req, res) => {
     const { search } = (req as any).validatedData;

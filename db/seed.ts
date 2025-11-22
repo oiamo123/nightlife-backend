@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { DateTime } from "luxon"
 
 // mock data
 import locations from "../mock_data/locations/locations.json" with { type: "json" };
@@ -14,8 +15,6 @@ import promotionCategories from "../mock_data/meta/promotion_categories.json" wi
 import promotionTypes from "../mock_data/meta/promotion_types.json" with { type: "json" };
 import venueTypes from "../mock_data/meta/venue_types.json" with { type: "json" };
 import musicGenres from "../mock_data/venues/music_genres.json" with { type: "json" };
-import permissionsFor from "../mock_data/meta//account/permission_for.json" with { type: "json" }
-import permissionType from "../mock_data/meta/account/permission_type.json" with { type: "json" }
 import userRoles from "../mock_data/meta/user_roles.json" with { type: "json" }
 import countryStateCity from "../mock_data/countries/countries+states+cities.json" with { type: "json" }
 import linkTypes from "../mock_data/meta/link_type.json" with { type: "json" }
@@ -30,9 +29,12 @@ import eventLikes from "../mock_data/events/event_likes.json" with { type: "json
 import eventPreferences from "../mock_data/events/event_preferences.json" with { type: "json" }
 import promotionLikes from "../mock_data/promotions/promotion_likes.json" with { type: "json" }
 import promotionPreferences from "../mock_data/promotions/promotion_preferences.json" with { type: "json" }
+import engagementType from "../mock_data/metrics/engagementType.json" with { type: "json" }
+import engagementSource from "../mock_data/metrics/engagementSource.json" with { type: "json" }
 
 const prisma = new PrismaClient();
 
+let today = DateTime.now().toUTC()
 async function main() {
   for (const country of countryStateCity as any[]) {
     if (country.name === "Canada" || country.name === "United States") {
@@ -135,16 +137,11 @@ async function main() {
     await prisma.promotion.create({ 
       data: { 
         ...val, 
+        startDate: today.toISO(),
+        endDate: today.toISO()
       } 
     })
-  }
-
-  for (const val of events) {
-    await prisma.event.create({ 
-      data: { 
-        ...val, 
-      } 
-    })
+    today = today.plus({ days: 1 })
   }
 
   for (const val of performers) {
@@ -155,20 +152,27 @@ async function main() {
     })
   }
 
-  for (const val of eventPerformers) {
-    await prisma.eventPerformer.create({
-      data: {
-        ...val
-      }
+  for (const val of events) {
+    await prisma.event.create({ 
+      data: { 
+        ...val, 
+        startDate: today.toISO(),
+        endDate: today.toISO()
+      } 
     })
-  }
 
-  for (const val of permissionType) {
-    await prisma.permissionType.create({ data: val })
-  }
+    const eventPerformerData = eventPerformers.filter((performer) => performer.eventId === val.id)
+    for (const val of eventPerformerData) {
+      await prisma.eventPerformer.create({
+        data: {
+          ...val,
+          startDate: today.toISO(),
+          endDate: today.toISO()
+        }
+      })
+    }
 
-  for (const val of permissionsFor) {
-    await prisma.permissionFor.create({ data: val })
+    today = today.plus({ days: 1 })
   }
 
   for (const val of userRoles) {
@@ -279,6 +283,21 @@ async function main() {
     })
   }
 
+  for (const val of engagementSource) {
+    await prisma.engagementSource.create({
+      data: {
+        ...val
+      }
+    })
+  }
+
+  for (const val of engagementType) {
+    await prisma.engagementType.create({
+      data: {
+        ...val
+      }
+    })
+  }
 
   console.log("\n\nSeeding complete\n\n")
 }

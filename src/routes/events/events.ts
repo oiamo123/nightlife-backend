@@ -1,9 +1,14 @@
 import { z } from "zod";
 import express from "express";
 import prisma from "../../lib/prisma.ts";
-import { validate } from "../../middleware/middleware.ts";
+import { authenticate, validate } from "../../middleware/middleware.ts";
 import { query } from "../../shared/validation.ts";
-import { success } from "../../shared/responses.ts";
+import { success, error } from "../../shared/responses.ts";
+import {
+  mapPerformerToFeedItem,
+  mapVenueToFeedItem,
+} from "../../shared/mappers.ts";
+import { ApiError } from "../../shared/errors/api_error.ts";
 
 const router = express.Router();
 
@@ -25,62 +30,99 @@ const deleteEvent = z.object({});
 // =======================================================
 router.get(
   "/:id",
+  authenticate({}),
   validate({ schema: singleEvent, source: "params" }),
   async (req, res) => {
-    const { id } = (req as any).validatedData;
+    try {
+      const { id } = (req as any).validatedData;
 
-    const likesQuery = prisma.eventLike.count({
-      where: {
-        eventId: id,
-      },
-    });
-
-    const performersQuery = prisma.eventPerformer.findMany({
-      where: {
-        eventId: id,
-      },
-      include: {
-        performer: true,
-      },
-    });
-
-    const eventQuery = prisma.event.findFirst({
-      where: {
-        id: Number(id),
-      },
-      include: {
-        eventType: true,
-        performers: true,
-        venue: {
-          select: {
-            id: true,
-          },
+      const likesQuery = prisma.eventLike.count({
+        where: {
+          eventId: id,
         },
-        location: {
-          include: {
-            city: {
-              include: {
-                state: true,
+      });
+
+      const eventPerformersQuery = prisma.eventPerformer.findMany({
+        where: {
+          eventId: id,
+        },
+        include: {
+          performer: {
+            include: {
+              eventType: true,
+              city: {
+                include: {
+                  country: true,
+                },
               },
             },
           },
         },
-      },
-    });
+      });
 
-    const [likes, performers, event] = await Promise.all([
-      likesQuery,
-      performersQuery,
-      eventQuery,
-    ]);
+      const eventQuery = prisma.event.findFirst({
+        where: {
+          id: Number(id),
+        },
+        include: {
+          eventType: true,
+          performers: true,
+          venue: {
+            include: {
+              venueType: true,
+              location: {
+                include: {
+                  city: true,
+                },
+              },
+            },
+          },
+          location: {
+            include: {
+              city: {
+                include: {
+                  state: true,
+                },
+              },
+            },
+          },
+        },
+      });
 
-    const [venueLikes, venueFollowers, venue] = await Promise.all([
-      venueLikesQuery,
-      venueFollowersQuery,
-      venueQuery,
-    ]);
+      const [likes, eventPerformers, event] = await Promise.all([
+        likesQuery,
+        eventPerformersQuery,
+        eventQuery,
+      ]);
 
-    success({ res, data: [{ ...event, performers, likes }] });
+      if (event == null) {
+        throw new ApiError({
+          message: "This item doesn't appear to exist",
+        });
+      }
+
+      const venueFormatted = mapVenueToFeedItem({ venue: event.venue });
+      const performersFormatted = eventPerformers.map((eventPerformer) =>
+        mapPerformerToFeedItem({ performer: eventPerformer.performer })
+      );
+
+      success({
+        res,
+        data: [
+          {
+            ...event,
+            performerDetails: performersFormatted,
+            venueDetails: venueFormatted,
+            likes,
+          },
+        ],
+      });
+    } catch (err) {
+      return error({
+        res,
+        message: err instanceof ApiError ? err.message : "Something went wrong",
+      });
+    }
   }
 );
 

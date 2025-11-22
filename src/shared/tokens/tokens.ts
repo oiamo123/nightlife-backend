@@ -6,7 +6,7 @@ import { DateTime } from "luxon";
 
 export type jwtPayload = {
   userId: number;
-  role: string;
+  role: "User";
 };
 
 export const signToken = function ({
@@ -14,7 +14,7 @@ export const signToken = function ({
   role,
   userId,
 }: {
-  duration: string;
+  duration?: string;
   role: string;
   userId: number;
 }) {
@@ -24,7 +24,7 @@ export const signToken = function ({
       role: role,
     },
     environment.keys.private,
-    { algorithm: "RS256", expiresIn: duration }
+    { algorithm: "RS256", expiresIn: duration ?? "15m" }
   );
   return token;
 };

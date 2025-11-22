@@ -181,7 +181,7 @@ CREATE TABLE "Performer" (
     "name" TEXT NOT NULL,
     "image" TEXT,
     "description" TEXT NOT NULL,
-    "locationId" INTEGER NOT NULL,
+    "cityId" INTEGER NOT NULL,
     "eventTypeId" INTEGER NOT NULL,
     "score" INTEGER NOT NULL DEFAULT 0,
 
@@ -193,34 +193,10 @@ CREATE TABLE "EventPerformer" (
     "id" SERIAL NOT NULL,
     "eventId" INTEGER NOT NULL,
     "performerId" INTEGER NOT NULL,
+    "startDate" TIMESTAMP(3) NOT NULL,
+    "endDate" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "EventPerformer_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "PermissionFor" (
-    "id" SERIAL NOT NULL,
-    "permissionFor" TEXT NOT NULL,
-
-    CONSTRAINT "PermissionFor_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "PermissionType" (
-    "id" SERIAL NOT NULL,
-    "permissionType" TEXT NOT NULL,
-
-    CONSTRAINT "PermissionType_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "UserPermission" (
-    "id" SERIAL NOT NULL,
-    "userId" INTEGER NOT NULL,
-    "permissionForId" INTEGER NOT NULL,
-    "permissionTypeId" INTEGER NOT NULL,
-
-    CONSTRAINT "UserPermission_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -252,12 +228,14 @@ CREATE TABLE "UserNotification" (
 -- CreateTable
 CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
-    "email" TEXT NOT NULL,
+    "email" TEXT,
     "password" TEXT,
     "name" TEXT,
     "dateOfBirth" TIMESTAMP(3),
     "profileImage" TEXT,
+    "uuid" TEXT,
     "verified" BOOLEAN NOT NULL,
+    "preferencesSet" BOOLEAN NOT NULL DEFAULT false,
     "roleId" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
@@ -336,117 +314,71 @@ CREATE TABLE "EmailToken" (
 );
 
 -- CreateTable
-CREATE TABLE "VenueClick" (
+CREATE TABLE "EngagementType" (
+    "id" SERIAL NOT NULL,
+    "engagementType" TEXT NOT NULL,
+
+    CONSTRAINT "EngagementType_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "EngagementSource" (
+    "id" SERIAL NOT NULL,
+    "engagementSource" TEXT NOT NULL,
+
+    CONSTRAINT "EngagementSource_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "VenueMetric" (
     "id" SERIAL NOT NULL,
     "venueId" INTEGER NOT NULL,
     "userId" INTEGER,
-    "date" TIMESTAMP(3) NOT NULL,
+    "duration" INTEGER,
+    "date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "engagementTypeId" INTEGER NOT NULL,
+    "engagementSourceId" INTEGER NOT NULL,
 
-    CONSTRAINT "VenueClick_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "VenueMetric_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "PerformerClick" (
+CREATE TABLE "PerformerMetric" (
     "id" SERIAL NOT NULL,
     "performerId" INTEGER NOT NULL,
     "userId" INTEGER,
-    "date" TIMESTAMP(3) NOT NULL,
+    "duration" INTEGER,
+    "date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "engagementTypeId" INTEGER NOT NULL,
+    "engagementSourceId" INTEGER NOT NULL,
 
-    CONSTRAINT "PerformerClick_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "PerformerMetric_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "EventClick" (
+CREATE TABLE "EventMetric" (
     "id" SERIAL NOT NULL,
     "eventId" INTEGER NOT NULL,
     "userId" INTEGER,
-    "date" TIMESTAMP(3) NOT NULL,
+    "duration" INTEGER,
+    "date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "engagementTypeId" INTEGER NOT NULL,
+    "engagementSourceId" INTEGER NOT NULL,
 
-    CONSTRAINT "EventClick_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "EventMetric_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "PromotionClick" (
+CREATE TABLE "PromotionMetric" (
     "id" SERIAL NOT NULL,
     "promotionId" INTEGER NOT NULL,
     "userId" INTEGER,
-    "date" TIMESTAMP(3) NOT NULL,
-
-    CONSTRAINT "PromotionClick_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "VenueTypeClick" (
-    "id" SERIAL NOT NULL,
-    "venueTypeId" INTEGER NOT NULL,
-    "userId" INTEGER,
-    "date" TIMESTAMP(3) NOT NULL,
-
-    CONSTRAINT "VenueTypeClick_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "EventTypeClick" (
-    "id" SERIAL NOT NULL,
-    "eventTypeId" INTEGER NOT NULL,
-    "userId" INTEGER,
-    "date" TIMESTAMP(3) NOT NULL,
-
-    CONSTRAINT "EventTypeClick_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "PromotionTypeClick" (
-    "id" SERIAL NOT NULL,
-    "promotionTypeId" INTEGER NOT NULL,
-    "userId" INTEGER,
-    "date" TIMESTAMP(3) NOT NULL,
-
-    CONSTRAINT "PromotionTypeClick_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "VenueDwellTime" (
-    "id" SERIAL NOT NULL,
-    "venueId" INTEGER NOT NULL,
-    "userId" INTEGER,
-    "duration" INTEGER NOT NULL,
+    "duration" INTEGER,
     "date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "engagementTypeId" INTEGER NOT NULL,
+    "engagementSourceId" INTEGER NOT NULL,
 
-    CONSTRAINT "VenueDwellTime_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "PerformerDwellTime" (
-    "id" SERIAL NOT NULL,
-    "performerId" INTEGER NOT NULL,
-    "userId" INTEGER,
-    "duration" INTEGER NOT NULL,
-    "date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
-    CONSTRAINT "PerformerDwellTime_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "EventDwellTime" (
-    "id" SERIAL NOT NULL,
-    "eventId" INTEGER NOT NULL,
-    "userId" INTEGER,
-    "duration" INTEGER NOT NULL,
-    "date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
-    CONSTRAINT "EventDwellTime_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "PromotionDwellTime" (
-    "id" SERIAL NOT NULL,
-    "promotionId" INTEGER NOT NULL,
-    "userId" INTEGER,
-    "duration" INTEGER NOT NULL,
-    "date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
-    CONSTRAINT "PromotionDwellTime_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "PromotionMetric_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -640,67 +572,40 @@ CREATE UNIQUE INDEX "EmailToken_email_key" ON "EmailToken"("email");
 CREATE INDEX "EmailToken_token_idx" ON "EmailToken"("token");
 
 -- CreateIndex
-CREATE INDEX "VenueClick_venueId_date_idx" ON "VenueClick"("venueId", "date");
+CREATE INDEX "VenueMetric_venueId_date_idx" ON "VenueMetric"("venueId", "date");
 
 -- CreateIndex
-CREATE INDEX "VenueClick_userId_idx" ON "VenueClick"("userId");
+CREATE INDEX "VenueMetric_userId_idx" ON "VenueMetric"("userId");
 
 -- CreateIndex
-CREATE INDEX "VenueClick_date_idx" ON "VenueClick"("date");
+CREATE INDEX "VenueMetric_date_idx" ON "VenueMetric"("date");
 
 -- CreateIndex
-CREATE INDEX "PerformerClick_performerId_date_idx" ON "PerformerClick"("performerId", "date");
+CREATE INDEX "PerformerMetric_performerId_date_idx" ON "PerformerMetric"("performerId", "date");
 
 -- CreateIndex
-CREATE INDEX "PerformerClick_userId_idx" ON "PerformerClick"("userId");
+CREATE INDEX "PerformerMetric_userId_idx" ON "PerformerMetric"("userId");
 
 -- CreateIndex
-CREATE INDEX "PerformerClick_date_idx" ON "PerformerClick"("date");
+CREATE INDEX "PerformerMetric_date_idx" ON "PerformerMetric"("date");
 
 -- CreateIndex
-CREATE INDEX "EventClick_eventId_date_idx" ON "EventClick"("eventId", "date");
+CREATE INDEX "EventMetric_eventId_date_idx" ON "EventMetric"("eventId", "date");
 
 -- CreateIndex
-CREATE INDEX "EventClick_userId_idx" ON "EventClick"("userId");
+CREATE INDEX "EventMetric_userId_idx" ON "EventMetric"("userId");
 
 -- CreateIndex
-CREATE INDEX "EventClick_date_idx" ON "EventClick"("date");
+CREATE INDEX "EventMetric_date_idx" ON "EventMetric"("date");
 
 -- CreateIndex
-CREATE INDEX "PromotionClick_promotionId_date_idx" ON "PromotionClick"("promotionId", "date");
+CREATE INDEX "PromotionMetric_promotionId_date_idx" ON "PromotionMetric"("promotionId", "date");
 
 -- CreateIndex
-CREATE INDEX "PromotionClick_userId_idx" ON "PromotionClick"("userId");
+CREATE INDEX "PromotionMetric_userId_idx" ON "PromotionMetric"("userId");
 
 -- CreateIndex
-CREATE INDEX "PromotionClick_date_idx" ON "PromotionClick"("date");
-
--- CreateIndex
-CREATE INDEX "VenueTypeClick_venueTypeId_date_idx" ON "VenueTypeClick"("venueTypeId", "date");
-
--- CreateIndex
-CREATE INDEX "VenueTypeClick_userId_idx" ON "VenueTypeClick"("userId");
-
--- CreateIndex
-CREATE INDEX "VenueTypeClick_date_idx" ON "VenueTypeClick"("date");
-
--- CreateIndex
-CREATE INDEX "EventTypeClick_eventTypeId_date_idx" ON "EventTypeClick"("eventTypeId", "date");
-
--- CreateIndex
-CREATE INDEX "EventTypeClick_userId_idx" ON "EventTypeClick"("userId");
-
--- CreateIndex
-CREATE INDEX "EventTypeClick_date_idx" ON "EventTypeClick"("date");
-
--- CreateIndex
-CREATE INDEX "PromotionTypeClick_promotionTypeId_date_idx" ON "PromotionTypeClick"("promotionTypeId", "date");
-
--- CreateIndex
-CREATE INDEX "PromotionTypeClick_userId_idx" ON "PromotionTypeClick"("userId");
-
--- CreateIndex
-CREATE INDEX "PromotionTypeClick_date_idx" ON "PromotionTypeClick"("date");
+CREATE INDEX "PromotionMetric_date_idx" ON "PromotionMetric"("date");
 
 -- CreateIndex
 CREATE INDEX "VenueLike_venueId_idx" ON "VenueLike"("venueId");
@@ -829,7 +734,7 @@ ALTER TABLE "Venue" ADD CONSTRAINT "Venue_locationId_fkey" FOREIGN KEY ("locatio
 ALTER TABLE "Venue" ADD CONSTRAINT "Venue_venueTypeId_fkey" FOREIGN KEY ("venueTypeId") REFERENCES "VenueType"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Performer" ADD CONSTRAINT "Performer_locationId_fkey" FOREIGN KEY ("locationId") REFERENCES "Location"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Performer" ADD CONSTRAINT "Performer_cityId_fkey" FOREIGN KEY ("cityId") REFERENCES "City"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Performer" ADD CONSTRAINT "Performer_eventTypeId_fkey" FOREIGN KEY ("eventTypeId") REFERENCES "EventType"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -839,15 +744,6 @@ ALTER TABLE "EventPerformer" ADD CONSTRAINT "EventPerformer_eventId_fkey" FOREIG
 
 -- AddForeignKey
 ALTER TABLE "EventPerformer" ADD CONSTRAINT "EventPerformer_performerId_fkey" FOREIGN KEY ("performerId") REFERENCES "Performer"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "UserPermission" ADD CONSTRAINT "UserPermission_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "UserPermission" ADD CONSTRAINT "UserPermission_permissionForId_fkey" FOREIGN KEY ("permissionForId") REFERENCES "PermissionFor"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "UserPermission" ADD CONSTRAINT "UserPermission_permissionTypeId_fkey" FOREIGN KEY ("permissionTypeId") REFERENCES "PermissionType"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "UserNotification" ADD CONSTRAINT "UserNotification_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -886,70 +782,52 @@ ALTER TABLE "Transaction" ADD CONSTRAINT "Transaction_paymentMethodId_fkey" FORE
 ALTER TABLE "Transaction" ADD CONSTRAINT "Transaction_paymentStatusId_fkey" FOREIGN KEY ("paymentStatusId") REFERENCES "PaymentStatus"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "VenueClick" ADD CONSTRAINT "VenueClick_venueId_fkey" FOREIGN KEY ("venueId") REFERENCES "Venue"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "VenueMetric" ADD CONSTRAINT "VenueMetric_venueId_fkey" FOREIGN KEY ("venueId") REFERENCES "Venue"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "VenueClick" ADD CONSTRAINT "VenueClick_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "VenueMetric" ADD CONSTRAINT "VenueMetric_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "PerformerClick" ADD CONSTRAINT "PerformerClick_performerId_fkey" FOREIGN KEY ("performerId") REFERENCES "Performer"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "VenueMetric" ADD CONSTRAINT "VenueMetric_engagementTypeId_fkey" FOREIGN KEY ("engagementTypeId") REFERENCES "EngagementType"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "PerformerClick" ADD CONSTRAINT "PerformerClick_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "VenueMetric" ADD CONSTRAINT "VenueMetric_engagementSourceId_fkey" FOREIGN KEY ("engagementSourceId") REFERENCES "EngagementSource"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "EventClick" ADD CONSTRAINT "EventClick_eventId_fkey" FOREIGN KEY ("eventId") REFERENCES "Event"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "PerformerMetric" ADD CONSTRAINT "PerformerMetric_performerId_fkey" FOREIGN KEY ("performerId") REFERENCES "Performer"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "EventClick" ADD CONSTRAINT "EventClick_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "PerformerMetric" ADD CONSTRAINT "PerformerMetric_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "PromotionClick" ADD CONSTRAINT "PromotionClick_promotionId_fkey" FOREIGN KEY ("promotionId") REFERENCES "Promotion"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "PerformerMetric" ADD CONSTRAINT "PerformerMetric_engagementTypeId_fkey" FOREIGN KEY ("engagementTypeId") REFERENCES "EngagementType"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "PromotionClick" ADD CONSTRAINT "PromotionClick_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "PerformerMetric" ADD CONSTRAINT "PerformerMetric_engagementSourceId_fkey" FOREIGN KEY ("engagementSourceId") REFERENCES "EngagementSource"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "VenueTypeClick" ADD CONSTRAINT "VenueTypeClick_venueTypeId_fkey" FOREIGN KEY ("venueTypeId") REFERENCES "VenueType"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "EventMetric" ADD CONSTRAINT "EventMetric_eventId_fkey" FOREIGN KEY ("eventId") REFERENCES "Event"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "VenueTypeClick" ADD CONSTRAINT "VenueTypeClick_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "EventMetric" ADD CONSTRAINT "EventMetric_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "EventTypeClick" ADD CONSTRAINT "EventTypeClick_eventTypeId_fkey" FOREIGN KEY ("eventTypeId") REFERENCES "EventType"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "EventMetric" ADD CONSTRAINT "EventMetric_engagementTypeId_fkey" FOREIGN KEY ("engagementTypeId") REFERENCES "EngagementType"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "EventTypeClick" ADD CONSTRAINT "EventTypeClick_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "EventMetric" ADD CONSTRAINT "EventMetric_engagementSourceId_fkey" FOREIGN KEY ("engagementSourceId") REFERENCES "EngagementSource"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "PromotionTypeClick" ADD CONSTRAINT "PromotionTypeClick_promotionTypeId_fkey" FOREIGN KEY ("promotionTypeId") REFERENCES "PromotionType"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "PromotionMetric" ADD CONSTRAINT "PromotionMetric_promotionId_fkey" FOREIGN KEY ("promotionId") REFERENCES "Promotion"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "PromotionTypeClick" ADD CONSTRAINT "PromotionTypeClick_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "PromotionMetric" ADD CONSTRAINT "PromotionMetric_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "VenueDwellTime" ADD CONSTRAINT "VenueDwellTime_venueId_fkey" FOREIGN KEY ("venueId") REFERENCES "Venue"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "PromotionMetric" ADD CONSTRAINT "PromotionMetric_engagementTypeId_fkey" FOREIGN KEY ("engagementTypeId") REFERENCES "EngagementType"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "VenueDwellTime" ADD CONSTRAINT "VenueDwellTime_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "PerformerDwellTime" ADD CONSTRAINT "PerformerDwellTime_performerId_fkey" FOREIGN KEY ("performerId") REFERENCES "Performer"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "PerformerDwellTime" ADD CONSTRAINT "PerformerDwellTime_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "EventDwellTime" ADD CONSTRAINT "EventDwellTime_eventId_fkey" FOREIGN KEY ("eventId") REFERENCES "Event"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "EventDwellTime" ADD CONSTRAINT "EventDwellTime_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "PromotionDwellTime" ADD CONSTRAINT "PromotionDwellTime_promotionId_fkey" FOREIGN KEY ("promotionId") REFERENCES "Promotion"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "PromotionDwellTime" ADD CONSTRAINT "PromotionDwellTime_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "PromotionMetric" ADD CONSTRAINT "PromotionMetric_engagementSourceId_fkey" FOREIGN KEY ("engagementSourceId") REFERENCES "EngagementSource"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "VenueLike" ADD CONSTRAINT "VenueLike_venueId_fkey" FOREIGN KEY ("venueId") REFERENCES "Venue"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

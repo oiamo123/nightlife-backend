@@ -38,12 +38,7 @@ router.post(
         throw new ApiError({ message: "Invalid password" });
       }
 
-      if (!user.verified) {
-        throw new ApiError({ code: "UNVERIFIED_EMAIL" });
-      }
-
       const accessToken = signToken({
-        duration: "15m",
         role: "User",
         userId: user.id,
       });
@@ -66,7 +61,6 @@ router.post(
       error({
         res,
         message: err instanceof ApiError ? err.message : "Something went wrong",
-        code: err instanceof ApiError ? err.code : undefined,
       });
     }
   }
