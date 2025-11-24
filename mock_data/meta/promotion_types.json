@@ -36,7 +36,7 @@
   },
   {
     "id": 7,
-    "promotionType": "Highballs",
+    "promotionType": "Shots",
     "promotionCategoryId": 1
   },
   {
@@ -46,67 +46,37 @@
   },
   {
     "id": 9,
-    "promotionType": "Shots",
-    "promotionCategoryId": 1
-  },
-  {
-    "id": 10,
     "promotionType": "Ladies",
     "promotionCategoryId": 2
   },
   {
-    "id": 11,
-    "promotionType": "Service Industry",
-    "promotionCategoryId": 2
-  },
-  {
-    "id": 12,
+    "id": 10,
     "promotionType": "Students",
     "promotionCategoryId": 2
   },
   {
-    "id": 13,
-    "promotionType": "Early Bird",
-    "promotionCategoryId": 2
-  },
-  {
-    "id": 14,
+    "id": 11,
     "promotionType": "Seniors",
     "promotionCategoryId": 2
   },
   {
-    "id": 15,
+    "id": 12,
     "promotionType": "Veterans",
     "promotionCategoryId": 2
   },
   {
-    "id": 16,
+    "id": 13,
     "promotionType": "First Responders",
     "promotionCategoryId": 2
   },
   {
-    "id": 17,
+    "id": 14,
     "promotionType": "Buy One Get One",
     "promotionCategoryId": 3
   },
   {
-    "id": 18,
-    "promotionType": "All-You-Can-Drink",
-    "promotionCategoryId": 3
-  },
-  {
-    "id": 19,
-    "promotionType": "All-You-Can-Eat",
-    "promotionCategoryId": 3
-  },
-  {
-    "id": 20,
+    "id": 15,
     "promotionType": "Free Entry",
-    "promotionCategoryId": 3
-  },
-  {
-    "id": 21,
-    "promotionType": "Complimentary",
     "promotionCategoryId": 3
   }
 ]

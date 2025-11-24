@@ -321,8 +321,6 @@ async function fetchDiscoveryData(filters: any) {
   startDateWhere.gte = startDate ?? undefined;
   startDateWhere.lte = endDate ?? undefined;
 
-  console.log(startDateWhere);
-
   // =======================================================
   // Assign our filters
   // =======================================================

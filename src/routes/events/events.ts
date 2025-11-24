@@ -5,10 +5,17 @@ import { authenticate, validate } from "../../middleware/middleware.ts";
 import { query } from "../../shared/validation.ts";
 import { success, error } from "../../shared/responses.ts";
 import {
+  mapEventToFeedItem,
   mapPerformerToFeedItem,
   mapVenueToFeedItem,
 } from "../../shared/mappers.ts";
 import { ApiError } from "../../shared/errors/api_error.ts";
+import { EngagementType } from "../../shared/models.ts";
+import { DateTime } from "luxon";
+import {
+  getTopScoredItems,
+  scoreEventItems,
+} from "../../shared/recommendations/scoring.ts";
 
 const router = express.Router();
 
@@ -19,15 +26,269 @@ const singleEvent = z.object({
   id: query.number(),
 });
 
-const createEvent = z.object({});
+const suggestionSchema = z.object({
+  search: query.string(),
+  coords: query.numberArray(),
+  locations: query.numberArray().optional(),
+});
 
-const updateEvent = z.object({});
-
-const deleteEvent = z.object({});
+const popularSchema = z.object({
+  coords: query.numberArray(),
+  locations: query.numberArray().optional(),
+});
 
 // =======================================================
 // Routes
 // =======================================================
+router.get(
+  "/suggestion",
+  authenticate({}),
+  validate({ schema: suggestionSchema, source: "query" }),
+  async (req, res) => {
+    try {
+      const { search } = (req as any).validatedData;
+
+      const venues = await prisma.venue
+        .findMany({
+          where: {
+            name: {
+              startsWith: search as string,
+              mode: "insensitive",
+            },
+          },
+          take: 10,
+        })
+        .then((results) =>
+          results.map((result) => ({
+            id: result.id,
+            suggestion: result.name,
+            type: "venue",
+            queryKey: "venueIds",
+          }))
+        );
+
+      success({
+        res,
+        data: venues,
+      });
+    } catch (err) {
+      return error({
+        res: res,
+        message: err instanceof ApiError ? err.message : "Something went wrong",
+      });
+    }
+  }
+);
+
+router.get(
+  "/for-you",
+  authenticate({}),
+  validate({ schema: popularSchema, source: "query" }),
+  async (req, res) => {
+    try {
+      const { coords } = (req as any).validatedData;
+      const jwt = (req as any).jwt;
+      const [userLat, userLng] = coords;
+
+      // =======================================================
+      // Get all events within 50 kms
+      // =======================================================
+      const eventIds: any = await prisma.$queryRaw`
+        SELECT e."id" FROM "Event" e
+        JOIN "Location" l ON e."locationId" = l."id"
+        WHERE ST_DWithin(
+          l.geom,
+          ST_SetSRID(ST_MakePoint(${userLng}, ${userLat}), 4326)::geography,
+          50000
+        )
+      `;
+
+      const eventsQuery = prisma.event.findMany({
+        where: {
+          id: {
+            in: eventIds.map((event) => event.id),
+          },
+        },
+        include: {
+          venue: true,
+          eventType: true,
+          performers: {
+            include: {
+              performer: true,
+            },
+          },
+          location: {
+            include: {
+              city: {
+                include: {
+                  state: true,
+                },
+              },
+            },
+          },
+        },
+      });
+
+      const [events] = await Promise.all([eventsQuery]);
+
+      // =======================================================
+      // Run through scoring system
+      // =======================================================
+      const recommendations = await scoreEventItems({
+        userId: jwt.userId,
+        items: events.map((event) => ({
+          id: event.id,
+          eventTypeId: event.eventTypeId,
+        })),
+      }).then((scores) =>
+        getTopScoredItems({ scores, items: events, topN: 10 })
+      );
+
+      success({
+        res,
+        data: recommendations
+          .map((event) =>
+            mapEventToFeedItem({
+              event,
+              venueName: event.venue.name,
+            })
+          )
+          .slice(0, 5),
+      });
+    } catch (err) {
+      return error({
+        res: res,
+        message: err instanceof ApiError ? err.message : "Something went wrong",
+      });
+    }
+  }
+);
+
+router.get(
+  "/popular",
+  authenticate({}),
+  validate({ schema: popularSchema, source: "query" }),
+  async (req, res) => {
+    try {
+      const { coords, days } = (req as any).validatedData;
+      const [userLat, userLng] = coords;
+
+      // =======================================================
+      // Get popular events
+      // -> join event metrics / types where metric type == click
+      // -> join location where location within 50km
+      // -> date of click >= start of day
+      // -> order by count desc and group by event type id
+      // =======================================================
+      const eventIds: any = await prisma.$queryRaw`
+        SELECT e."id" FROM "Event" e
+        JOIN "EventMetric" em ON em."eventId" = e."id" 
+        JOIN "EngagementType" et ON em."engagementTypeId" = et."id" 
+        JOIN "Location" l ON e."locationId" = l."id"
+        WHERE ST_DWithin(
+          l.geom,
+          ST_SetSRID(ST_MakePoint(${userLng}, ${userLat}), 4326)::geography,
+          50000
+        )
+        AND et."id" = ${EngagementType.click}
+        AND em."date" >= ${DateTime.now()
+          .minus({ days: days ?? 1 })
+          .toUTC()
+          .toJSDate()}
+        GROUP BY e."id" 
+        ORDER BY count(*) DESC
+        LIMIT 10
+      `;
+
+      const eventsQuery = prisma.event.findMany({
+        where: {
+          id: {
+            in: eventIds.map((event) => event.id),
+          },
+        },
+        include: {
+          eventType: true,
+          venue: true,
+          location: {
+            include: {
+              city: {
+                include: {
+                  state: true,
+                },
+              },
+            },
+          },
+        },
+      });
+
+      const [events] = await Promise.all([eventsQuery]);
+
+      success({
+        res,
+        data: events.map((event) =>
+          mapEventToFeedItem({ event, venueName: event.venue.name })
+        ),
+      });
+    } catch (err) {
+      return error({
+        res: res,
+        message: err instanceof ApiError ? err.message : "Something went wrong",
+      });
+    }
+  }
+);
+
+router.get(
+  "/types/popular",
+  authenticate({}),
+  validate({ schema: popularSchema, source: "query" }),
+  async (req, res) => {
+    try {
+      const { coords, days } = (req as any).validatedData;
+      const [userLat, userLng] = coords;
+
+      // =======================================================
+      // Gets the most popular event types
+      // -> join event metrics / types where metric type == click
+      // -> join event types
+      // -> join location where location within 50km
+      // -> date of click >= start of day
+      // -> order by count desc and group by event type id
+      // =======================================================
+      const eventTypes: any = await prisma.$queryRaw`
+        SELECT evt."id", evt."eventType" FROM "Event" e
+        JOIN "EventType" evt on evt."id" = e."eventTypeId"
+        JOIN "EventMetric" em ON em."eventId" = e."id" 
+        JOIN "EngagementType" et ON em."engagementTypeId" = et."id" 
+        JOIN "Location" l ON e."locationId" = l."id"
+        WHERE ST_DWithin(
+          l.geom,
+          ST_SetSRID(ST_MakePoint(${userLng}, ${userLat}), 4326)::geography,
+          50000
+        )
+        AND et."id" = ${EngagementType.click}
+        AND em."date" >= ${DateTime.now()
+          .minus({ days: days ?? 1 })
+          .toUTC()
+          .toJSDate()}
+        GROUP BY evt."id" 
+        ORDER BY count(*) DESC
+        LIMIT 4
+      `;
+
+      success({
+        res,
+        data: eventTypes,
+      });
+    } catch (err) {
+      return error({
+        res: res,
+        message: err instanceof ApiError ? err.message : "Something went wrong",
+      });
+    }
+  }
+);
+
 router.get(
   "/:id",
   authenticate({}),
@@ -125,17 +386,5 @@ router.get(
     }
   }
 );
-
-router.post("/", (req, res) => {
-  res.send("Create Events");
-});
-
-router.delete("/", (req, res) => {
-  res.send("Delete Events");
-});
-
-router.put("/", (req, res) => {
-  res.send("Update Events");
-});
 
 export default router;

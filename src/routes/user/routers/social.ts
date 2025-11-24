@@ -23,8 +23,6 @@ router.post(
     try {
       const { jwt } = (req as any).jwt;
 
-      console.log(jwt);
-
       success({ res, data: [] });
     } catch (err) {
       return error({

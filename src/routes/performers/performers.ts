@@ -16,12 +16,6 @@ const singlePerformer = z.object({
   id: query.number(),
 });
 
-const createPerformer = z.object({});
-
-const updatePerformer = z.object({});
-
-const deletePerformer = z.object({});
-
 router.get(
   "/:id",
   authenticate({}),
@@ -115,17 +109,5 @@ router.get(
     }
   }
 );
-
-router.post("/", (req, res) => {
-  success({ res, data: ["Create Performers"] });
-});
-
-router.delete("/", (req, res) => {
-  success({ res, data: ["Delete Performers"] });
-});
-
-router.put("/", (req, res) => {
-  success({ res, data: ["Update Performers"] });
-});
 
 export default router;

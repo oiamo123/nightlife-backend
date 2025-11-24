@@ -71,8 +71,6 @@ router.post(
         data: [],
       });
     } catch (err) {
-      console.log(err);
-
       error({
         res,
         message: err instanceof ApiError ? err.message : "Something went wrong",

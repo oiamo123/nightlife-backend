@@ -127,7 +127,7 @@ model Event {
   tickets        Ticket[]
 
   // Analytics
-  clicks EventMetric[]
+  metrics EventMetric[]
 
   // Social
   likes EventLike[]
@@ -175,7 +175,7 @@ model Promotion {
   promotionType   PromotionType @relation(fields: [promotionTypeId], references: [id])
 
   // Analytics
-  clicks PromotionMetric[]
+  metrics PromotionMetric[]
 
   // Social
   likes PromotionLike[]

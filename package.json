@@ -27,6 +27,7 @@
     "@types/node": "^24.9.1",
     "argon2": "^0.44.0",
     "aws-sdk": "^2.1692.0",
+    "cloudinary": "^2.8.0",
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "express-rate-limit": "^8.2.1",

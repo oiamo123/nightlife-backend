@@ -17,7 +17,7 @@ const metricsSchema = z.object({
   entries: z.array(
     z.object({
       subcategory: z.enum(["event", "promotion", "venue", "performer"]),
-      engagementSource: z.enum(["list", "map"]),
+      engagementSource: z.enum(["list", "map", "page"]),
       engagementType: z.enum(["click", "dwellTime", "impression"]),
       id: body.number(),
       duration: body.number().optional(),
@@ -27,7 +27,7 @@ const metricsSchema = z.object({
 
 router.post(
   "/",
-  authenticate({ roles: ["User", "Guest"] }),
+  authenticate({}),
   validate({ schema: metricsSchema, source: "body" }),
   async (req, res) => {
     try {

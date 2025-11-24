@@ -28,9 +28,7 @@ router.post(
       const jwt = verifyToken(refreshToken);
 
       if (jwt === null) {
-        throw new ApiError({
-          message: "Something went wrong",
-        });
+        throw new ApiError({});
       }
 
       const storedRefreshToken = await prisma.refreshToken.findFirst({
@@ -41,15 +39,16 @@ router.post(
 
       if (
         !storedRefreshToken ||
-        DateTime.fromISO(storedRefreshToken.validUntil) > DateTime.now()
+        DateTime.fromISO(storedRefreshToken.validUntil).toUTC() <
+          DateTime.now().toUTC()
       ) {
-        throw new ApiError({ message: "Invalid or expired token" });
+        throw new ApiError({});
       }
 
       const match = await verifyHash(storedRefreshToken.token, refreshToken!);
 
       if (!match) {
-        throw new ApiError({ message: "Invalid token" });
+        throw new ApiError({});
       }
 
       const accessToken = signToken({
@@ -74,7 +73,7 @@ router.post(
     } catch (err) {
       return error({
         res,
-        message: err instanceof ApiError ? err.message : "Something went wrong",
+        message: "Something went wrong",
         status: 500,
       });
     }

@@ -66,7 +66,7 @@ export function mapEventToFeedItem({
       price: event.price,
       date: event.startDate,
       venueName: venueName,
-      subcategory: performer.eventType.eventType,
+      subcategory: event.eventType.eventType,
       type: SubcategoryType.Performer,
       location: event.location, // location they're playing at
       city: performer.city, // performers home city

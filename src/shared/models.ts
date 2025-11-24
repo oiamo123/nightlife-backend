@@ -16,12 +16,13 @@ export const Role = {
 export const EngagementType = {
   click: 0,
   impression: 1,
-  dwellTime: 0,
+  dwellTime: 2,
 };
 
 export const EngagementSource = {
   map: 0,
   list: 1,
+  page: 2,
 };
 
 export type FeedItemDTO = {

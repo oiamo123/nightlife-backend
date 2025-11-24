@@ -16,10 +16,6 @@
   { "id": 14, "eventType": "Theatre", "eventCategoryId": 2 },
   { "id": 15, "eventType": "Wine Tasting", "eventCategoryId": 3 },
   { "id": 16, "eventType": "Craft Beer", "eventCategoryId": 3 },
-  { "id": 17, "eventType": "Mixology Class", "eventCategoryId": 3 },
-  { "id": 18, "eventType": "Trivia", "eventCategoryId": 2 },
-  { "id": 19, "eventType": "Karaoke", "eventCategoryId": 2 },
-  { "id": 20, "eventType": "Sports Watch", "eventCategoryId": 4 },
-  { "id": 21, "eventType": "Gaming", "eventCategoryId": 4 },
-  { "id": 22, "eventType": "Live Music", "eventCategoryId": 0 }
+  { "id": 17, "eventType": "Trivia", "eventCategoryId": 2 },
+  { "id": 18, "eventType": "Karaoke", "eventCategoryId": 2 }
 ]
