@@ -16,6 +16,7 @@ import {
   getTopScoredItems,
   scoreEventItems,
 } from "../../shared/recommendations/scoring.ts";
+import { DecayRate } from "../../shared/constants.ts";
 
 const router = express.Router();
 
@@ -80,6 +81,188 @@ router.get(
   }
 );
 
+// =======================================================
+// New Events
+// =======================================================
+router.get(
+  "/just-added",
+  authenticate({}),
+  validate({ schema: popularSchema, source: "query" }),
+  async (req, res) => {
+    try {
+      const { coords } = (req as any).validatedData;
+      const [userLat, userLng] = coords;
+
+      const eventIds: any = await prisma.$queryRaw`
+        SELECT e."id" FROM "Event" e
+        JOIN "Location" l ON e."locationId" = l."id"
+        WHERE ST_DWithin(
+          l.geom,
+          ST_SetSRID(ST_MakePoint(${userLng}, ${userLat}), 4326)::geography,
+          50000
+        )
+        LIMIT 10
+      `;
+
+      const events = await prisma.event.findMany({
+        where: {
+          id: {
+            in: eventIds.map((event) => event.id),
+          },
+          createdAt: {
+            gte: DateTime.now().toUTC().minus({ hours: 1 }),
+          },
+        },
+        include: {
+          eventType: true,
+          venue: true,
+          location: {
+            include: {
+              city: true,
+            },
+          },
+        },
+      });
+
+      return success({
+        res,
+        data: events.map((event) =>
+          mapEventToFeedItem({ event, venueName: event.venue.name })
+        ),
+      });
+    } catch (err) {
+      return error({
+        res,
+        message: err instanceof ApiError ? err.message : "Something went wrong",
+      });
+    }
+  }
+);
+
+// =======================================================
+// Events Starting Soon
+// =======================================================
+router.get(
+  "/starting-soon",
+  authenticate({}),
+  validate({ schema: popularSchema, source: "query" }),
+  async (req, res) => {
+    try {
+      const { coords } = (req as any).validatedData;
+      const [userLat, userLng] = coords;
+
+      const eventIds: any = await prisma.$queryRaw`
+        SELECT e."id" FROM "Event" e
+        JOIN "Location" l ON e."locationId" = l."id"
+        WHERE ST_DWithin(
+          l.geom,
+          ST_SetSRID(ST_MakePoint(${userLng}, ${userLat}), 4326)::geography,
+          50000
+        )
+        LIMIT 10
+      `;
+
+      const events = await prisma.event.findMany({
+        where: {
+          id: {
+            in: eventIds.map((event) => event.id),
+          },
+          startDate: {
+            lte: DateTime.now().toUTC().plus({ hours: 2 }),
+          },
+        },
+        include: {
+          eventType: true,
+          venue: true,
+          location: {
+            include: {
+              city: true,
+            },
+          },
+        },
+      });
+
+      return success({
+        res,
+        data: events.map((event) =>
+          mapEventToFeedItem({ event, venueName: event.venue.name })
+        ),
+      });
+    } catch (err) {
+      return error({
+        res,
+        message: err instanceof ApiError ? err.message : "Something went wrong",
+      });
+    }
+  }
+);
+
+// =======================================================
+// Events this weekend
+// =======================================================
+router.get(
+  "/this-weekend",
+  authenticate({}),
+  validate({ schema: popularSchema, source: "query" }),
+  async (req, res) => {
+    try {
+      const { coords } = (req as any).validatedData;
+      const [userLat, userLng] = coords;
+
+      const eventIds: any = await prisma.$queryRaw`
+        SELECT e."id" FROM "Event" e
+        JOIN "Location" l ON e."locationId" = l."id"
+        WHERE ST_DWithin(
+          l.geom,
+          ST_SetSRID(ST_MakePoint(${userLng}, ${userLat}), 4326)::geography,
+          50000
+        )
+        LIMIT 10
+      `;
+
+      const today = DateTime.now().toUTC();
+      const nextFriday = today.startOf("week").set({ weekday: 5, hour: 17 });
+      const nextSunday = today.startOf("week").set({ weekday: 7 }).endOf("day");
+
+      const events = await prisma.event.findMany({
+        where: {
+          id: {
+            in: eventIds.map((event) => event.id),
+          },
+          startDate: {
+            gte: nextFriday,
+            lte: nextSunday,
+          },
+        },
+        include: {
+          eventType: true,
+          venue: true,
+          location: {
+            include: {
+              city: true,
+            },
+          },
+        },
+      });
+
+      return success({
+        res,
+        data: events.map((event) =>
+          mapEventToFeedItem({ event, venueName: event.venue.name })
+        ),
+      });
+    } catch (err) {
+      return error({
+        res,
+        message: err instanceof ApiError ? err.message : "Something went wrong",
+      });
+    }
+  }
+);
+
+// =======================================================
+// Events For you
+// =======================================================
 router.get(
   "/for-you",
   authenticate({}),
@@ -101,6 +284,7 @@ router.get(
           ST_SetSRID(ST_MakePoint(${userLng}, ${userLat}), 4326)::geography,
           50000
         )
+        LIMIT 300
       `;
 
       const eventsQuery = prisma.event.findMany({
@@ -153,7 +337,7 @@ router.get(
               venueName: event.venue.name,
             })
           )
-          .slice(0, 5),
+          .slice(0, 10),
       });
     } catch (err) {
       return error({
@@ -164,6 +348,9 @@ router.get(
   }
 );
 
+// =======================================================
+// Popular Events
+// =======================================================
 router.get(
   "/popular",
   authenticate({}),
@@ -196,11 +383,15 @@ router.get(
           .toUTC()
           .toJSDate()}
         GROUP BY e."id" 
-        ORDER BY count(*) DESC
+        ORDER BY SUM(
+          EXP(
+            -${DecayRate} * EXTRACT(EPOCH FROM (NOW() - em."date")) / 3600.0
+          )
+        ) DESC
         LIMIT 10
       `;
 
-      const eventsQuery = prisma.event.findMany({
+      const events = await prisma.event.findMany({
         where: {
           id: {
             in: eventIds.map((event) => event.id),
@@ -221,8 +412,6 @@ router.get(
         },
       });
 
-      const [events] = await Promise.all([eventsQuery]);
-
       success({
         res,
         data: events.map((event) =>
@@ -238,6 +427,54 @@ router.get(
   }
 );
 
+// =======================================================
+// Event Types For You
+// =======================================================
+router.get(
+  "/types/for-you",
+  authenticate({}),
+  validate({ schema: popularSchema, source: "query" }),
+  async (req, res) => {
+    try {
+      const jwt = (req as any).jwt;
+
+      const eventTypes = await prisma.eventType.findMany({});
+
+      // =======================================================
+      // Run through scoring system
+      // =======================================================
+      const recommendations = await scoreEventItems({
+        userId: jwt.userId,
+        items: eventTypes.map((eventType) => ({
+          id: eventType.id,
+          eventTypeId: eventType.id,
+        })),
+      }).then((scores) =>
+        getTopScoredItems({ scores, items: eventTypes, topN: 10 })
+      );
+
+      success({
+        res,
+        data: recommendations
+          .map((type) => ({
+            key: type.id,
+            value: type.eventType,
+            subcategoryType: "event",
+          }))
+          .slice(0, 4),
+      });
+    } catch (err) {
+      return error({
+        res: res,
+        message: err instanceof ApiError ? err.message : "Something went wrong",
+      });
+    }
+  }
+);
+
+// =======================================================
+// Popular Event Types
+// =======================================================
 router.get(
   "/types/popular",
   authenticate({}),
@@ -272,13 +509,21 @@ router.get(
           .toUTC()
           .toJSDate()}
         GROUP BY evt."id" 
-        ORDER BY count(*) DESC
+        ORDER BY SUM(
+          EXP(
+            -${DecayRate} * EXTRACT(EPOCH FROM (NOW() - em."date")) / 3600.0
+          )
+        ) DESC
         LIMIT 4
       `;
 
       success({
         res,
-        data: eventTypes,
+        data: eventTypes.map((type) => ({
+          key: type.id,
+          value: type.eventType,
+          subcategoryType: "event",
+        })),
       });
     } catch (err) {
       return error({
@@ -289,6 +534,9 @@ router.get(
   }
 );
 
+// =======================================================
+// Event by ID
+// =======================================================
 router.get(
   "/:id",
   authenticate({}),

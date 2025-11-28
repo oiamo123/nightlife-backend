@@ -31,6 +31,8 @@ import promotionLikes from "../mock_data/promotions/promotion_likes.json" with {
 import promotionPreferences from "../mock_data/promotions/promotion_preferences.json" with { type: "json" }
 import engagementType from "../mock_data/metrics/engagementType.json" with { type: "json" }
 import engagementSource from "../mock_data/metrics/engagementSource.json" with { type: "json" }
+import venueHours from "../mock_data/venues/venue_hours.json" with { type: "json" };
+import daysOfWeek from "../mock_data/meta/day_of_week.json" with { type: "json" }
 
 const prisma = new PrismaClient();
 
@@ -126,6 +128,22 @@ async function main() {
       data: { 
         ...val, 
       } 
+    })
+  }
+
+  for (const val of daysOfWeek) {
+    await prisma.dayOfWeek.create({
+      data: {
+        ...val
+      }
+    })
+  }
+
+  for (const val of venueHours) {
+    await prisma.venueHour.create({
+      data: {
+        ...val
+      }
     })
   }
 

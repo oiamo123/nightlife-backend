@@ -1,0 +1,149 @@
+[
+  {
+    "id": 0,
+    "venueId": 0,
+    "dayOfWeekId": 0,
+    "openingTime": null,
+    "durationHours": null
+  },
+  {
+    "id": 1,
+    "venueId": 0,
+    "dayOfWeekId": 1,
+    "openingTime": "2025-01-01T21:00:00Z",
+    "durationHours": 5
+  },
+  {
+    "id": 2,
+    "venueId": 0,
+    "dayOfWeekId": 2,
+    "openingTime": "2025-01-01T21:00:00Z",
+    "durationHours": 5
+  },
+  {
+    "id": 3,
+    "venueId": 0,
+    "dayOfWeekId": 3,
+    "openingTime": "2025-01-01T20:00:00Z",
+    "durationHours": 6
+  },
+  {
+    "id": 4,
+    "venueId": 0,
+    "dayOfWeekId": 4,
+    "openingTime": "2025-01-01T20:30:00Z",
+    "durationHours": 7.5
+  },
+  {
+    "id": 5,
+    "venueId": 0,
+    "dayOfWeekId": 5,
+    "openingTime": "2025-01-01T20:30:00Z",
+    "durationHours": 7.5
+  },
+  {
+    "id": 6,
+    "venueId": 0,
+    "dayOfWeekId": 6,
+    "openingTime": null,
+    "durationHours": null
+  },
+  {
+    "id": 7,
+    "venueId": 1,
+    "dayOfWeekId": 0,
+    "openingTime": "2025-01-01T17:00:00Z",
+    "durationHours": 6
+  },
+  {
+    "id": 8,
+    "venueId": 1,
+    "dayOfWeekId": 1,
+    "openingTime": "2025-01-01T17:00:00Z",
+    "durationHours": 6
+  },
+  {
+    "id": 9,
+    "venueId": 1,
+    "dayOfWeekId": 2,
+    "openingTime": "2025-01-01T17:00:00Z",
+    "durationHours": 6
+  },
+  {
+    "id": 10,
+    "venueId": 1,
+    "dayOfWeekId": 3,
+    "openingTime": "2025-01-01T17:00:00Z",
+    "durationHours": 6
+  },
+  {
+    "id": 11,
+    "venueId": 1,
+    "dayOfWeekId": 4,
+    "openingTime": "2025-01-01T16:00:00Z",
+    "durationHours": 9
+  },
+  {
+    "id": 12,
+    "venueId": 1,
+    "dayOfWeekId": 5,
+    "openingTime": "2025-01-01T14:00:00Z",
+    "durationHours": 11
+  },
+  {
+    "id": 13,
+    "venueId": 1,
+    "dayOfWeekId": 6,
+    "openingTime": "2025-01-01T14:00:00Z",
+    "durationHours": 8
+  },
+  {
+    "id": 14,
+    "venueId": 2,
+    "dayOfWeekId": 0,
+    "openingTime": null,
+    "durationHours": null
+  },
+  {
+    "id": 15,
+    "venueId": 2,
+    "dayOfWeekId": 1,
+    "openingTime": null,
+    "durationHours": null
+  },
+  {
+    "id": 16,
+    "venueId": 2,
+    "dayOfWeekId": 2,
+    "openingTime": null,
+    "durationHours": null
+  },
+  {
+    "id": 17,
+    "venueId": 2,
+    "dayOfWeekId": 3,
+    "openingTime": null,
+    "durationHours": null
+  },
+  {
+    "id": 18,
+    "venueId": 2,
+    "dayOfWeekId": 4,
+    "openingTime": "2025-01-01T22:00:00Z",
+    "durationHours": 6
+  },
+  {
+    "id": 19,
+    "venueId": 2,
+    "dayOfWeekId": 5,
+    "openingTime": "2025-01-01T22:00:00Z",
+    "durationHours": 6
+  },
+  {
+    "id": 20,
+    "venueId": 2,
+    "dayOfWeekId": 6,
+    "openingTime": null,
+    "durationHours": null
+  }
+]

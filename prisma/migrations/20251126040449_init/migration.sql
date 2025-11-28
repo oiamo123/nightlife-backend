@@ -164,8 +164,6 @@ CREATE TABLE "Venue" (
     "image" TEXT,
     "phoneNumber" TEXT,
     "email" TEXT,
-    "opensAt" DOUBLE PRECISION NOT NULL,
-    "closesAt" DOUBLE PRECISION NOT NULL,
     "ageRestriction" INTEGER NOT NULL,
     "isOutdoor" BOOLEAN NOT NULL,
     "isAccessible" BOOLEAN NOT NULL,
@@ -173,6 +171,25 @@ CREATE TABLE "Venue" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Venue_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "DayOfWeek" (
+    "id" SERIAL NOT NULL,
+    "dayOfWeek" TEXT NOT NULL,
+
+    CONSTRAINT "DayOfWeek_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "VenueHour" (
+    "id" SERIAL NOT NULL,
+    "venueId" INTEGER NOT NULL,
+    "dayOfWeekId" INTEGER NOT NULL,
+    "openingTime" TIME,
+    "durationHours" INTEGER,
+
+    CONSTRAINT "VenueHour_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -551,6 +568,15 @@ CREATE INDEX "Venue_venueTypeId_idx" ON "Venue"("venueTypeId");
 CREATE INDEX "Venue_locationId_idx" ON "Venue"("locationId");
 
 -- CreateIndex
+CREATE INDEX "VenueHour_dayOfWeekId_idx" ON "VenueHour"("dayOfWeekId");
+
+-- CreateIndex
+CREATE INDEX "VenueHour_venueId_idx" ON "VenueHour"("venueId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "VenueHour_venueId_dayOfWeekId_key" ON "VenueHour"("venueId", "dayOfWeekId");
+
+-- CreateIndex
 CREATE INDEX "EventPerformer_eventId_idx" ON "EventPerformer"("eventId");
 
 -- CreateIndex
@@ -732,6 +758,12 @@ ALTER TABLE "Venue" ADD CONSTRAINT "Venue_locationId_fkey" FOREIGN KEY ("locatio
 
 -- AddForeignKey
 ALTER TABLE "Venue" ADD CONSTRAINT "Venue_venueTypeId_fkey" FOREIGN KEY ("venueTypeId") REFERENCES "VenueType"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "VenueHour" ADD CONSTRAINT "VenueHour_venueId_fkey" FOREIGN KEY ("venueId") REFERENCES "Venue"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "VenueHour" ADD CONSTRAINT "VenueHour_dayOfWeekId_fkey" FOREIGN KEY ("dayOfWeekId") REFERENCES "DayOfWeek"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Performer" ADD CONSTRAINT "Performer_cityId_fkey" FOREIGN KEY ("cityId") REFERENCES "City"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

@@ -1,7 +1,7 @@
 import express from "express";
 import prisma from "../../lib/prisma.ts";
 import { error, success } from "../../shared/responses.ts";
-import { jwt, z } from "zod";
+import { z } from "zod";
 import { query } from "../../shared/validation.ts";
 import { authenticate, validate } from "../../middleware/middleware.ts";
 import {
@@ -16,6 +16,7 @@ import {
   getTopScoredItems,
   scoreVenueItems,
 } from "../../shared/recommendations/scoring.ts";
+import { DecayRate } from "../../shared/constants.ts";
 
 const router = express.Router();
 
@@ -79,6 +80,145 @@ router.get(
 );
 
 router.get(
+  "/late-night",
+  authenticate({}),
+  validate({ schema: popularSchema, source: "query" }),
+  async (req, res) => {
+    try {
+      const { coords } = (req as any).validatedData;
+      const [userLat, userLng] = coords;
+
+      const lateNightCutoff = new Date();
+      lateNightCutoff.setDate(lateNightCutoff.getDate() + 1);
+      lateNightCutoff.setHours(1, 0, 0, 0);
+
+      const currentDayOfWeek = new Date().getDay();
+
+      const venueIds: any = await prisma.$queryRaw`
+        SELECT v.id
+        FROM "Venue" AS v
+        JOIN "VenueHour" AS vh ON vh."venueId" = v."id"
+        JOIN "Location" AS l ON l."id" = v."locationId"
+        JOIN "VenueType" AS vt ON vt."id" = v."venueTypeId"
+        WHERE vh."dayOfWeekId" = ${currentDayOfWeek} 
+        AND (
+          DATE_TRUNC('day', NOW() AT TIME ZONE 'UTC') 
+            + vh."openingTime"                        
+            + (vh."durationHours" || ' hours')::INTERVAL
+          ) >= ${lateNightCutoff} 
+        AND ST_DWithin(
+          l.geom::geography,
+          ST_SetSRID(ST_MakePoint(${userLng}, ${userLat}), 4326)::geography,
+          50000 
+        )
+        ORDER BY vh."durationHours" DESC
+      `;
+
+      const venues = await prisma.venue.findMany({
+        where: {
+          id: {
+            in: venueIds.map((venueId) => venueId.id),
+          },
+        },
+        include: {
+          venueType: true,
+          location: {
+            include: {
+              city: {
+                include: {
+                  state: true,
+                },
+              },
+            },
+          },
+        },
+      });
+
+      return success({
+        res,
+        data: venues.map((venue) => mapVenueToFeedItem({ venue })),
+      });
+    } catch (err) {
+      console.log(err);
+
+      return error({
+        res,
+        message: err instanceof ApiError ? err.message : "Something went wrong",
+      });
+    }
+  }
+);
+
+router.get(
+  "/open-now",
+  authenticate({}),
+  validate({ schema: popularSchema, source: "query" }),
+  async (req, res) => {
+    try {
+      const { coords } = (req as any).validatedData;
+      const [userLat, userLng] = coords;
+
+      const now = new Date();
+      const currentDayOfWeek = now.getDay();
+
+      const venueIds: any = await prisma.$queryRaw`
+        SELECT v.id
+        FROM "Venue" AS v
+        JOIN "VenueHour" AS vh ON vh."venueId" = v."id"
+        JOIN "Location" AS l ON l."id" = v."locationId"
+        JOIN "VenueType" AS vt ON vt."id" = v."venueTypeId"
+        WHERE vh."dayOfWeekId" = ${currentDayOfWeek}
+        AND vh."openingTime" IS NOT NULL
+        AND vh."durationHours" IS NOT NULL
+        AND CURRENT_TIME >= vh."openingTime"
+        AND CURRENT_TIME <= vh."openingTime" + (vh."durationHours" * INTERVAL '1 hour')
+        AND ST_DWithin(
+          l.geom::geography,
+          ST_SetSRID(ST_MakePoint(${userLng}, ${userLat}), 4326)::geography,
+          50000 
+        )
+        ORDER BY v."name" ASC
+      `;
+
+      const venues = await prisma.venue.findMany({
+        where: {
+          id: {
+            in: venueIds.map((venueId) => venueId.id),
+          },
+        },
+        include: {
+          venueType: true,
+          location: {
+            include: {
+              city: {
+                include: {
+                  state: true,
+                },
+              },
+            },
+          },
+        },
+      });
+
+      return success({
+        res,
+        data: venues.map((venue) => mapVenueToFeedItem({ venue })),
+      });
+    } catch (err) {
+      console.log(err);
+
+      return error({
+        res,
+        message: err instanceof ApiError ? err.message : "Something went wrong",
+      });
+    }
+  }
+);
+
+// =======================================================
+// Venues -> FOR YOU
+// =======================================================
+router.get(
   "/for-you",
   authenticate({}),
   validate({ schema: popularSchema, source: "query" }),
@@ -99,9 +239,10 @@ router.get(
           ST_SetSRID(ST_MakePoint(${userLng}, ${userLat}), 4326)::geography,
           50000
         )
+        LIMIT 300
       `;
 
-      const venueQuery = prisma.venue.findMany({
+      const venues = await prisma.venue.findMany({
         where: {
           id: {
             in: venueIds.map((venueId) => venueId.id),
@@ -121,8 +262,6 @@ router.get(
         },
       });
 
-      const [venues] = await Promise.all([venueQuery]);
-
       // =======================================================
       // Run through scoring system
       // =======================================================
@@ -140,7 +279,7 @@ router.get(
         res,
         data: recommendations
           .map((venue) => mapVenueToFeedItem({ venue }))
-          .slice(0, 5),
+          .slice(0, 10),
       });
     } catch (err) {
       return error({
@@ -151,6 +290,9 @@ router.get(
   }
 );
 
+// =======================================================
+// Venues -> POPULAR
+// =======================================================
 router.get(
   "/popular",
   authenticate({}),
@@ -183,11 +325,15 @@ router.get(
           .toUTC()
           .toJSDate()}
         GROUP BY v."id" 
-        ORDER BY count(*) DESC
+        ORDER BY SUM(
+          EXP(
+            -${DecayRate} * EXTRACT(EPOCH FROM (NOW() - vm."date")) / 3600.0
+          )
+        ) DESC
         LIMIT 10
       `;
 
-      const venueQuery = prisma.venue.findMany({
+      const venues = await prisma.venue.findMany({
         where: {
           id: {
             in: venueIds.map((venue) => venue.id),
@@ -207,11 +353,9 @@ router.get(
         },
       });
 
-      const [venues] = await Promise.all([venueQuery]);
-
       success({
         res,
-        data: venues,
+        data: venues.map((venue) => mapVenueToFeedItem({ venue })).slice(0, 10),
       });
     } catch (err) {
       return error({
@@ -222,6 +366,54 @@ router.get(
   }
 );
 
+// =======================================================
+// Venues -> FOR YOU
+// =======================================================
+router.get(
+  "/types/for-you",
+  authenticate({}),
+  validate({ schema: popularSchema, source: "query" }),
+  async (req, res) => {
+    try {
+      const jwt = (req as any).jwt;
+
+      const venueTypes = await prisma.venueType.findMany({});
+
+      // =======================================================
+      // Run through scoring system
+      // =======================================================
+      const recommendations = await scoreVenueItems({
+        userId: jwt.userId,
+        items: venueTypes.map((venueType) => ({
+          id: venueType.id,
+          venueTypeId: venueType.id,
+        })),
+      }).then((scores) =>
+        getTopScoredItems({ scores, items: venueTypes, topN: 10 })
+      );
+
+      success({
+        res,
+        data: recommendations
+          .map((type) => ({
+            key: type.id,
+            value: type.venueType,
+            subcategoryType: "venue",
+          }))
+          .slice(0, 4),
+      });
+    } catch (err) {
+      return error({
+        res: res,
+        message: err instanceof ApiError ? err.message : "Something went wrong",
+      });
+    }
+  }
+);
+
+// =======================================================
+// Venues -> POPULAR CATEGORIES
+// =======================================================
 router.get(
   "/types/popular",
   authenticate({}),
@@ -262,7 +454,11 @@ router.get(
 
       success({
         res,
-        data: venueTypes,
+        data: venueTypes.map((type) => ({
+          key: type.id,
+          value: type.venueType,
+          subcategoryType: "venue",
+        })),
       });
     } catch (err) {
       return error({
@@ -273,6 +469,9 @@ router.get(
   }
 );
 
+// =======================================================
+// Venues -> BY ID
+// =======================================================
 router.get(
   "/:id",
   authenticate({}),
@@ -350,6 +549,7 @@ router.get(
         },
         include: {
           venueType: true,
+          venueHours: true,
           musicGenres: {
             include: {
               eventType: true,

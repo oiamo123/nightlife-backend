@@ -15,6 +15,7 @@ import {
   getTopScoredItems,
   scorePromotionItem,
 } from "../../shared/recommendations/scoring.ts";
+import { DecayRate } from "../../shared/constants.ts";
 
 const router = express.Router();
 
@@ -79,6 +80,188 @@ router.get(
   }
 );
 
+// =======================================================
+// New Promotions
+// =======================================================
+router.get(
+  "/just-added",
+  authenticate({}),
+  validate({ schema: popularSchema, source: "query" }),
+  async (req, res) => {
+    try {
+      const { coords } = (req as any).validatedData;
+      const [userLat, userLng] = coords;
+
+      const promotionIds: any = await prisma.$queryRaw`
+        SELECT p."id" FROM "Promotion" p
+        JOIN "Location" l ON p."locationId" = l."id"
+        WHERE ST_DWithin(
+          l.geom,
+          ST_SetSRID(ST_MakePoint(${userLng}, ${userLat}), 4326)::geography,
+          50000
+        )
+        LIMIT 10
+      `;
+
+      const promotions = await prisma.promotion.findMany({
+        where: {
+          id: {
+            in: promotionIds.map((promotion) => promotion.id),
+          },
+          createdAt: {
+            gte: DateTime.now().toUTC().minus({ hours: 1 }),
+          },
+        },
+        include: {
+          promotionType: true,
+          venue: true,
+          location: {
+            include: {
+              city: true,
+            },
+          },
+        },
+      });
+
+      return success({
+        res,
+        data: promotions.map((promotion) =>
+          mapPromotionToFeedItem({ promotion, venueName: promotion.venue.name })
+        ),
+      });
+    } catch (err) {
+      return error({
+        res,
+        message: err instanceof ApiError ? err.message : "Something went wrong",
+      });
+    }
+  }
+);
+
+// =======================================================
+// Promotions starting soon
+// =======================================================
+router.get(
+  "/starting-soon",
+  authenticate({}),
+  validate({ schema: popularSchema, source: "query" }),
+  async (req, res) => {
+    try {
+      const { coords } = (req as any).validatedData;
+      const [userLat, userLng] = coords;
+
+      const promotionIds: any = await prisma.$queryRaw`
+        SELECT p."id" FROM "Promotion" p
+        JOIN "Location" l ON p."locationId" = l."id"
+        WHERE ST_DWithin(
+          l.geom,
+          ST_SetSRID(ST_MakePoint(${userLng}, ${userLat}), 4326)::geography,
+          50000
+        )
+        LIMIT 10
+      `;
+
+      const promotions = await prisma.promotion.findMany({
+        where: {
+          id: {
+            in: promotionIds.map((promotion) => promotion.id),
+          },
+          startDate: {
+            lte: DateTime.now().toUTC().plus({ hours: 2 }),
+          },
+        },
+        include: {
+          promotionType: true,
+          venue: true,
+          location: {
+            include: {
+              city: true,
+            },
+          },
+        },
+      });
+
+      return success({
+        res,
+        data: promotions.map((promotion) =>
+          mapPromotionToFeedItem({ promotion, venueName: promotion.venue.name })
+        ),
+      });
+    } catch (err) {
+      return error({
+        res,
+        message: err instanceof ApiError ? err.message : "Something went wrong",
+      });
+    }
+  }
+);
+
+// =======================================================
+// Promotions this weekend
+// =======================================================
+router.get(
+  "/this-weekend",
+  authenticate({}),
+  validate({ schema: popularSchema, source: "query" }),
+  async (req, res) => {
+    try {
+      const { coords } = (req as any).validatedData;
+      const [userLat, userLng] = coords;
+
+      const promotionIds: any = await prisma.$queryRaw`
+        SELECT p."id" FROM "Promotion" p
+        JOIN "Location" l ON p."locationId" = l."id"
+        WHERE ST_DWithin(
+          l.geom,
+          ST_SetSRID(ST_MakePoint(${userLng}, ${userLat}), 4326)::geography,
+          50000
+        )
+        LIMIT 10
+      `;
+
+      const today = DateTime.now().toUTC();
+      const nextFriday = today.startOf("week").set({ weekday: 5, hour: 17 });
+      const nextSunday = today.startOf("week").set({ weekday: 7 }).endOf("day");
+
+      const promotions = await prisma.promotion.findMany({
+        where: {
+          id: {
+            in: promotionIds.map((promotion) => promotion.id),
+          },
+          startDate: {
+            gte: nextFriday,
+            lte: nextSunday,
+          },
+        },
+        include: {
+          promotionType: true,
+          venue: true,
+          location: {
+            include: {
+              city: true,
+            },
+          },
+        },
+      });
+
+      return success({
+        res,
+        data: promotions.map((promotion) =>
+          mapPromotionToFeedItem({ promotion, venueName: promotion.venue.name })
+        ),
+      });
+    } catch (err) {
+      return error({
+        res,
+        message: err instanceof ApiError ? err.message : "Something went wrong",
+      });
+    }
+  }
+);
+
+// =======================================================
+// Promotions "For You"
+// =======================================================
 router.get(
   "/for-you",
   authenticate({}),
@@ -100,6 +283,7 @@ router.get(
           ST_SetSRID(ST_MakePoint(${userLng}, ${userLat}), 4326)::geography,
           50000
         )
+        LIMIT 300
       `;
 
       const promotionQuery = prisma.promotion.findMany({
@@ -147,7 +331,7 @@ router.get(
               venueName: promotion.venue.name,
             })
           )
-          .slice(0, 5),
+          .slice(0, 10),
       });
     } catch (err) {
       return error({
@@ -158,6 +342,9 @@ router.get(
   }
 );
 
+// =======================================================
+// Popular Promotions
+// =======================================================
 router.get(
   "/popular",
   authenticate({}),
@@ -190,7 +377,11 @@ router.get(
           .toUTC()
           .toJSDate()}
         GROUP BY p."id" 
-        ORDER BY count(*) DESC
+        ORDER BY SUM(
+          EXP(
+            -${DecayRate} * EXTRACT(EPOCH FROM (NOW() - pm."date")) / 3600.0
+          )
+        ) DESC
         LIMIT 10
       `;
 
@@ -232,6 +423,54 @@ router.get(
   }
 );
 
+// =======================================================
+// Promotions Categories For You
+// =======================================================
+router.get(
+  "/types/for-you",
+  authenticate({}),
+  validate({ schema: popularSchema, source: "query" }),
+  async (req, res) => {
+    try {
+      const jwt = (req as any).jwt;
+
+      const promotionTypes = await prisma.promotionType.findMany({});
+
+      // =======================================================
+      // Run through scoring system
+      // =======================================================
+      const recommendations = await scorePromotionItem({
+        userId: jwt.userId,
+        items: promotionTypes.map((promotionType) => ({
+          id: promotionType.id,
+          promotionTypeId: promotionType.id,
+        })),
+      }).then((scores) =>
+        getTopScoredItems({ scores, items: promotionTypes, topN: 10 })
+      );
+
+      success({
+        res,
+        data: recommendations
+          .map((type) => ({
+            key: type.id,
+            value: type.promotionType,
+            subcategoryType: "promotion",
+          }))
+          .slice(0, 4),
+      });
+    } catch (err) {
+      return error({
+        res: res,
+        message: err instanceof ApiError ? err.message : "Something went wrong",
+      });
+    }
+  }
+);
+
+// =======================================================
+// Popular Promotions
+// =======================================================
 router.get(
   "/types/popular",
   authenticate({}),
@@ -266,13 +505,21 @@ router.get(
           .toUTC()
           .toJSDate()}
         GROUP BY pt."id" 
-        ORDER BY count(*) DESC
+        ORDER BY SUM(
+          EXP(
+            -${DecayRate} * EXTRACT(EPOCH FROM (NOW() - pm."date")) / 3600.0
+          )
+        ) DESC
         LIMIT 4
       `;
 
       success({
         res,
-        data: promotionTypes,
+        data: promotionTypes.map((type) => ({
+          key: type.id,
+          value: type.promotionType,
+          subcategoryType: "promotion",
+        })),
       });
     } catch (err) {
       return error({
@@ -283,6 +530,9 @@ router.get(
   }
 );
 
+// =======================================================
+// Promotion by ID
+// =======================================================
 router.get(
   "/:id",
   authenticate({}),

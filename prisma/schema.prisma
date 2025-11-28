@@ -216,13 +216,12 @@ model Venue {
   image          String?
   phoneNumber    String?
   email          String?
-  opensAt        Float
-  closesAt       Float
   ageRestriction Int
   isOutdoor      Boolean
   isAccessible   Boolean
   events         Event[]
   promotions     Promotion[]
+  venueHours     VenueHour[]
   venueTypeId    Int
   createdAt      DateTime     @default(now())
   venueType      VenueType    @relation(fields: [venueTypeId], references: [id])
@@ -238,6 +237,26 @@ model Venue {
 
   @@index([venueTypeId])
   @@index([locationId])
+}
+
+model DayOfWeek {
+  id         Int         @id @default(autoincrement())
+  dayOfWeek  String
+  venueHours VenueHour[]
+}
+
+model VenueHour {
+  id            Int       @id @default(autoincrement())
+  venueId       Int
+  venue         Venue     @relation(fields: [venueId], references: [id])
+  dayOfWeekId   Int
+  dayOfWeek     DayOfWeek @relation(fields: [dayOfWeekId], references: [id])
+  openingTime   DateTime? @db.Time
+  durationHours Int?
+
+  @@unique([venueId, dayOfWeekId])
+  @@index([dayOfWeekId])
+  @@index([venueId])
 }
 
 ////////////////////////////////

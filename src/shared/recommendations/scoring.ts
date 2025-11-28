@@ -60,21 +60,19 @@ export async function scoreVenueItems({
   });
 
   const clickWeights: Record<number, number> = {};
+  const dwellTimeWeights: Record<number, number> = {};
+
   venueMetrics.forEach((row) => {
     const id = row.id;
     clickWeights[id] = totalClicks > 0 ? Number(row.clicks) / totalClicks : 0;
-  });
-
-  const dwellTimeWeights: Record<number, number> = {};
-  venueMetrics.forEach((row) => {
-    const id = row.id;
     dwellTimeWeights[id] =
       totalDwellTime > 0 ? Number(row.dwellTime) / totalDwellTime : 0;
   });
 
   const results: Record<number, number> = {};
+  const newAccount = totalClicks < 200 || totalDwellTime < 1000 * 60 * 2;
+
   items.forEach((item) => {
-    const newAccount = totalClicks < 200 || totalDwellTime < 1000 * 60 * 2;
     let score = 0;
 
     score +=
@@ -182,8 +180,9 @@ export async function scoreEventItems({
   });
 
   const results: Record<number, number> = {};
+  const newAccount = totalClicks < 200 || totalDwellTime < 1000 * 60 * 2;
+
   items.forEach((item) => {
-    const newAccount = totalClicks < 200 || totalDwellTime < 1000 * 60 * 2;
     let score = 0;
 
     score +=
@@ -245,14 +244,11 @@ export async function scorePromotionItem({
   });
 
   const clickWeights: Record<number, number> = {};
+  const dwellTimeWeights: Record<number, number> = {};
+
   promotionMetrics.forEach((row) => {
     const id = row.id;
     clickWeights[id] = totalClicks > 0 ? Number(row.clicks) / totalClicks : 0;
-  });
-
-  const dwellTimeWeights: Record<number, number> = {};
-  promotionMetrics.forEach((row) => {
-    const id = row.id;
     dwellTimeWeights[id] =
       totalDwellTime > 0 ? Number(row.dwellTime) / totalDwellTime : 0;
   });

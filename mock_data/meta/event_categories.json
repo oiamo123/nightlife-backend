@@ -2,6 +2,5 @@
   { "id": 0, "eventCategory": "Music" },
   { "id": 1, "eventCategory": "Parties" },
   { "id": 2, "eventCategory": "Shows" },
-  { "id": 3, "eventCategory": "Food" },
-  { "id": 4, "eventCategory": "Activity" }
+  { "id": 3, "eventCategory": "Food" }
 ]

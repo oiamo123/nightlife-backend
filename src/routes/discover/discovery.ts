@@ -5,7 +5,7 @@ import prisma from "../../lib/prisma.ts";
 import { authenticate, validate } from "../../middleware/middleware.ts";
 import { DateTime } from "luxon";
 import { parseBounds } from "../../utils/utils.ts";
-import { success } from "../../shared/responses.ts";
+import { error, success } from "../../shared/responses.ts";
 import { Prisma } from "@prisma/client";
 import { type FeedItemDTO } from "../../shared/models.ts";
 import {
@@ -16,6 +16,7 @@ import {
   mapVenueToFeedItem,
   mapVenueToMarker,
 } from "../../shared/mappers.ts";
+import { ApiError } from "../../shared/errors/api_error.ts";
 
 const router = express.Router();
 
@@ -231,9 +232,9 @@ async function fetchDiscoveryData(filters: any) {
   // Ensure necessary data
   // =======================================================
   if (view === "map" && (!bounds || bounds.length !== 4)) {
-    throw new Error("Bounds required for map view");
+    throw new ApiError({ message: "Bounds required for map view" });
   } else if (view === "list" && (!coords || coords.length !== 2)) {
-    throw new Error("Coords required for list view");
+    throw new ApiError({ message: "Coords required for list view" });
   }
 
   // =======================================================
@@ -533,9 +534,11 @@ router.get(
         res,
         data: results,
       });
-    } catch (error) {
-      console.error("Discovery route error:", error);
-      return res.status(500).json({ error: "Internal server error" });
+    } catch (err) {
+      return error({
+        res,
+        message: err instanceof ApiError ? err.message : "Something went wrong",
+      });
     }
   }
 );
