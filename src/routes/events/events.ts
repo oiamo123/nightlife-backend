@@ -168,6 +168,7 @@ router.get(
             in: eventIds.map((event) => event.id),
           },
           startDate: {
+            gte: DateTime.now().toUTC(),
             lte: DateTime.now().toUTC().plus({ hours: 2 }),
           },
         },
@@ -217,7 +218,9 @@ router.get(
           ST_SetSRID(ST_MakePoint(${userLng}, ${userLat}), 4326)::geography,
           50000
         )
-        LIMIT 10
+        AND e."startDate" > NOW()
+        ORDER BY e."startDate" ASC 
+        LIMIT 300
       `;
 
       const today = DateTime.now().toUTC();
@@ -284,6 +287,8 @@ router.get(
           ST_SetSRID(ST_MakePoint(${userLng}, ${userLat}), 4326)::geography,
           50000
         )
+        AND e."startDate" > NOW()
+        ORDER BY e."startDate" ASC 
         LIMIT 300
       `;
 
@@ -430,47 +435,42 @@ router.get(
 // =======================================================
 // Event Types For You
 // =======================================================
-router.get(
-  "/types/for-you",
-  authenticate({}),
-  validate({ schema: popularSchema, source: "query" }),
-  async (req, res) => {
-    try {
-      const jwt = (req as any).jwt;
+router.get("/types/for-you", authenticate({}), async (req, res) => {
+  try {
+    const jwt = (req as any).jwt;
 
-      const eventTypes = await prisma.eventType.findMany({});
+    const eventTypes = await prisma.eventType.findMany({});
 
-      // =======================================================
-      // Run through scoring system
-      // =======================================================
-      const recommendations = await scoreEventItems({
-        userId: jwt.userId,
-        items: eventTypes.map((eventType) => ({
-          id: eventType.id,
-          eventTypeId: eventType.id,
-        })),
-      }).then((scores) =>
-        getTopScoredItems({ scores, items: eventTypes, topN: 10 })
-      );
+    // =======================================================
+    // Run through scoring system
+    // =======================================================
+    const recommendations = await scoreEventItems({
+      userId: jwt.userId,
+      items: eventTypes.map((eventType) => ({
+        id: eventType.id,
+        eventTypeId: eventType.id,
+      })),
+    }).then((scores) =>
+      getTopScoredItems({ scores, items: eventTypes, topN: 10 })
+    );
 
-      success({
-        res,
-        data: recommendations
-          .map((type) => ({
-            key: type.id,
-            value: type.eventType,
-            subcategoryType: "event",
-          }))
-          .slice(0, 4),
-      });
-    } catch (err) {
-      return error({
-        res: res,
-        message: err instanceof ApiError ? err.message : "Something went wrong",
-      });
-    }
+    success({
+      res,
+      data: recommendations
+        .map((type) => ({
+          key: type.id,
+          value: type.eventType,
+          subcategoryType: "event",
+        }))
+        .slice(0, 4),
+    });
+  } catch (err) {
+    return error({
+      res: res,
+      message: err instanceof ApiError ? err.message : "Something went wrong",
+    });
   }
-);
+});
 
 // =======================================================
 // Popular Event Types

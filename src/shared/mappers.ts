@@ -1,4 +1,3 @@
-import { Prisma } from "@prisma/client";
 import { SubcategoryType } from "./models.ts";
 import type { Marker, FeedItemDTO } from "./models.ts";
 
@@ -56,23 +55,6 @@ export function mapEventToFeedItem({
   event: any;
   venueName?: string | null;
 }): FeedItemDTO {
-  if (event.performers != null && event.performers.length === 1) {
-    const performer = event.performers[0].performer;
-
-    return {
-      id: performer.id,
-      image: performer.image,
-      title: performer.name,
-      price: event.price,
-      date: event.startDate,
-      venueName: venueName,
-      subcategory: event.eventType.eventType,
-      type: SubcategoryType.Performer,
-      location: event.location, // location they're playing at
-      city: performer.city, // performers home city
-    };
-  }
-
   return {
     id: event.id,
     image: event.image,

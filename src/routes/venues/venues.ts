@@ -369,47 +369,42 @@ router.get(
 // =======================================================
 // Venues -> FOR YOU
 // =======================================================
-router.get(
-  "/types/for-you",
-  authenticate({}),
-  validate({ schema: popularSchema, source: "query" }),
-  async (req, res) => {
-    try {
-      const jwt = (req as any).jwt;
+router.get("/types/for-you", authenticate({}), async (req, res) => {
+  try {
+    const jwt = (req as any).jwt;
 
-      const venueTypes = await prisma.venueType.findMany({});
+    const venueTypes = await prisma.venueType.findMany({});
 
-      // =======================================================
-      // Run through scoring system
-      // =======================================================
-      const recommendations = await scoreVenueItems({
-        userId: jwt.userId,
-        items: venueTypes.map((venueType) => ({
-          id: venueType.id,
-          venueTypeId: venueType.id,
-        })),
-      }).then((scores) =>
-        getTopScoredItems({ scores, items: venueTypes, topN: 10 })
-      );
+    // =======================================================
+    // Run through scoring system
+    // =======================================================
+    const recommendations = await scoreVenueItems({
+      userId: jwt.userId,
+      items: venueTypes.map((venueType) => ({
+        id: venueType.id,
+        venueTypeId: venueType.id,
+      })),
+    }).then((scores) =>
+      getTopScoredItems({ scores, items: venueTypes, topN: 10 })
+    );
 
-      success({
-        res,
-        data: recommendations
-          .map((type) => ({
-            key: type.id,
-            value: type.venueType,
-            subcategoryType: "venue",
-          }))
-          .slice(0, 4),
-      });
-    } catch (err) {
-      return error({
-        res: res,
-        message: err instanceof ApiError ? err.message : "Something went wrong",
-      });
-    }
+    success({
+      res,
+      data: recommendations
+        .map((type) => ({
+          key: type.id,
+          value: type.venueType,
+          subcategoryType: "venue",
+        }))
+        .slice(0, 4),
+    });
+  } catch (err) {
+    return error({
+      res: res,
+      message: err instanceof ApiError ? err.message : "Something went wrong",
+    });
   }
-);
+});
 
 // =======================================================
 // Venues -> POPULAR CATEGORIES

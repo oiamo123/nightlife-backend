@@ -178,18 +178,6 @@ async function fetchDataByIds(
         startDate: true,
         venue: true,
         eventType: true,
-        performers: {
-          select: {
-            performer: {
-              select: {
-                id: true,
-                name: true,
-                image: true,
-                eventType: true,
-              },
-            },
-          },
-        },
       },
     });
 
@@ -410,18 +398,6 @@ async function fetchDiscoveryData(filters: any) {
           price: true,
           startDate: true,
           eventType: true,
-          performers: {
-            select: {
-              performer: {
-                select: {
-                  id: true,
-                  name: true,
-                  image: true,
-                  eventType: true,
-                },
-              },
-            },
-          },
           location: locationSelect,
         },
       },

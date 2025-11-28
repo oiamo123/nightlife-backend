@@ -167,7 +167,8 @@ router.get(
             in: promotionIds.map((promotion) => promotion.id),
           },
           startDate: {
-            lte: DateTime.now().toUTC().plus({ hours: 2 }),
+            gte: DateTime.now().toUTC(),
+            lte: DateTime.now().plus({ hours: 2 }).toUTC(),
           },
         },
         include: {
@@ -283,6 +284,8 @@ router.get(
           ST_SetSRID(ST_MakePoint(${userLng}, ${userLat}), 4326)::geography,
           50000
         )
+        AND p."startDate" > NOW()
+        ORDER BY p."startDate" ASC 
         LIMIT 300
       `;
 
@@ -426,47 +429,42 @@ router.get(
 // =======================================================
 // Promotions Categories For You
 // =======================================================
-router.get(
-  "/types/for-you",
-  authenticate({}),
-  validate({ schema: popularSchema, source: "query" }),
-  async (req, res) => {
-    try {
-      const jwt = (req as any).jwt;
+router.get("/types/for-you", authenticate({}), async (req, res) => {
+  try {
+    const jwt = (req as any).jwt;
 
-      const promotionTypes = await prisma.promotionType.findMany({});
+    const promotionTypes = await prisma.promotionType.findMany({});
 
-      // =======================================================
-      // Run through scoring system
-      // =======================================================
-      const recommendations = await scorePromotionItem({
-        userId: jwt.userId,
-        items: promotionTypes.map((promotionType) => ({
-          id: promotionType.id,
-          promotionTypeId: promotionType.id,
-        })),
-      }).then((scores) =>
-        getTopScoredItems({ scores, items: promotionTypes, topN: 10 })
-      );
+    // =======================================================
+    // Run through scoring system
+    // =======================================================
+    const recommendations = await scorePromotionItem({
+      userId: jwt.userId,
+      items: promotionTypes.map((promotionType) => ({
+        id: promotionType.id,
+        promotionTypeId: promotionType.id,
+      })),
+    }).then((scores) =>
+      getTopScoredItems({ scores, items: promotionTypes, topN: 10 })
+    );
 
-      success({
-        res,
-        data: recommendations
-          .map((type) => ({
-            key: type.id,
-            value: type.promotionType,
-            subcategoryType: "promotion",
-          }))
-          .slice(0, 4),
-      });
-    } catch (err) {
-      return error({
-        res: res,
-        message: err instanceof ApiError ? err.message : "Something went wrong",
-      });
-    }
+    success({
+      res,
+      data: recommendations
+        .map((type) => ({
+          key: type.id,
+          value: type.promotionType,
+          subcategoryType: "promotion",
+        }))
+        .slice(0, 4),
+    });
+  } catch (err) {
+    return error({
+      res: res,
+      message: err instanceof ApiError ? err.message : "Something went wrong",
+    });
   }
-);
+});
 
 // =======================================================
 // Popular Promotions
